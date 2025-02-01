@@ -1,6 +1,59 @@
+import { useState } from 'react'
+import axios from 'axios'
 import { PetOwnerNavbar } from '../../Components/PetOwnerNavbar'
+import { toast } from 'react-toastify';
 
 export function AddPet() {
+
+    // State to store form inputs
+    const [pet, setPet] = useState({
+        ownerId: 1,
+        species: '',
+        breed: '',
+        name: '',
+        age: '',
+        gender: ''
+    });
+
+    // Handle input changes
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        if (name === 'gender') {
+            // Convert gender to uppercase
+            setPet(prevPet => ({ ...prevPet, [name]: value.toUpperCase() }));
+        } else if (name === 'age') {
+            // Ensure age is an integer
+            setPet(prevPet => ({ ...prevPet, [name]: parseInt(value, 10) }));
+        } else {
+            setPet(prevPet => ({ ...prevPet, [name]: value }));
+        }
+    };
+    
+
+    // Handle form submission
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            // Sending data to the backend API
+            const response = await axios.post('http://localhost:8080/pet/add', pet);
+            // Show success toast
+            toast.success("Pet added successfully!");
+            // Clear form fields after successful submission
+            setPet({
+                ownerId : pet.ownerId,
+                name: '',
+                species: '',
+                gender: '',
+                age: '',
+                breed: ''
+            });
+        } catch (error) {
+            console.error('Error adding pet', error);
+            toast.error('Error adding Pet. Please try again.');
+        }
+    };
+
     return (
         <div className='container-fluid'>
             <PetOwnerNavbar />
@@ -13,72 +66,73 @@ export function AddPet() {
                             <span className="fw-bolder fs-3">Add Pet</span>
                         </div>
                         <div className="content">
-                            {/* <form action="/submit" method="post"> */}
+                            {/* form */}
+                            <form onSubmit={handleSubmit}>
 
-                            <div className="table-responsive mt-4">
-                                <table className="table table-borderless">
+                                <div className="table-responsive mt-4">
+                                    <table className="table table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div className="form-floating">
+                                                        <input type="text" className="form-control" name="name" value={pet.name} onChange={handleChange} id="floatingName" placeholder="Enter Pet Name" required=" " />
+                                                        <label htmlFor="floatingInput">Pet Name</label>
+                                                    </div>
+                                                </td>
 
-                                    <tr>
-                                        <td>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="floatingName" placeholder="Enter Pet Name" required=" " />
-                                                <label for="floatingInput">Pet Name</label>
-                                            </div>
-                                        </td>
+                                                <td>
+                                                    <div className="form-floating mt-2">
+                                                        <input type="text" className="form-control" name="species" value={pet.species} onChange={handleChange} id="floatingSpecies" placeholder="Enter Pet Species" required=" " />
+                                                        <label htmlFor="floatingInput">Pet Species</label>
+                                                    </div>
+                                                </td>
 
-                                        <td>
-                                            <div class="form-floating mt-2">
-                                                <input type="text" class="form-control" id="floatingSpecies" placeholder="Enter Pet Species" required=" " />
-                                                <label for="floatingInput">Pet Species</label>
-                                            </div>
-                                        </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
 
-                                    </tr>
-                                    <tr>
-                                        <td>
+                                                    <div className="col-md">
+                                                        <div className="form-floating">
+                                                            <select className="form-select" name="gender" value={pet.gender} onChange={handleChange} id="floatingSelectGrid">
+                                                                <option value="">Select Gender</option>
+                                                                <option value="MALE">Male</option>
+                                                                <option value="FEMALE">Female</option>
+                                                                <option value="">Unsure</option>
+                                                            </select>
+                                                            <label htmlFor="floatingSelectGrid">Pet Gender</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="form-floating mt-2">
+                                                        <input type="number" className="form-control" name="age" value={pet.age} onChange={handleChange} id="floatingAge" min={0} max={30} placeholder="Enter Pet Age" required=" " />
+                                                        <label htmlFor="floatingInput">Pet Age</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
 
-                                            <div class="col-md">
-                                                <div class="form-floating">
-                                                    <select class="form-select" id="floatingSelectGrid">
-                                                        <option selected>Select Gender</option>
-                                                        <option value="male">Male</option>
-                                                        <option value="female">Female</option>
-                                                        <option value="unsure">Unsure</option>
-                                                    </select>
-                                                    <label for="floatingSelectGrid">Pet Gender</label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-floating mt-2">
-                                                <input type="number" class="form-control" id="floatingAge" min={0} max={30} placeholder="Enter Pet Age" required=" " />
-                                                <label for="floatingInput">Pet Age</label>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            <tr>
+                                                <td colSpan={2}>
+                                                    <div className="form-floating mt-2">
+                                                        <input type="text" className="form-control" name="breed" value={pet.breed} onChange={handleChange} id="floatingBreed" placeholder="Enter Pet Breed" required=" " />
+                                                        <label htmlFor="floatingInput">Pet Breed</label>
+                                                    </div>
+                                                </td>
 
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <div class="form-floating mt-2">
-                                                <input type="text" class="form-control" id="floatingBreed" placeholder="Enter Pet Breed" required=" " />
-                                                <label for="floatingInput">Pet Breed</label>
-                                            </div>
-                                        </td>
+                                            </tr>
 
-                                    </tr>
+                                            <tr>
+                                                <td colSpan={2}>
+                                                    <div className="mt-2">
+                                                        <input type="submit" value="Add your Pet" className="fs-5 btn btn-success form-control" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <div className="mt-2">
-                                                <input type="submit" value="Add your Pet" className="fs-5 btn btn-success form-control" />
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                </table>
-                            </div>
-
-                            {/* </form> */}
+                            </form>
                         </div>
                     </div>
                 </div>
