@@ -13,8 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name="medicines")
 public class Medicine extends BaseEntity{
-
-	@OneToOne
+    
+	//@OneToOne
+	@ManyToOne
 	@JoinColumn(name="presc_id",nullable = false,unique = true)
 	private Prescription prescription;
 	
@@ -23,6 +24,6 @@ public class Medicine extends BaseEntity{
 	
 	private int qty;
 	
-	@Column(name="amount_of_medicine")
-	private double amountOfMedicine;
+//	@Column(name="amount_of_medicine")
+//	private double amountOfMedicine;
 }

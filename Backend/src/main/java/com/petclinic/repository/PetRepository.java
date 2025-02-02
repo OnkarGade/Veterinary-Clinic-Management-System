@@ -8,5 +8,5 @@ import com.petclinic.pojos.Pet;
 
 public interface PetRepository extends JpaRepository<Pet, Long> {
 	
-	public List<Pet> findByOwner_Id(Long pid); 
+	
 }

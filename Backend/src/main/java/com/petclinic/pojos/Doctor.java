@@ -18,7 +18,7 @@ import lombok.Setter;
 public class Doctor extends BaseEntity {
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="doctor_id",unique = true, nullable = false)
+	@JoinColumn(name="uid",unique = true, nullable = false)
 	private User doctor;
 	
 	@Lob

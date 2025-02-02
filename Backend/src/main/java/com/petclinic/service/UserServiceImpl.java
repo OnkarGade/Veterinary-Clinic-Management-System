@@ -89,10 +89,10 @@ public class UserServiceImpl implements UserService {
 			Doctor d= mapper.map(sReqDto,Doctor.class);
 			
 			d.setDoctor(perUser);
-			System.out.println(perUser.getAge()+perUser.getEmail());
+			//System.out.println(perUser.getAge()+perUser.getEmail());
 			
 			dd.save(d);
-			System.out.println(d.getDoctor().getAge()+d.getDoctor().getEmail());
+			//System.out.println(d.getDoctor().getAge()+d.getDoctor().getEmail());
 			//dd.save(new Doctor(perUser));
         	
 			break;

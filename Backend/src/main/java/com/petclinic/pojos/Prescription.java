@@ -23,8 +23,10 @@ public class Prescription extends BaseEntity {
 	@JoinColumn(name="appointment_id",nullable =  false,unique =true)
 	private Appointment appointment;
 	
+	
+	
 	@Column(length=60)
-	private String diagnosisCause;
+	private String diagnosis;
 	
 	@Lob
 	private String prescriptionAdvice;

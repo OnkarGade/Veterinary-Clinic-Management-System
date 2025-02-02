@@ -14,7 +14,9 @@ public class User extends BaseEntity{
 	private String firstName;
 	@Column(name="lastname",length = 50)
 	private String lastName;
-	private int age;
+	
+	@Column(name="yearofbirth")
+	private int yearOfBirth;
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	@Column(length = 8)

@@ -51,4 +51,6 @@ public class ReceptionistController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		return ResponseEntity.ok(receptionistsResDtos);
 	}
+	
+	//update recept,petowner,pet
 }

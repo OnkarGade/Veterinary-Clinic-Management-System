@@ -22,6 +22,7 @@ public class UserResDto extends BaseDTO{
 	
 	private String firstName;
 	private String lastName;
+	private int yearOfBirth;
 	private int age;
 	private Role role;
 	private String email;

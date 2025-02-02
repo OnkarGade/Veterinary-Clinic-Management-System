@@ -23,7 +23,7 @@ public class UserReqDto {
 	
 	private String firstName;
 	private String lastName;
-	private int age;
+	private int yearOfBirth;
 	private Role role;
 	private Gender gender;
 	private String password;

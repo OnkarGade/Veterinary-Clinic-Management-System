@@ -61,9 +61,10 @@ public class PetServiceImpl implements PetService {
 	
 
 	@Override
-	public PetRespDto getPetByPetOwnerId(Long poId) {
-		
-		return null;
+	public List<PetRespDto> getPetByPetOwnerId(Long poId) {
+		PetOwner po=  petOwnerRepository.findById(poId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
+		return po.getPets().stream().map(pet-> mapper.map(pet,PetRespDto.class)).collect(Collectors.toList());
+		 
 	}
 
 	@Override

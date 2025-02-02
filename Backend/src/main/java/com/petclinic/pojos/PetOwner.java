@@ -22,7 +22,7 @@ public class PetOwner extends BaseEntity {
 	
 	
 	@OneToOne
-	@JoinColumn(name="owner_id")
+	@JoinColumn(name="uid")
 	private User owner;
 
 	

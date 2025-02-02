@@ -22,4 +22,6 @@ public class ReceptionistsResDto extends BaseDTO {
 	
 	private String aadharNo;
 	
+	private byte[] image;
+	
 }
