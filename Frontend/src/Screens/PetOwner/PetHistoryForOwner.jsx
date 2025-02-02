@@ -1,28 +1,28 @@
-import { PetOwnerNavbar } from "../../Components/PetOwnerNavbar";
-import { useEffect } from 'react';
-import { useState } from 'react';
-import axios from 'axios';
+import { DocNavbar } from '../../Components/DocNavbar'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import { PetOwnerNavbar } from './../../Components/PetOwnerNavbar';
 
-export function YourPets() {
+export function PetHistoryForOwner() {
 
-    const [yourpets, setYourpets] = useState([])
+    const [petHistory, setPetHistory] = useState([])
 
     useEffect(() => {
-        axios.get("http://localhost:8080/yourpets")
+        axios.get("http://localhost:8080/pethistory")
             .then(response => {
-                setYourpets(response.data)
+                setPetHistory(response.data)
             })
             .catch(error => {
-                console.log("Error in fetching your pet: ", error)
+                console.log("Error in fetching pet history: ", error)
             })
     }, []);
 
     return (
-        <div className="container-fluid">
+        <div className='container-fluid'>
             <PetOwnerNavbar />
 
             <div className="container">
-                <div className="text-center mt-4"><span className="fw-bolder fs-3">Your Pets</span></div>
+                <div className="text-center mt-4"><span className="fw-bolder fs-3">Pet History</span></div>
                 <div className='table-responsive mt-4'>
 
                     <table className="table table-hover table-bordered" >
@@ -40,26 +40,29 @@ export function YourPets() {
                         </thead>
                         <tbody>
 
-                            {yourpets.length > 0 ?
-                                yourpets.map((pet, index) => (
+                            {petHistory.length > 0 ?
+                                petHistory.map((pet, index) => (
                                     <tr key={index}>
+                                        <td>{pet.consultationDate}</td>
+                                        <td>{pet.ownerName}</td>
                                         <td>{pet.petName}</td>
                                         <td>{pet.petSpecies}</td>
                                         <td>{pet.petBreed}</td>
+                                        <td>{pet.diagnosis}</td>
+                                        <td>{pet.prescription}</td>
                                     </tr>
                                 ))
                                 : <tr>
-                                    <td colSpan="7" className='text-center'>No pet added</td>
+                                    <td colSpan="7" className='text-center'>No records found</td>
                                 </tr>
                             }
+
 
                         </tbody>
                     </table>
 
                 </div>
             </div>
-
-
         </div>
     )
 }

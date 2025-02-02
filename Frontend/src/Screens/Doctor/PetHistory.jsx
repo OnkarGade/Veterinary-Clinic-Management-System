@@ -1,7 +1,21 @@
 import { DocNavbar } from '../../Components/DocNavbar'
-// import { PetOwnerNavbar } from '../../Components/PetOwnerNavbar'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 export function PetHistory() {
+
+    const [petHistory, setPetHistory] = useState([])
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/pethistory")
+            .then(response => {
+                setPetHistory(response.data)
+            })
+            .catch(error => {
+                console.log("Error in fetching pet history: ", error)
+            })
+    }, []);
+
     return (
         <div className='container-fluid'>
             <DocNavbar />
@@ -10,7 +24,7 @@ export function PetHistory() {
                 <div className="text-center mt-4"><span className="fw-bolder fs-3">Pet History</span></div>
                 <div className='table-responsive mt-4'>
 
-                    <table class="table table-hover table-bordered" >
+                    <table className="table table-hover table-bordered" >
                         <thead>
                             <tr>
                                 <th>Consultation Date</th>
@@ -24,51 +38,30 @@ export function PetHistory() {
 
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Id1</td>
-                                <td>Id2</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                            </tr>
-                            <tr>
-                                <td>Id1</td>
-                                <td>Id2</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                            </tr>
-                            <tr>
-                                <td>Id1</td>
-                                <td>Id2</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                            </tr>
-                            <tr>
-                                <td>Id1</td>
-                                <td>Id2</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                                <td>Id3</td>
-                            </tr>
+
+                            {petHistory.length > 0 ?
+                                petHistory.map((pet, index) => (
+                                    <tr key={index}>
+                                        <td>{pet.consultationDate}</td>
+                                        <td>{pet.ownerName}</td>
+                                        <td>{pet.petName}</td>
+                                        <td>{pet.petSpecies}</td>
+                                        <td>{pet.petBreed}</td>
+                                        <td>{pet.diagnosis}</td>
+                                        <td>{pet.prescription}</td>
+                                    </tr>
+                                ))
+                                : <tr>
+                                    <td colSpan="7" className='text-center'>No records found</td>
+                                </tr>
+                            }
+
 
                         </tbody>
                     </table>
 
                 </div>
             </div>
-
-
-
         </div>
     )
 }
