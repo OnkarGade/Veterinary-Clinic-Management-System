@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @Table(name="users")
+@ToString
 public class User extends BaseEntity{
 	
 	@Column(name="firstname",length = 50)
