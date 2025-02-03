@@ -30,6 +30,6 @@ public class BaseEntity {
 	@UpdateTimestamp
 	@Column(name="updated_on")
 	private LocalDateTime updatedOn;
-	@Column(name="is_available",columnDefinition = "boolean default(true)")
-	private boolean isAvailable;
+	@Column(name="is_available")
+	private boolean isActive;
 }

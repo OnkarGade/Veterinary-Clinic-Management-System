@@ -13,13 +13,15 @@ import lombok.*;
 public class Receptionist extends BaseEntity{
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="recep_id",unique = true,nullable = false)
+	@JoinColumn(name="uid",unique = true,nullable = false)
 	private User receptionist;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "receptionist")
 	@JsonManagedReference
 	private List<Appointment> appointments;
 	
+	@Lob
+	private byte[] image; 
 	
 	@Column(length =20)
 	private String qualification;

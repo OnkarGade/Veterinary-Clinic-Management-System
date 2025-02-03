@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,8 +31,8 @@ public class Pet extends BaseEntity{
 	@Column(length=50)
 	private String name;
 	
-	
-	private int year;
+	@Column(name="yearofbirth")
+	private int yearOfBirth;
 	
 	
 	@Enumerated(EnumType.STRING)

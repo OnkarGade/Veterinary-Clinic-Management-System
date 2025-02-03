@@ -23,6 +23,7 @@ public class PetRespDto extends BaseDTO{
 	
 	private String name;
 	
+	private int yearOfBirth;
 	
 	private int age;
 	

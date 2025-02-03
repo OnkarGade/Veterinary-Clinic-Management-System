@@ -16,7 +16,7 @@ public interface PetService {
 
 	public PetRespDto getPet(Long PId);
 
-	public PetRespDto getPetByPetOwnerId(Long poId);
+	public List<PetRespDto> getPetByPetOwnerId(Long poId);
 		
 }
 
