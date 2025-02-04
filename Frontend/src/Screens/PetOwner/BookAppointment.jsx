@@ -1,7 +1,7 @@
-import { PetOwnerNavbar } from "../../Components/PetOwnerNavbar";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { PetOwnerNavbar } from "../../Components/PetOwnerNavbar";
 import { useState } from "react";
+import { BookAppointmentService } from "../../Services/AddServices";
 
 export function BookAppointment() {
 
@@ -11,6 +11,8 @@ export function BookAppointment() {
         appointDate: '',
         appointTime: '',
     });
+
+    // const [yourPets, setYourPets] = useState([])
 
     // Handle input changes
     const handleChange = (event) => {
@@ -24,9 +26,14 @@ export function BookAppointment() {
 
         try {
             // Sending data to backend API of appointment booking of pet
-            const response = await axios.post('http://localhost:8080/pet/appointment', appointment);
+            await BookAppointmentService(appointment)
+                .then(data => {
+                    toast.success("Appointment booked successfully!");
+                })
+                .catch(err => {
+                    toast.error('Error booking appointment. Please try again.');
+                })
             // Show success toast
-            toast.success("Appointment booked successfully!");
             // Clear form fields after successful submission
             setAppointment({
                 petName: '',
@@ -35,9 +42,23 @@ export function BookAppointment() {
             });
         } catch (error) {
             console.error('Error booking appointment pet', error);
-            toast.error('Error booking appointment. Please try again.');
         }
     };
+
+    // var getMyPets = async () => {
+
+    //     await getMyPets(sessionStorage.getItem('id'))
+    //         .then(res => {
+    //             setYourPets(res)
+    //         }).catch(err => {
+    //             console.log(" error ")
+    //         })
+
+    // }
+
+    // useEffect(() => {
+    //     console.log("Component Mount")
+    // }, [])
 
     return (
         <div className='container-fluid'>
@@ -58,8 +79,10 @@ export function BookAppointment() {
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <div class="form-floating">
-                                                        <input type="text" class="form-control" name="petName" value={appointment.petName} onChange={handleChange} id="floatingInput" placeholder="name@example.com" />
+
+                                                    <div className="form-floating">
+                                                        <input type="text" className="form-control" name="petName" value={appointment.petName} onChange={handleChange} id="floatingInput" placeholder="name@example.com" />
+
                                                         <label htmlFor="floatingInput">Pet Name</label>
                                                     </div>
                                                 </td>
@@ -67,8 +90,8 @@ export function BookAppointment() {
 
                                             <tr>
                                                 <td>
-                                                    <div class="form-floating mt-2">
-                                                        <input type="date" class="form-control" name="appointDate" value={appointment.appointDate} onChange={handleChange} id="floatingDate" />
+                                                    <div className="form-floating mt-2">
+                                                        <input type="date" className="form-control" name="appointDate" value={appointment.appointDate} onChange={handleChange} id="floatingDate" />
                                                         <label htmlFor="floatingPassword">Date of Appointment</label>
                                                     </div>
                                                 </td>
@@ -76,8 +99,8 @@ export function BookAppointment() {
 
                                             <tr>
                                                 <td>
-                                                    <div class="form-floating mt-2">
-                                                        <input type="time" class="form-control" name="appointTime" value={appointment.appointTime} onChange={handleChange} id="floatingTime" />
+                                                    <div className="form-floating mt-2">
+                                                        <input type="time" className="form-control" name="appointTime" value={appointment.appointTime} onChange={handleChange} id="floatingTime" />
                                                         <label htmlFor="floatingPassword">Time of Appointment</label>
                                                     </div>
                                                 </td>
@@ -102,6 +125,73 @@ export function BookAppointment() {
 
         </div>
     )
+
+
+    // return (
+    //     <div className='container-fluid'>
+    //         <PetOwnerNavbar />
+
+    //         <div className="row">
+    //             <div className="col"></div>
+    //             <div className="col-7">
+    //                 <div className="container">
+    //                     <div className="mt-4" style={{ textAlign: "center" }}>
+    //                         <span className="fw-bolder fs-3">Book Appointment</span>
+    //                     </div>
+    //                     <div className="content">
+    //                         {/* <form action="/submit" method="post"> */}
+
+    //                         <div className="table-responsive mt-4">
+    //                             <table className="table table-borderless">
+
+    //                                 <tr>
+    //                                     <td>
+
+    //                                         <div className="form-floating">
+    //                                             <input type="text" className="form-control" id="floatingInput" placeholder="name@example.com" />
+    //                                             <label htmlFor="floatingInput">Pet Name</label>
+    //                                         </div>
+    //                                     </td>
+    //                                 </tr>
+
+    //                                 <tr>
+    //                                     <td>
+    //                                         <div className="form-floating mt-2">
+    //                                             <input type="date" className="form-control" id="floatingDate" placeholder="Date" />
+    //                                             <label htmlFor="floatingPassword">Date of Appointment</label>
+    //                                         </div>
+    //                                     </td>
+    //                                 </tr>
+
+    //                                 <tr>
+    //                                     <td>
+    //                                         <div className="form-floating mt-2">
+    //                                             <input type="time" className="form-control" id="floatingTime" placeholder="Time" />
+    //                                             <label htmlFor="floatingPassword">Time of Appointment</label>
+    //                                         </div>
+    //                                     </td>
+    //                                 </tr>
+
+    //                                 <tr>
+    //                                     <td>
+    //                                         <div className="mt-2">
+    //                                             <input type="submit" value="Confirm Appointment" className="btn btn-success form-control fs-5" />
+    //                                         </div>
+    //                                     </td>
+    //                                 </tr>
+
+    //                             </table>
+    //                         </div>
+
+    //                         {/* </form> */}
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //             <div className="col"></div>
+    //         </div>
+
+    //     </div>
+    // )
 }
 
 // export default BookAppointment;

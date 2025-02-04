@@ -16,7 +16,9 @@ export function ReceptionistNavbar() {
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                             <li class="p-3 nav-item">
-                                <Link to="/receptionist" className="nav-link" style={{ textDecoration: "none", color: "black" }} >Pending Request</Link>
+                                <Link to="/receptionist" className="nav-link" style={{ textDecoration: "none", color: "black" }} >Pending Requests</Link>
+                                {/* <FontAwesomeIcon icon="fa-solid fa-user" /> */}
+                                {/* <i class=""></i> */}
                             </li>
 
                             {/* <li class="p-3 nav-item">
