@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginService } from "../Services/LoginService";
 import { toast } from "react-toastify";
@@ -9,25 +9,70 @@ export function Login() {
 
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [age, setAge] = useState(0)
-    const [phoneNo, setPhoneNo] = useState(0)
-    const [rePassword, setRePassword] = useState('')
-    const [gender, setGender] = useState('')
-    const [role, setRole] = useState('PETOWNER')
+    const [userRegister, setUserRegister] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        rePassword: '',
+        yearOfBirth: null,
+        role: 'PETOWNER',
+        phoneNo: null,
+        gender: '',
+        address: ''
+    })
     // const [data, setData] = useState([])
+
+    const handleChange = (event) => {
+
+        const { name, value } = event.target
+
+        if (name === 'email') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+        if (name === 'firstName') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+        if (name === 'lastName') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+        if (name === 'password') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+        if (name === 'rePassword') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+        if (name === 'yearOfBirth') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+        if (name === 'phoneNo') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+        if (name === 'gender') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+        if (name === 'address') {
+            setUserRegister(prev => ({ ...prev, [name]: value }))
+        }
+
+    }
 
     const afterLogin = async () => {
 
-        if (email !== '') {
+        if (userRegister.email !== '') {
 
-            if (password !== '') {
+            if (userRegister.password !== '') {
 
 
-                await LoginService({ email, password })
+                await LoginService({ email: userRegister.email, password: userRegister.password })
                     .then((data) => {
 
                         console.log(data)
@@ -37,6 +82,8 @@ export function Login() {
                             toast.info('Invalid Credentials')
 
                         } else {
+
+                            sessionStorage.setItem('id', data.id)
 
                             if (data.role === 'DOCTOR') {
                                 navigate('/doctor')
@@ -52,35 +99,68 @@ export function Login() {
                     .catch((error => console.log("Check Your Connection With Server")))
 
             } else {
-                toast.warning("Password Can't Be Empty")
+                toast.warning("Password Required")
             }
 
 
         } else {
-            toast.warning("Email Can't Be Empty")
+            toast.warning("Email Required")
         }
 
+        handleAfterChange()
+
+    }
+
+    var handleAfterChange = () => {
+
+        console.log('All Fields Cleared')
+
+        setUserRegister({
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            rePassword: '',
+            yearOfBirth: null,
+            role: 'PETOWNER',
+            phoneNo: null,
+            gender: '',
+            address: ''
+        })
 
     }
 
     const afterRegister = async () => {
 
-        if (password === rePassword) {
+        if (userRegister.password === userRegister.rePassword) {
 
 
-            const data = await RegisterService({ firstName, lastName, email, age, phoneNo, password, gender, role })
-
-            console.log(data)
+            await RegisterService(userRegister)
+                .then(res => {
+                    if (res.status === 201) {
+                        toast.success('Successfully Registered')
+                    }
+                })
+                .catch(err => {
+                    toast.info('Something Went Wrong')
+                }
+                )
         } else {
             toast.warning('Passwords Are Not Matching')
         }
 
+        handleAfterChange()
+
     }
+
+    useEffect(() => {
+        console.log('component mounted')
+    }, [])
 
     return (
         <div>
 
-            <div className="container" style={{ marginTop: "120px" }}>
+            <div className="container" style={{ marginTop: "80px" }}>
                 <div className="row">
                     <div className="col"></div>
                     <div className="col-5">
@@ -88,14 +168,15 @@ export function Login() {
                             <div className="mt-5" style={{ textAlign: "center" }}>
                                 <span className="fw-bolder fs-2">Sign in</span>
                             </div>
-                            {/* <form action="/register" method="post"> */}
+                            {/* <form> */}
                             <table className="table table-borderless">
 
                                 <tr>
                                     <td>
                                         <div className="col-md mt-3">
                                             <div className="form-floating">
-                                                <input type="email" className="form-control" onChange={(e) => setEmail(e.target.value)} id="floatingInputGrid1" placeholder="Enter Email Here" required=" " />
+                                                <input type="email" className="form-control" onChange={handleChange}
+                                                    id="floatingInputGrid1" value={userRegister.email} name="email" placeholder="Enter Email Here" />
                                                 <label htmlFor="floatingInputGrid1">Email address</label>
                                             </div>
                                         </div>
@@ -105,7 +186,8 @@ export function Login() {
                                     <td>
                                         <div className="col-md mt-3">
                                             <div className="form-floating">
-                                                <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} id="floatingInputGrid2" placeholder="Enter Email Here" required=" " />
+                                                <input type="password" className="form-control" onChange={handleChange}
+                                                    id="floatingInputGrid2" name="password" placeholder="Enter Email Here" required=" " />
                                                 <label htmlFor="floatingInputGrid2">Password</label>
                                             </div>
                                         </div>
@@ -145,144 +227,144 @@ export function Login() {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <form>
-                                <div className="table-responsive">
-                                    <table className="table table-borderless">
+                            {/* <form> */}
+                            <div className="table-responsive">
+                                <table className="table table-borderless">
 
-                                        <tr>
-                                            <td>
+                                    <tr>
+                                        <td>
 
-                                                <div className="col-md mt-3">
-                                                    <div className="form-floating">
-                                                        <input onChange={(e) => setFirstName(e.target.value)} type="text" className="form-control"
-                                                            id="floatingInputGrid0" placeholder=""
-                                                            required=" " />
-                                                        <label htmlFor="floatingInputGrid0">First
-                                                            Name</label>
-                                                    </div>
+                                            <div className="col-md mt-3">
+                                                <div className="form-floating">
+                                                    <input onChange={handleChange} type="text" className="form-control"
+                                                        id="floatingInputGrid0" value={userRegister.firstName} name="firstName" placeholder=""
+                                                        required=" " />
+                                                    <label htmlFor="floatingInputGrid0">First
+                                                        Name</label>
                                                 </div>
+                                            </div>
 
-                                            </td>
-                                            <td>
+                                        </td>
+                                        <td>
 
-                                                <div className="col-md mt-3">
-                                                    <div className="form-floating">
-                                                        <input onChange={(e) => setLastName(e.target.value)} type="text" className="form-control"
-                                                            id="floatingInputGrid22" placeholder=""
-                                                            required=" " />
-                                                        <label htmlFor="floatingInputGrid22">Last Name</label>
-                                                    </div>
+                                            <div className="col-md mt-3">
+                                                <div className="form-floating">
+                                                    <input onChange={handleChange} type="text" className="form-control"
+                                                        id="floatingInputGrid22" value={userRegister.lastName} name="lastName" placeholder=""
+                                                        required=" " />
+                                                    <label htmlFor="floatingInputGrid22">Last Name</label>
                                                 </div>
+                                            </div>
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td colspan="2">
+                                    <tr>
+                                        <td colspan="2">
 
-                                                <div className="col-md mt-3">
-                                                    <div className="form-floating">
-                                                        <input onChange={(e) => setEmail(e.target.value)} type="email" className="form-control"
-                                                            id="floatingInputGrid3" placeholder=""
-                                                            required=" " />
-                                                        <label htmlFor="floatingInputGrid3">Email</label>
-                                                    </div>
+                                            <div className="col-md mt-3">
+                                                <div className="form-floating">
+                                                    <input onChange={handleChange} type="email" className="form-control"
+                                                        id="floatingInputGrid3" value={userRegister.email} name="email" placeholder=""
+                                                        required=" " />
+                                                    <label htmlFor="floatingInputGrid3">Email</label>
                                                 </div>
+                                            </div>
 
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td>
+                                    <tr>
+                                        <td>
 
-                                                <div className="col-md mt-3">
-                                                    <div className="form-floating">
-                                                        <input onChange={(e) => setAge(e.target.value)} type="number" className="form-control"
-                                                            id="floatingInputGrid4" placeholder=""
-                                                            required=" " />
-                                                        <label htmlFor="floatingInputGrid4">Age</label>
-                                                    </div>
+                                            <div className="col-md mt-3">
+                                                <div className="form-floating">
+                                                    <input onChange={handleChange} type="date" className="form-control"
+                                                        id="floatingInputGrid4" value={userRegister.yearOfBirth} name="yearOfBirth" placeholder=""
+                                                        required=" " />
+                                                    <label htmlFor="floatingInputGrid4">Year Of Birth</label>
                                                 </div>
+                                            </div>
 
-                                            </td>
-                                            <td>
+                                        </td>
+                                        <td>
 
-                                                <div className="input-group mt-3">
-                                                    <span className="input-group-text">+91</span>
-                                                    <div className="form-floating">
-                                                        <input onChange={(e) => setPhoneNo(e.target.value)} type="tel" className="form-control"
-                                                            id="floatingInputGroup5" placeholder=""
-                                                            pattern="[0-9]{10}" required=" " />
-                                                        <label htmlFor="floatingInputGroup5">Phone
-                                                            No</label>
-                                                    </div>
+                                            <div className="input-group mt-3">
+                                                {/* <span className="input-group-text">+91</span> */}
+                                                <div className="form-floating">
+                                                    <input onChange={handleChange} type="tel" className="form-control"
+                                                        id="floatingInputGroup5" value={userRegister.phoneNo} name="phoneNo" placeholder=""
+                                                        pattern="[0-9]{10}" required=" " />
+                                                    <label htmlFor="floatingInputGroup5">Phone
+                                                        No</label>
                                                 </div>
+                                            </div>
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td>
+                                    <tr>
+                                        <td>
 
-                                                <div className="col-md mt-3">
-                                                    <div className="form-floating">
-                                                        <input onChange={(e) => setPassword(e.target.value)} type="password" className="form-control"
-                                                            id="floatingInputGrid6" placeholder=""
-                                                            required=" " />
-                                                        <label htmlFor="floatingInputGrid6">Password</label>
-                                                    </div>
+                                            <div className="col-md mt-3">
+                                                <div className="form-floating">
+                                                    <input onChange={handleChange} type="password" className="form-control"
+                                                        id="floatingInputGrid6" value={userRegister.password} name="password" placeholder=""
+                                                        required=" " />
+                                                    <label htmlFor="floatingInputGrid6">Password</label>
                                                 </div>
+                                            </div>
 
-                                            </td>
-                                            <td>
+                                        </td>
+                                        <td>
 
-                                                <div className="col-md mt-3">
-                                                    <div className="form-floating">
-                                                        <input onChange={(e) => setRePassword(e.target.value)} type="password" className="form-control"
-                                                            id="floatingInputGrid7" placeholder=""
-                                                            required=" " />
-                                                        <label htmlFor="floatingInputGrid7">Re-Entered
-                                                            Password</label>
-                                                    </div>
+                                            <div className="col-md mt-3">
+                                                <div className="form-floating">
+                                                    <input onChange={handleChange} type="password" className="form-control"
+                                                        id="floatingInputGrid7" value={userRegister.rePassword} name="rePassword" placeholder=""
+                                                        required=" " />
+                                                    <label htmlFor="floatingInputGrid7">Re-Entered
+                                                        Password</label>
                                                 </div>
+                                            </div>
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td>
-                                                <div className="col-md mt-3">
-                                                    <div className="form-floating">
-                                                        <select onChange={(e) => setGender(e.target.value)} className="form-select"
-                                                            id="floatingSelectGrid9">
-                                                            <option selected>Select Gender</option>
-                                                            <option value="MALE">Male</option>
-                                                            <option value="FEMALE">Female</option>
-                                                            <option value="OTHER">Other</option>
-                                                        </select>
-                                                        <label htmlFor="floatingSelectGrid9">Gender</label>
-                                                    </div>
+                                    <tr>
+                                        <td>
+                                            <div className="col-md mt-3">
+                                                <div className="form-floating">
+                                                    <select onChange={handleChange} className="form-select"
+                                                        id="floatingSelectGrid9" value={userRegister.gender} name="gender">
+                                                        <option selected>Select Gender</option>
+                                                        <option value="MALE">Male</option>
+                                                        <option value="FEMALE">Female</option>
+                                                        <option value="OTHER">Other</option>
+                                                    </select>
+                                                    <label htmlFor="floatingSelectGrid9">Gender</label>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div className="col-md mt-3">
-                                                    <div className="form-floating">
-                                                        <input type="text" className="form-control" id="floatingInputGrid10"
-                                                            placeholder="" value="Pet Owner" readonly />
-                                                        <label htmlFor="floatingInputGrid10">Role</label>
-                                                    </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="col-md mt-3">
+                                                <div className="form-floating">
+                                                    <input type="text" className="form-control" id="floatingInputGrid10"
+                                                        value="Pet Owner" placeholder="" name="role" readonly />
+                                                    <label htmlFor="floatingInputGrid10">Role</label>
                                                 </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                    </table>
-                                </div>
-                            </form>
+                                </table>
+                            </div>
+                            {/* </form> */}
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button onClick={afterRegister} type="button" className="btn btn-primary" data-bs-dismiss="modal">Sign Up</button>
+                            <button onClick={afterRegister} type="button" className="btn btn-primary" >Sign Up</button>
                         </div>
                     </div>
                 </div>

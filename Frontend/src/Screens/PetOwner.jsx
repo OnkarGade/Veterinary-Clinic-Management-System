@@ -6,13 +6,15 @@ import { GetMyPets } from "../Services/GetServices";
 
 export function PetOwner() {
 
+    // var id = ;
+
     // State to store form inputs
     const [pet, setPet] = useState({
-        ownerId: 1,
+        ownerId: sessionStorage.getItem('id'),
         species: '',
         breed: '',
         name: '',
-        age: '',
+        age: 0,
         gender: ''
     });
 
@@ -26,7 +28,7 @@ export function PetOwner() {
             setPet(prevPet => ({ ...prevPet, [name]: value.toUpperCase() }));
         } else if (name === 'age') {
             // Ensure age is an integer
-            setPet(prevPet => ({ ...prevPet, [name]: parseInt(value, 10) }));
+            setPet(prevPet => ({ ...prevPet, [name]: value }));
         } else {
             setPet(prevPet => ({ ...prevPet, [name]: value }));
         }
@@ -39,21 +41,23 @@ export function PetOwner() {
 
         try {
             // Sending data to the backend API
-            await AddPetService(pet).then(
-
+            await AddPetService(pet).then(response => {
+                if(response.status === 201)
                 toast.success("Pet added successfully!")
-            ).catch(
+            }
+            ).catch(err => {
 
-                toast.error('Error adding Pet. Please try again.')
+                console.error('Error adding Pet. Please try again.', err)
+            }
             )
             // Show success toast
             // Clear form fields after successful submission
             setPet({
-                ownerId: pet.ownerId,
+                // ownerId: '',
                 name: '',
                 species: '',
                 gender: '',
-                age: '',
+                yearOfBirth: null,
                 breed: ''
             });
         } catch (error) {
@@ -63,10 +67,11 @@ export function PetOwner() {
     };
 
     const getMyPets = async () => {
-
-        await GetMyPets()
+        console.log(sessionStorage.getItem('id'))
+        await GetMyPets(sessionStorage.getItem('id'))
             .then(response => {
-                setYourPets(response.data)
+                console.log(response)
+                setYourPets(response)
             })
             .catch(error => {
                 console.log("Error in fetching your pet: ", error)
@@ -76,39 +81,45 @@ export function PetOwner() {
 
     useEffect(() => {
 
+        console.log('Component Mounted')
+
     }, [yourPets]);
 
     return (
-        <div className="container-fluid" >
+        <div className="container-fluid" onLoad={getMyPets}>
             <PetOwnerNavbar />
 
             <div className="container" style={{ marginTop: "120px" }}>
 
-                <div className="container" onLoad={getMyPets}>
+                <div className="container">
                     <div className="text-center mt-4"><span className="fw-bolder fs-3">Your Pets</span></div>
                     <div className='table-responsive mt-4'>
 
-                        <table className="table table-hover table-bordered" >
+                        <table className="table table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Consultation Date</th>
-                                    <th>Owner Name</th>
+                                    {/* <th>Consultation Date</th> */}
+                                    {/* <th>Owner Name</th> */}
+                                    <th>No.</th>
                                     <th>Pet Name</th>
                                     <th>Pet Species</th>
                                     <th>Pet Breed</th>
-                                    <th>Diagnosis</th>
-                                    <th>Prescription</th>
+                                    <th>Age</th>
+                                    {/* <th>Diagnosis</th> */}
+                                    {/* <th>Prescription</th> */}
                                 </tr>
 
                             </thead>
                             <tbody>
 
-                                {yourPets.length > 0 ?
+                                {yourPets.length !== 0 ?
                                     yourPets.map((pet, index) => {
                                         return (<tr key={index}>
-                                            <td>{pet.petName}</td>
-                                            <td>{pet.petSpecies}</td>
-                                            <td>{pet.petBreed}</td>
+                                            <td>{index+1}</td>
+                                            <td>{pet.name}</td>
+                                            <td>{pet.species}</td>
+                                            <td>{pet.breed}</td>
+                                            <td>{pet.age}</td>
                                         </tr>)
                                     })
                                     : <tr>
@@ -122,21 +133,21 @@ export function PetOwner() {
                     </div>
 
                     <div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                             data-bs-whatever="@mdo">Add</button>
 
                     </div>
                 </div>
 
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Pet Details</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5" id="exampleModalLabel">Pet Details</h1>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 <form>
 
                                     <div className="table-responsive mt-4">
@@ -175,8 +186,8 @@ export function PetOwner() {
                                                     </td>
                                                     <td>
                                                         <div className="form-floating mt-2">
-                                                            <input type="number" className="form-control" name="age" value={pet.age} onChange={handleChange} id="floatingAge" min={0} max={30} placeholder="Enter Pet Age" required=" " />
-                                                            <label htmlFor="floatingInput">Pet Age</label>
+                                                            <input type="year" className="form-control" name="age" value={pet.age} onChange={handleChange} id="floatingAge" min={0} max={30} placeholder="Enter Pet Age" required=" " />
+                                                            <label htmlFor="floatingInput">Year Of Birth</label>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -204,9 +215,9 @@ export function PetOwner() {
 
                                 </form>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button onClick={handleSubmit} type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button onClick={handleSubmit} type="button" className="btn btn-primary" data-bs-dismiss="modal">Add</button>
                             </div>
                         </div>
                     </div>

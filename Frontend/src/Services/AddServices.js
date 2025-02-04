@@ -6,14 +6,19 @@ export async function AddPetService(data) {
 
     const path = '/pet/add'
 
+
     var response;
 
     const url = GenerateUrl(path)
 
+    console.log(url)
+
+    console.log(typeof(data.ownerId) + " in AddPetService")
+
     await axios.post(url, data)
         .then(res => {
             response = res;
-        }).catch(err=>{
+        }).catch(err => {
             console.log('Server Is Down')
             toast.info('Server is down')
         })
@@ -32,13 +37,13 @@ export async function BookAppointmentService(data) {
     const url = GenerateUrl(path)
 
     await axios.post(url, data)
-    .then(res=>{
-        response = res
-    }).catch(err=>{
-        console.log("Server Is Down")
-        toast.info('Server is down')
-    })
-    
+        .then(res => {
+            response = res
+        }).catch(err => {
+            console.log("Server Is Down")
+            toast.info('Server is down')
+        })
+
     return response;
 
 }

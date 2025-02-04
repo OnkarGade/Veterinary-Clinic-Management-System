@@ -6,7 +6,7 @@ export function PendingAppointments() {
         <div className='container-fluid'>
             <DocNavbar />
 
-            <div className="container">
+            <div className="container" style={{marginTop:"120px"}}>
                 <div className="text-center mt-4"><span className="fw-bolder fs-3">Pending Appointment's</span></div>
 
                 <div className='table-responsive mt-4'>

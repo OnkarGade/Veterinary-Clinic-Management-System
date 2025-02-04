@@ -1,9 +1,9 @@
 import axios from "axios";
 import { GenerateUrl } from "./Common";
 
-export async function GetMyPets() {
+export async function GetMyPets(id) {
 
-    const url = GenerateUrl('/yourpets')
+    const url = GenerateUrl(`/pet/owner/${id}`)
 
     var response;
 

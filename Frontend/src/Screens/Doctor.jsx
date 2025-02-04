@@ -109,39 +109,41 @@ export function Doctor() {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <table className="table table-hover table-bordered" >
-                                    <thead>
-                                        <tr>
-                                            <th>Consultation Date</th>
-                                            <th>Owner Name</th>
-                                            <th>Pet Name</th>
-                                            <th>Pet Species</th>
-                                            <th>Pet Breed</th>
-                                            <th>Diagnosis</th>
-                                            <th>Prescription</th>
-                                        </tr>
-
-                                    </thead>
-                                    <tbody>
-
-                                        {petHistory.length > 0 ?
-                                            petHistory.map((pet, index) => (
-                                                <tr key={index}>
-                                                    <td>{pet.consultationDate}</td>
-                                                    <td>{pet.ownerName}</td>
-                                                    <td>{pet.petName}</td>
-                                                    <td>{pet.petSpecies}</td>
-                                                    <td>{pet.petBreed}</td>
-                                                    <td>{pet.diagnosis}</td>
-                                                    <td>{pet.prescription}</td>
-                                                </tr>
-                                            ))
-                                            : <tr>
-                                                <td colSpan="7" className='text-center'>No records found</td>
+                                <div className="table-responsive">
+                                    <table className="table table-hover table-bordered" >
+                                        <thead>
+                                            <tr>
+                                                <th>Consultation Date</th>
+                                                <th>Owner Name</th>
+                                                <th>Pet Name</th>
+                                                <th>Pet Species</th>
+                                                <th>Pet Breed</th>
+                                                <th>Diagnosis</th>
+                                                <th>Prescription</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+
+                                        </thead>
+                                        <tbody>
+
+                                            {petHistory.length > 0 ?
+                                                petHistory.map((pet, index) => (
+                                                    <tr key={index}>
+                                                        <td>{pet.consultationDate}</td>
+                                                        <td>{pet.ownerName}</td>
+                                                        <td>{pet.petName}</td>
+                                                        <td>{pet.petSpecies}</td>
+                                                        <td>{pet.petBreed}</td>
+                                                        <td>{pet.diagnosis}</td>
+                                                        <td>{pet.prescription}</td>
+                                                    </tr>
+                                                ))
+                                                : <tr>
+                                                    <td colSpan="7" className='text-center'>No records found</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
 
                             </div>
                             <div className="modal-footer">
