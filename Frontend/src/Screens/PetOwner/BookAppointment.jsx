@@ -51,7 +51,8 @@ export function BookAppointment() {
     //         .then(res => {
     //             setYourPets(res)
     //         }).catch(err => {
-    //             console.log(" error ")
+    //             console.log(" error " 
+    //         }) 
     //         })
 
     // }
