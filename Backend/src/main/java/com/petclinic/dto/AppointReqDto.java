@@ -3,7 +3,6 @@ package com.petclinic.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.petclinic.pojos.Status;
 
 import lombok.Getter;
@@ -17,23 +16,17 @@ public class AppointReqDto {
 	
 	private Long petId;
 	
-	private Long petOwnerId;
-	
+//	private Long petOwnerId;
 	
 	private Long recepId;
 	
-	
 	private Long doctorId;
-	
 
 	private LocalDate appointDate;
 	
-	
-	private String appointTime;
-	
+	private LocalTime appointTime;
 	
 	private Status status;
-	
 
-	private String cause;
+	private String illness;
 }

@@ -18,7 +18,7 @@ public class ReceptionistsReqDto extends BaseDTO {
 
 	private String firstName;
 	private String lastName;
-	private int yearOfBirth;
+//	private LocalDate dob;
 	private Role role;
 	private Gender gender;
 	private String password;
@@ -26,9 +26,9 @@ public class ReceptionistsReqDto extends BaseDTO {
 	private String phoneNo;
 	private String address;
 
-	private Long recepId;
-
-	private Long userId;
+//	private Long recepId;
+//
+//	private Long userId;
 
 	private User receptionist;
 

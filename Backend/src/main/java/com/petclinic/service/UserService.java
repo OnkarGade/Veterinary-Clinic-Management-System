@@ -1,23 +1,21 @@
 package com.petclinic.service;
 
-import java.io.IOException;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import com.petclinic.dto.ApiResponse;
-import com.petclinic.dto.StaffReqDto;
 import com.petclinic.dto.UserReqDto;
-import com.petclinic.dto.UserResDto;
-import com.petclinic.pojos.User;
+import com.petclinic.pojos.Role;
 
 public interface UserService {
 	public ApiResponse Register(UserReqDto poDto);
 
-	public UserResDto login(UserReqDto userReqDto);
-	
-	public ApiResponse RegStaff(StaffReqDto sReqDto);
+	public ApiResponse getUser();
 
-	public void saveProfileImage(Long userId, MultipartFile file) throws IOException;
+	public Role getRole(String email);
 
-	public byte[] getProfileImage(Long userId);
+//	public UserResDto login(UserReqDto userReqDto);
+
+//	public ApiResponse RegStaff(StaffReqDto sReqDto);
+
+//	public void saveProfileImage(Long userId, MultipartFile file) throws IOException;
+
+//	public byte[] getProfileImage(Long userId);
 }

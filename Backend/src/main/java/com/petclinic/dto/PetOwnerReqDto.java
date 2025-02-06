@@ -1,5 +1,6 @@
 package com.petclinic.dto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +16,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PetOwnerReqDto {
 
-	private Long ownerId;
-
-	private Long userId;
+//	private Long ownerId;
+//	private Long userId;
 
 	private String firstName;
 	private String lastName;
-	private int age;
+	private LocalDate dob;
 	private Role role;
 	private Gender gender;
 	private String password;

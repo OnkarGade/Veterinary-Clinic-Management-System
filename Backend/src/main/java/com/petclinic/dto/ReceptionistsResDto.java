@@ -13,17 +13,17 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ReceptionistsResDto extends BaseDTO {
-	
-	private Long userId;
+
+//	private Long userId;
 
 	private User receptionist;
-	
+
 	private List<Appointment> appointments;
-	
+
 	private String qualification;
-	
+
 	private String aadharNo;
-	
+
 	private byte[] image;
-	
+
 }

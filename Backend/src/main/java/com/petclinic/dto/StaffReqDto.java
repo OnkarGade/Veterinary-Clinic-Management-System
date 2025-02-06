@@ -1,5 +1,8 @@
 package com.petclinic.dto;
 
+import java.time.LocalDate;
+
+import com.petclinic.pojos.Gender;
 import com.petclinic.pojos.Role;
 
 import lombok.Getter;
@@ -15,7 +18,8 @@ public class StaffReqDto {
 	
 	private String firstName;
 	private String lastName;
-	private int age;
+	private LocalDate dob;
+	private Gender gender;
 	private Role role;
 	private String password;
 	private String email;
@@ -27,4 +31,3 @@ public class StaffReqDto {
 	private String aadharNo;
 	
 }
-

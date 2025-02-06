@@ -5,41 +5,33 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.petclinic.dto.AppointmentRespDto;
-import com.petclinic.dto.DoctorReqDto;
-import com.petclinic.dto.DoctorResDto;
+import com.petclinic.dto.MedicineReqDto;
+import com.petclinic.dto.PrescriptionReqDto;
 import com.petclinic.dto.UserReqDto;
 import com.petclinic.service.DoctorService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/doctor")
 public class DoctorController {
 
 	@Autowired
 	DoctorService docService;
-
-	@GetMapping
-	public ResponseEntity<?> listOfDoctors() {
-		List<DoctorResDto> doctorResDtos = docService.getAllDoctors();
-		if (doctorResDtos.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		}
-		return ResponseEntity.ok(doctorResDtos);
-	}
 
 	@PutMapping(value = "/{dId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> updateDoctorProfile(@RequestPart("userReqDto") String userReqDtoJson,
@@ -62,6 +54,27 @@ public class DoctorController {
 		if (appointmentRespDtos.isEmpty())
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		return ResponseEntity.ok(appointmentRespDtos);
+	}
+
+	@GetMapping("/futureappts")
+	public ResponseEntity<?> getFutureAppts() {
+		System.out.println("in future appointments");
+		List<AppointmentRespDto> appointmentRespDtos = docService.getFutureAppts();
+		if (appointmentRespDtos.isEmpty())
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		return ResponseEntity.ok(appointmentRespDtos);
+	}
+
+	@PostMapping("/addPrescription")
+	public ResponseEntity<?> addPrescription(@RequestBody PrescriptionReqDto prescriptionReqDto) {
+		System.out.println("In prescription of doctor");
+		return ResponseEntity.status(HttpStatus.CREATED).body(docService.addPrescription(prescriptionReqDto));
+	}
+
+	@PostMapping("/addMedicine")
+	public ResponseEntity<?> addMedicine(@RequestBody MedicineReqDto medicineReqDto) {
+		System.out.println("In medicine Request Dto");
+		return ResponseEntity.status(HttpStatus.CREATED).body(docService.addMedicine(medicineReqDto));
 	}
 
 }

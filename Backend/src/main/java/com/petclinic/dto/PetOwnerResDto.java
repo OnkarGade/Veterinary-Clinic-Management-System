@@ -12,13 +12,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PetOwnerResDto{
+public class PetOwnerResDto {
 
-	private Long userId;
-	
+//	private Long userId;
+
 	private User owner;
-	
-	private List<Pet> pets;
 
+	private List<Pet> pets;
 
 }

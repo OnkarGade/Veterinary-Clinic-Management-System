@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.petclinic.dto.DoctorReqDto;
 import com.petclinic.dto.PetReqDto;
 import com.petclinic.dto.PetRespDto;
 import com.petclinic.service.PetService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/pet")
 public class PetController {
@@ -27,7 +27,7 @@ public class PetController {
 	PetService petService;
 
 	@PostMapping("/add")
-	public ResponseEntity<?> addPet(PetReqDto petReqDto) {
+	public ResponseEntity<?> addPet(@RequestBody PetReqDto petReqDto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(petService.addPet(petReqDto));
 	}
 
@@ -40,15 +40,10 @@ public class PetController {
 		return ResponseEntity.ok(petService.getAllPets());
 	}
 
-	@GetMapping("/{pId}")
-	public ResponseEntity<?> getPetById(@PathVariable Long pId) {
-		return ResponseEntity.ok(petService.getPet(pId));
-	}
-
-	@GetMapping("/{poId}")
-	public ResponseEntity<?> getPetByPetOwnerId(@PathVariable Long poId) {
-		return ResponseEntity.ok(petService.getPetByPetOwnerId(poId));
-	}
+//	@GetMapping("/{pId}")
+//	public ResponseEntity<?> getPetById(@PathVariable Long pId) {
+//		return ResponseEntity.ok(petService.getPet(pId));
+//	}
 
 	@PutMapping("/{pId}")
 	public ResponseEntity<?> updatePet(@RequestBody PetReqDto petReqDto, @PathVariable Long pId) {

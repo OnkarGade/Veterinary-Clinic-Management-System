@@ -20,7 +20,7 @@ public class User extends BaseEntity{
 	private LocalDate dob;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	@Column(length = 8)
+	@Column(length = 255)
 	private String password;
 	@Column(length = 50,unique = true,nullable = false)
 	private String email;

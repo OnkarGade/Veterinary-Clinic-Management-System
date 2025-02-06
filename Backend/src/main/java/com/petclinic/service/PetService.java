@@ -15,8 +15,5 @@ public interface PetService {
 	public ApiResponse updatePet(PetReqDto petReqDto, Long pId);
 
 	public PetRespDto getPet(Long PId);
-
-	public List<PetRespDto> getPetByPetOwnerId(Long poId);
 		
 }
-

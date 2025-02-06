@@ -1,20 +1,17 @@
 package com.petclinic.pojos;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,10 +51,10 @@ public class Appointment extends BaseEntity {
 	private Status status;
 
 	@Column(length = 100)
-	private String cause;
+	private String illness;
 
-	@org.springframework.data.annotation.Version
-    @Column(name = "version")
-    private Long version;  // Version field for optimistic locking
-	
+//	@org.springframework.data.annotation.Version
+//    @Column(name = "version")
+//    private Long version;  // Version field for optimistic locking
+//	
 }

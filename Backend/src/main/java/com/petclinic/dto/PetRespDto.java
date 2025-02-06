@@ -10,22 +10,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PetRespDto extends BaseDTO{
-	
+public class PetRespDto extends BaseDTO {
+
 	private PetOwner owner;
-	
-	
+
 	private String species;
-	
-	
+
 	private String breed;
 
-	
 	private String name;
-	
-	private int yearOfBirth;
-	
+
 	private int age;
-	
+
 	private Gender gender;
 }

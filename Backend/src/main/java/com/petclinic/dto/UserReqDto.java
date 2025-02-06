@@ -20,9 +20,9 @@ public class UserReqDto {
 
 	private String firstName;
 	private String lastName;
-//	private LocalDate dob;
-//	private Role role;
-//	private Gender gender;
+	private LocalDate dob;
+	private Role role;
+	private Gender gender;
 	private String password;
 	private String email;
 	private String phoneNo;

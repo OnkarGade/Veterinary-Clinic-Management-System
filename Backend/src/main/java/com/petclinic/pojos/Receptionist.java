@@ -21,8 +21,8 @@ public class Receptionist extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "receptionist")
 	@JsonManagedReference
 	private List<Appointment> appointments;
-//
-//	@Lob
+
+	//	@Lob
 //	private byte[] image;
 
 	@Column(length = 20)

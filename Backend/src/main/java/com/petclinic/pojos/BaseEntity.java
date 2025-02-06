@@ -25,11 +25,11 @@ public class BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@CreationTimestamp
-	@Column(name="created_on")
+	@Column(name = "created_on")
 	private LocalDate createdOn;
 	@UpdateTimestamp
-	@Column(name="updated_on")
+	@Column(name = "updated_on")
 	private LocalDateTime updatedOn;
-	@Column(name="is_available")
-	private boolean isActive;
+	@Column(name = "is_available")
+	private boolean isActive = true;
 }

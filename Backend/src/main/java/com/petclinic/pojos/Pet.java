@@ -1,11 +1,14 @@
 package com.petclinic.pojos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,12 +34,10 @@ public class Pet extends BaseEntity{
 	@Column(length=50)
 	private String name;
 	
-	@Column(name="yearofbirth")
-	private int yearOfBirth;
-	
+	@Column(name="age")
+	private int age;
 	
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
-	
 	
 }	
