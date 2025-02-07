@@ -4,7 +4,7 @@ import { GenerateUrl } from "./Common";
 export async function LoginService(data) {
 
     var response_data;
-    const url = GenerateUrl(`/user/login`)
+    const url = GenerateUrl(`/users/signin`)
 
     await axios.post(url, data)
         .then(response => {

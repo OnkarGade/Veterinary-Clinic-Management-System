@@ -6,6 +6,10 @@ export async function AddPetService(data) {
 
     const path = '/pet/add'
 
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+    }
 
     var response;
 
@@ -13,14 +17,14 @@ export async function AddPetService(data) {
 
     console.log(url)
 
-    console.log(typeof(data.ownerId) + " in AddPetService")
+    console.log(typeof (data.ownerId) + " in AddPetService")
 
-    await axios.post(url, data)
+    await axios.post(url, data, { headers })
         .then(res => {
             response = res;
         }).catch(err => {
-            console.log('Server Is Down')
-            toast.info('Server is down')
+            console.log('Server Is Down!' + err)
+            toast.info('Server not responding')
         })
 
     return response;
@@ -30,18 +34,27 @@ export async function AddPetService(data) {
 
 export async function BookAppointmentService(data) {
 
-    const path = '/pet/appointment'
+    const path = '/petowner/addAppointment'
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+    }
+
+    console.log('token : '+ sessionStorage.getItem('token'))
 
     var response;
 
     const url = GenerateUrl(path)
 
-    await axios.post(url, data)
+    console.log(url)
+
+    await axios.post(url, data , {headers})
         .then(res => {
             response = res
         }).catch(err => {
-            console.log("Server Is Down")
-            toast.info('Server is down')
+            console.log("Server Is Down"+ err)
+            toast.info('Server not responding')
         })
 
     return response;
