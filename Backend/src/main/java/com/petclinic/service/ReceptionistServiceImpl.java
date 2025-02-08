@@ -1,12 +1,10 @@
 package com.petclinic.service;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.Converters.Collection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -61,6 +59,18 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 	@Autowired
 	EmailService emailService;
 
+	// Create a formatted HTML email body
+	private final String emailBody = "<html><body>"
+			+ "<h2>Invoice Details</h2>"
+			+ "<p>Dear Customer,</p>"
+			+ "<p>Thank you for your payment. "
+			+ "Here is your invoice:</p>"
+			+ "<table border='1' style='border-collapse:collapse;width:100%'>"
+			+ "<tr><td><strong>Total</strong></td><td><strong>Rs. 700</strong></td></tr>"
+			+ "</table>"
+			+ "<p>We hope your pet is well soon!</p>"
+			+ "<p>Best Regards,<br>Veterinary Clinic</p>" + "</body></html>";
+
 //	@Override
 //	public ApiResponse addAppoint(AppointReqDto appointReqDto) {
 //		Doctor doc = docRepo.findById(appointReqDto.getDoctorId())
@@ -103,6 +113,15 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 	public List<AppointmentRespDto> getAppointments() {
 		return appointRepo.findAll().stream().map(appoint -> mapper.map(appoint, AppointmentRespDto.class))
 				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<AppointmentRespDto> getPendingAppointments() {
+		List<AppointmentRespDto> appointments = appointRepo.findByStatus(Status.PENDING).stream()
+				.map(appointment -> mapper.map(appointment, AppointmentRespDto.class)).collect(Collectors.toList());
+//		return appointRepo.findAll().stream().map(appoint -> mapper.map(appoint, AppointmentRespDto.class))
+//				.collect(Collectors.toList());
+		return appointments;
 	}
 
 	@Override
@@ -191,21 +210,28 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 
 	@Override
 	public ApiResponse payBill(Long bId) {
-		Billing bill = new Billing();
+		Billing bill = billRepo.findById(bId).orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
 		bill.setBillDate(LocalDateTime.now());
-		bill.setStatus(Status.APPROVED);
-		String emailId = billRepo.findById(bId).orElseThrow(() -> new UserNotFoundException("Bill Not found"))
+		bill.setStatus(Status.COMPLETED);
+		String emailId = bill
 				.getPrescription().getAppointment().getOwner().getOwner().getEmail();
-		emailService.sendEmail(emailId, "Invoice", "Body-AAAAAAAAAA");
+		System.out.println(emailId);
+		emailService.sendEmail(emailId, "Invoice", emailBody);
 		return new ApiResponse("Bill paid");
 	}
 
+
+
 	@Override
-	public List<AppointmentRespDto> getPendingAppointments() {
-		List<AppointmentRespDto> appointments = appointRepo.findByStatus(Status.PENDING).stream()
-				.map(appointment -> mapper.map(appointment, AppointmentRespDto.class)).collect(Collectors.toList());
-//		return appointRepo.findAll().stream().map(appoint -> mapper.map(appoint, AppointmentRespDto.class))
-//				.collect(Collectors.toList());
-		return appointments;
+	public ApiResponse denyAppointment(Long aptId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Long userId = (Long) auth.getCredentials();
+		Appointment appointment = appointRepo.findById(aptId)
+				.orElseThrow(() -> new ResourceNotFoundException("Apptmt Id invalid!"));
+		Receptionist receptionist = respRepo.findByReceptionistId(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("Recep Id not found!"));
+		appointment.setReceptionist(receptionist);
+		appointment.setStatus(Status.DENIED);
+		return new ApiResponse("Appointment denied!");
 	}
 }
