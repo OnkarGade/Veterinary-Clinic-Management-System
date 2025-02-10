@@ -15,22 +15,22 @@ export function Prescription() {
                         <div className="content">
                             {/* <form action="/submit" method="post"> */}
                             
-                            <div className="table-responsive">
+                            <div className="table-responsive text-center">
                                 <table className="table table-borderless">
 
                                     <tr>
                                         <td>
-                                            <div class="form-floating">
-                                                <textarea class="form-control" placeholder="Write diagnosis here" id="floatingDiagnosis"></textarea>
-                                                <label for="floatingTextarea">Diagnosis</label>
+                                            <div className="form-floating">
+                                                <textarea className="form-control" placeholder="Write diagnosis here" id="floatingDiagnosis"></textarea>
+                                                <label htmlFor="floatingTextarea">Diagnosis</label>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="form-floating">
-                                                <textarea class="form-control" style={{height : "200px"}} placeholder="Write prescription here" id="floatingPrescription"></textarea>
-                                                <label for="floatingTextarea">Prescription</label>
+                                            <div className="form-floating">
+                                                <textarea className="form-control" style={{height : "200px"}} placeholder="Write prescription here" id="floatingPrescription"></textarea>
+                                                <label htmlFor="floatingTextarea">Prescription</label>
                                             </div>
                                         </td>
                                     </tr>
