@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetUserProfile } from "../../Services/GetServices";
+import { UpdateDoctorProfile } from "../../Services/UpdateServices";
 import { UpdatePetOwnerProfile } from "../../Services/UpdateServices";
 import { toast } from "react-toastify";
 import { DocNavbar } from "../../Components/DocNavbar";
@@ -8,6 +9,8 @@ export function DoctorProfile() {
     const [imageFile, setImageFile] = useState(null); // Store the file
     const [previewImage, setPreviewImage] = useState(null); // Store preview URL
     const [userDetails, setUserDetails] = useState({});
+    const [id, setId] = useState(0)
+
 
     // Handle updating the profile picture
     const handleProfilePicChange = (e) => {
@@ -51,6 +54,7 @@ export function DoctorProfile() {
         }
 
         try {
+            const res = await UpdateDoctorProfile(formData, id);
             const res = await UpdatePetOwnerProfile(formData, userDetails.id);
             if (res !== undefined) {
                 toast.success("Profile Updated");
@@ -66,6 +70,12 @@ export function DoctorProfile() {
         try {
             const res = await GetUserProfile();
             console.log(res)
+            setUserDetails(res.data.object.doctor);
+            setId(res.data.object.id)
+
+            // Set image directly if coming from database in proper format
+            if (res.data.object.doctor.image) {
+                const dbImage = res.data.object.doctor.image;
             setUserDetails(res.data.object.owner);
 
             // Set image directly if coming from database in proper format
@@ -161,6 +171,7 @@ export function DoctorProfile() {
                         >
                             Edit Profile
                         </button>
+                        {/* <button className="btn btn-danger mx-2">Delete Account</button> */}
                         <button className="btn btn-danger mx-2">Delete Account</button>
                     </div>
                 </div>
@@ -247,6 +258,7 @@ export function DoctorProfile() {
                                                         className="form-control"
                                                         value={userDetails.email}
                                                         name="email"
+                                                   readOnly  />
                                                     />
                                                     <label>Email</label>
                                                 </div>

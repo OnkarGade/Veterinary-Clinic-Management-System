@@ -48,6 +48,7 @@ export function AddStaff() {
 
             <AdminNavbar />
 
+            <div className="container" style={{marginTop:"150px"}}>
             <div className="container">
 
                 <div className="fw-bolder fs-3 mt-4" style={{ textAlign: "center" }}>
