@@ -68,7 +68,7 @@ public class UserController {
 		//3 . Send auth respone to the client containing JWTS
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new AuthResp("Successful Auth !",
-						jwtUtils.generateJwtToken(authToken),userService.getRole(dto.getEmail())));		
+						jwtUtils.generateJwtToken(authToken)));		
 		
 	}
 	

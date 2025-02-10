@@ -31,7 +31,7 @@ import com.petclinic.dto.UserReqDto;
 import com.petclinic.service.ReceptionistService;
 
 @RestController
-@RequestMapping("/receptionist")
+@RequestMapping("/Receptionist")
 @CrossOrigin(origins = "*")
 public class ReceptionistController {
 
@@ -60,7 +60,7 @@ public class ReceptionistController {
 	
 	
 	
-	@GetMapping("/allappointments")
+	@GetMapping("/getAppointments")
 	public ResponseEntity<?> getAppointments(){
 		List<AppointmentRespDto> appointmentRespDtos=recepService.getAppointments();
 		if(appointmentRespDtos.isEmpty())
@@ -68,23 +68,9 @@ public class ReceptionistController {
 		return ResponseEntity.ok(appointmentRespDtos);
 	}
 	
-	@GetMapping("/pendingappointments")
-	public ResponseEntity<?> getPendingAppointments(){
-		List<AppointmentRespDto> appointmentRespDtos=recepService.getPendingAppointments();
-		if(appointmentRespDtos.isEmpty())
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		return ResponseEntity.ok(appointmentRespDtos);
-	}
-	
-	
-	@PatchMapping("/approveappointment/{aptId}")
+	@PatchMapping("/approveAppointment/{aptId}")
 	  public ResponseEntity<?> approveAppointment(@PathVariable Long aptId) {
 	    return ResponseEntity.ok(recepService.approveAppointment(aptId));
-	  }
-
-	@PatchMapping("/denieappointment/{aptId}")
-	  public ResponseEntity<?> denieAppointment(@PathVariable Long aptId) {
-	    return ResponseEntity.ok(recepService.denieAppointment(aptId));
 	  }
 
 
@@ -99,16 +85,6 @@ public class ReceptionistController {
 
 	    return ResponseEntity.ok(recepService.updateReceptionistProfile(userReqDto, dId, imageFile));
 	  }
-	
-	@GetMapping("/getbill")
-	public ResponseEntity<?> getBill(){
-		return ResponseEntity.ok(recepService.getBill());
-	}
-	
-	@PatchMapping("/paybill/{bId}")
-	public ResponseEntity<?> payBill(@PathVariable Long bId){
-		return ResponseEntity.ok(recepService.payBill(bId));
-	}
 	
 	
 //	@GetMapping

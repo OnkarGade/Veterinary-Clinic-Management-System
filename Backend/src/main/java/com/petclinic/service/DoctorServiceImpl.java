@@ -20,13 +20,11 @@ import com.petclinic.dto.MedicineReqDto;
 import com.petclinic.dto.PrescriptionReqDto;
 import com.petclinic.dto.UserReqDto;
 import com.petclinic.pojos.Appointment;
-import com.petclinic.pojos.Billing;
 import com.petclinic.pojos.Doctor;
 import com.petclinic.pojos.Medicine;
 import com.petclinic.pojos.Prescription;
 import com.petclinic.pojos.User;
 import com.petclinic.repository.AppointmentRepository;
-import com.petclinic.repository.BillingRepository;
 import com.petclinic.repository.DoctorRepository;
 import com.petclinic.repository.MedicineRepository;
 import com.petclinic.repository.PrescriptionRepository;
@@ -56,9 +54,6 @@ public class DoctorServiceImpl implements DoctorService {
 	
 	@Autowired
 	MedicineRepository medicineRepository;
-	
-	@Autowired
-	BillingRepository billingRepository;
 	
 //	@Override
 //	public List<DoctorResDto> getAllDoctors() {
@@ -196,16 +191,11 @@ public class DoctorServiceImpl implements DoctorService {
 	  public ApiResponse addPrescription(PrescriptionReqDto prescriptionReqDto) {
 	    Appointment appointment = appointmentRepository.findById(prescriptionReqDto.getAptId())
 	        .orElseThrow(() -> new ResourceNotFoundException("Appointment not found!"));
-	    appointment.setStatus(Status.COMPLETED);
 	    Prescription prescription = new Prescription();
 	    prescription.setAppointment(appointment);
 	    prescription.setDiagnosis(prescriptionReqDto.getDiagnosis());
 	    prescription.setPrescriptionAdvice(prescriptionReqDto.getPrescriptionAdvice());
 	    prescriptionRepository.save(prescription);
-	    Billing billing=new Billing();
-	    billing.setPrescription(prescription);
-	    billing.setStatus(Status.PENDING);
-	    billingRepository.save(billing);
 	    Long presId = prescription.getId();
 	    return new ApiResponse("Prescription added with prescription Id - " + presId);
 	  }

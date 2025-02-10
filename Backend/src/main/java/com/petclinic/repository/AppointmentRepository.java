@@ -1,7 +1,6 @@
 package com.petclinic.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,8 +12,4 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 	public List<Appointment> findByOwnerId(long id);
 	
 	public List<Appointment> findByOwnerIdAndStatus(long id,Status status);
-	
-	public List<Appointment> findByStatus(Status status);
-	
-	public Optional<Appointment> findByIdAndStatus(Long id,Status status);
 }

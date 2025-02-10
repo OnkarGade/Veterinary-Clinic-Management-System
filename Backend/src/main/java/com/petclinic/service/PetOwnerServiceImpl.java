@@ -23,7 +23,6 @@ import com.petclinic.dto.PetOwnerReqDto;
 import com.petclinic.dto.PetOwnerResDto;
 import com.petclinic.dto.PetRespDto;
 import com.petclinic.dto.UserReqDto;
-import com.petclinic.dto.presMediDto;
 import com.petclinic.pojos.Appointment;
 import com.petclinic.pojos.Doctor;
 import com.petclinic.pojos.Pet;
@@ -31,9 +30,7 @@ import com.petclinic.pojos.PetOwner;
 import com.petclinic.pojos.Status;
 import com.petclinic.pojos.User;
 import com.petclinic.repository.AppointmentRepository;
-import com.petclinic.repository.BillingRepository;
 import com.petclinic.repository.DoctorRepository;
-import com.petclinic.repository.MedicineRepository;
 import com.petclinic.repository.PetOwnerRepository;
 import com.petclinic.repository.PetRepository;
 import com.petclinic.repository.UserRepository;
@@ -62,11 +59,6 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 	
 	@Autowired
 	AppointmentRepository appointmentRepository;
-	
-	
-	@Autowired
-	MedicineRepository medicineRepo;
-
 	
 	
 	
@@ -109,10 +101,8 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 		   
 		    Long userId = (Long) auth.getCredentials();
 			PetOwner po=  petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
-		    
 			
-			
-			return po.getPets().stream().filter(pet->pet.isActive()).map(pet-> mapper.map(pet,PetRespDto.class)).collect(Collectors.toList());
+			return po.getPets().stream().map(pet-> mapper.map(pet,PetRespDto.class)).collect(Collectors.toList());
 			 
 		}
 	
@@ -121,15 +111,12 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 	    System.out.println("AppointUserReqDto : doctor id - " + appointReqDto.getDoctorId());
 	    Pet pet = petRepo.findById(appointReqDto.getPetId())
 	        .orElseThrow(() -> new ResourceNotFoundException("Pet Id invalid"));
-	    if(pet.isActive() != true)
-	    	return new ApiResponse("Invalid Pet");
 	    // JWT code for finding and retrieving userId from Security Context
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		   
 	    Long userId = (Long) auth.getCredentials();
 	    PetOwner petOwner = petOwnerRepo.findByOwnerId(userId)
-	       .orElseThrow(() -> new ResourceNotFoundException("Pet Owner Id invalid"));
-	    //PetOwner po=petOwnerRepo.findByOwnerIdWithActivePets(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
+	        .orElseThrow(() -> new ResourceNotFoundException("Pet Owner Id invalid"));
 	    Doctor doctor = docRepo.findById(appointReqDto.getDoctorId())
 	        .orElseThrow(() -> new ResourceNotFoundException("Doctor Id invalid"));
 	    Appointment appoint = mapper.map(appointReqDto, Appointment.class);
@@ -217,8 +204,8 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 		    
 		    //User user=userRepo.findById(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
 		    
-		   PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
-		   
+		    PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
+		    
 		 
 		    
 		  return  appointmentRepository.findByOwnerId(po.getId())
@@ -244,8 +231,6 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 		 
 		 PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
 		 
-		 
-
 		 return appointmentRepository.findByOwnerIdAndStatus(po.getId(),Status.COMPLETED)
 		 .stream().map(appointment -> {
 			 AppointmentRespDto2  appointmentRespDto2=mapper.map(appointment, AppointmentRespDto2.class);
@@ -255,19 +240,6 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 		 
 		//return null;
 	}
-
-	@Override
-	public List<presMediDto> getPrescription() {
-		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		   
-		 Long userId = (Long) auth.getCredentials();
-		 List<presMediDto> presMediDtos= medicineRepo.findByPrescriptionAppointmentOwnerId(userId).stream().map(medicine-> mapper.map(medicine, presMediDto.class)).collect(Collectors.toList());
-		return presMediDtos;
-	}
-
-	
-	
-	
 	
 	
 	
