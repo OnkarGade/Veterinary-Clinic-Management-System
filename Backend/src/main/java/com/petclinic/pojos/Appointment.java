@@ -54,7 +54,7 @@ public class Appointment extends BaseEntity {
 	private Status status;
 	
 	@Column(length=100)
-	private String cause;
+	private String illness;
 	
 	
 }

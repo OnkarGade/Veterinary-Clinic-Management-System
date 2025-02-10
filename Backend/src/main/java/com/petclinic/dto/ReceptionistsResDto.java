@@ -16,12 +16,12 @@ public class ReceptionistsResDto extends BaseDTO {
 
 	private User receptionist;
 	
-	private List<Appointment> appointments;
+//	private List<Appointment> appointments;
 	
 	private String qualification;
 	
 	private String aadharNo;
 	
-	private byte[] image;
+//	private byte[] image;
 	
 }

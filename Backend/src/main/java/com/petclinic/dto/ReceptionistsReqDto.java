@@ -1,34 +1,44 @@
 package com.petclinic.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import com.petclinic.pojos.Appointment;
 import com.petclinic.pojos.Gender;
 import com.petclinic.pojos.Role;
+import com.petclinic.pojos.User;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
-public class StaffReqDto {
-	
+public class ReceptionistsReqDto extends BaseDTO {
+
 	private String firstName;
 	private String lastName;
-	private LocalDate dob;
+	//private LocalDate dob;
 	private Role role;
-	private String password;
 	private Gender gender;
+	private String password;
 	private String email;
-	private String phoneNo;	
+	private String phoneNo;
 	private String address;
-	private String degree;
-	private String specialist;
-	private String qualification;
-	private String aadharNo;
-	
-}
 
+//	private Long recepId;
+//
+//	private Long userId;
+
+	private User receptionist;
+
+	private List<Appointment> appointments;
+
+	private String qualification;
+
+	private String aadharNo;
+
+	private byte[] image;
+
+}

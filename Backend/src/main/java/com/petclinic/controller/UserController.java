@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +20,10 @@ import com.petclinic.dto.UserReqDto;
 import com.petclinic.security.JwtUtils;
 import com.petclinic.service.UserService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @CrossOrigin(origins = "*")
 public class UserController {
 	
@@ -41,23 +41,22 @@ public class UserController {
 		return  ResponseEntity.status(HttpStatus.CREATED).body(userService.Register(userReqDto));
 	}
 	
-	@PostMapping("/registerStaff")
-	public ResponseEntity<?> addStaff(@RequestBody StaffReqDto sReqDto){
-			return ResponseEntity.status(HttpStatus.CREATED).body(userService.RegStaff(sReqDto));
-	}
+//	@PostMapping("/registerStaff")
+//	public ResponseEntity<?> addStaff(@RequestBody StaffReqDto sReqDto){
+//			return ResponseEntity.status(HttpStatus.CREATED).body(userService.RegStaff(sReqDto));
+//	}
 	
-	@PostMapping("/login")
-	public ResponseEntity<?> loginUser(@RequestBody UserReqDto userReqDto){
-		return  ResponseEntity.status(HttpStatus.OK).body(userService.login(userReqDto));
-	}
+//	@PostMapping("/login")
+//	public ResponseEntity<?> loginUser(@RequestBody UserReqDto userReqDto){
+//		return  ResponseEntity.status(HttpStatus.OK).body(userService.login(userReqDto));
+//	}
 	
 	@PostMapping("/signin")
-	@Operation(description = "User sign in")
 	public ResponseEntity<?> userSignIn(@RequestBody @Valid
 			AuthRequest dto) {
 		System.out.println("in sign in "+dto);
 		//1. Create auth token using suser supplied em n pwd
-		UsernamePasswordAuthenticationToken
+		UsernamePasswordAuthenticationToken 
 		authenticationToken = new UsernamePasswordAuthenticationToken
 		(dto.getEmail(),dto.getPassword());
 		System.out.println(authenticationToken.isAuthenticated());//f
@@ -69,10 +68,14 @@ public class UserController {
 		//3 . Send auth respone to the client containing JWTS
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new AuthResp("Successful Auth !",
-						jwtUtils.generateJwtToken(authToken)));		
+						jwtUtils.generateJwtToken(authToken),userService.getRole(dto.getEmail())));		
 		
 	}
 	
+	@GetMapping("/profile")
+	public ResponseEntity<?> getUser(){
+		return ResponseEntity.ok(userService.getUser());
+	}
 	
 //	@PostMapping("/signin")
 //	

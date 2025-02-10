@@ -21,15 +21,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AppointmentRespDto extends BaseDTO{
+public class AppointmentRespDto2 extends BaseDTO{
 
 	private Pet pet;
 
-	private PetOwner owner;
+//	private PetOwner owner;
 	
 //	private Receptionist receptionist;
 //	
-//	private Doctor doctor;
+	private DoctorResDto2 doctor;
 	
 	private LocalDate appointDate;
 	

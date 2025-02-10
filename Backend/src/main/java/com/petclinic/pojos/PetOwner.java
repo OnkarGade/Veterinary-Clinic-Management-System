@@ -37,6 +37,7 @@ public class PetOwner extends BaseEntity {
 
 	public void addPet(Pet p) {
 		pets.add(p);
+		System.out.println("Pet = "+p);
 		p.setOwner(this);	
 	}
 }

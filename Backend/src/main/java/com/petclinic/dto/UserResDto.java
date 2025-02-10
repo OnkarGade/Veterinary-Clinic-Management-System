@@ -1,5 +1,7 @@
 package com.petclinic.dto;
 
+import java.time.LocalDate;
+
 import org.springframework.validation.annotation.Validated;
 
 import com.petclinic.pojos.Role;
@@ -22,7 +24,8 @@ public class UserResDto extends BaseDTO{
 	
 	private String firstName;
 	private String lastName;
-	private int yearOfBirth;
+	//private int yearOfBirth;
+	private LocalDate dob;
 	private int age;
 	private Role role;
 	private String email;

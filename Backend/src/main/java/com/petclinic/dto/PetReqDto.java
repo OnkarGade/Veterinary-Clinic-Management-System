@@ -5,13 +5,15 @@ import com.petclinic.pojos.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class PetReqDto {
 
-	private Long ownerId;
+//	private Long ownerId;
 	
 	
 	private String species;

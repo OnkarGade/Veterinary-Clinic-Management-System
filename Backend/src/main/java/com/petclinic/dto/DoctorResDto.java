@@ -26,7 +26,7 @@ public class DoctorResDto extends BaseDTO{
 	
 	private User doctor;
 	private List<Appointment> appointments;
-	private byte[] image;
+	//private byte[] image;
 	private String degree;
 	private String specialist;
 	private String aadharNo;

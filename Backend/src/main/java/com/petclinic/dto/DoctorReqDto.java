@@ -30,7 +30,7 @@ public class DoctorReqDto {
 
 	private String lastName;
 	
-	private int age;
+//	private int age;
 	
 	private Role role;
 
@@ -44,7 +44,7 @@ public class DoctorReqDto {
 
 	private Gender gender;
 	
-	private byte[] image;
+	//private byte[] image;
 	
 	private String degree;
 	
