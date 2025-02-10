@@ -49,6 +49,11 @@ export function AddStaff() {
             <AdminNavbar />
 
             <div className="container" style={{marginTop:"150px"}}>
+            <div className="container">
+
+                <div className="fw-bolder fs-3 mt-4" style={{ textAlign: "center" }}>
+                    <span>Add Staff Detail's</span>
+                </div>
 
                 <div className="table-responsive mt-4">
                     <table className="table table-borderless">

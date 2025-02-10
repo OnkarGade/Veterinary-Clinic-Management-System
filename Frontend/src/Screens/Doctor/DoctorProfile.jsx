@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetUserProfile } from "../../Services/GetServices";
 import { UpdateDoctorProfile } from "../../Services/UpdateServices";
+import { UpdatePetOwnerProfile } from "../../Services/UpdateServices";
 import { toast } from "react-toastify";
 import { DocNavbar } from "../../Components/DocNavbar";
 
@@ -54,6 +55,7 @@ export function DoctorProfile() {
 
         try {
             const res = await UpdateDoctorProfile(formData, id);
+            const res = await UpdatePetOwnerProfile(formData, userDetails.id);
             if (res !== undefined) {
                 toast.success("Profile Updated");
             } else {
@@ -74,6 +76,11 @@ export function DoctorProfile() {
             // Set image directly if coming from database in proper format
             if (res.data.object.doctor.image) {
                 const dbImage = res.data.object.doctor.image;
+            setUserDetails(res.data.object.owner);
+
+            // Set image directly if coming from database in proper format
+            if (res.data.object.owner.image) {
+                const dbImage = res.data.object.owner.image;
 
                 // Handle base64 format, if necessary
                 if (dbImage.startsWith("data:image")) {
@@ -165,6 +172,7 @@ export function DoctorProfile() {
                             Edit Profile
                         </button>
                         {/* <button className="btn btn-danger mx-2">Delete Account</button> */}
+                        <button className="btn btn-danger mx-2">Delete Account</button>
                     </div>
                 </div>
 
@@ -251,6 +259,7 @@ export function DoctorProfile() {
                                                         value={userDetails.email}
                                                         name="email"
                                                    readOnly  />
+                                                    />
                                                     <label>Email</label>
                                                 </div>
                                             </td>

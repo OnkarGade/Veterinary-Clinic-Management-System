@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 // import { AdminNavbar } from './../../Components/AdminNavbar';
 import { useState } from "react";
 import { DeleteDoctor, GetListOfDoctors, ReinstateDoctor } from "../Services/DoctorServices";
+import { useState } from "react";
 import { AdminNavbar } from "../Components/AdminNavbar";
 
 export function Admin() {
@@ -181,9 +182,25 @@ export function Admin() {
                 </div>
 
 
+    const [data, setData] = useState([])
+
+    const afterLoad = async () => {
+
+        const data = await getDoctorList()
+
+    }
+
+    return (
+        <div onLoad={afterLoad} className="container-fluid">
+
+            <AdminNavbar />
+
+            <div className="container" style={{marginTop:"120px"}}>
 
             </div>
 
         </div>
     )
+    );
+
 }
