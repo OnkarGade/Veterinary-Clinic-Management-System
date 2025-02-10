@@ -1,5 +1,7 @@
 package com.petclinic.pojos;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,11 +18,11 @@ public class User extends BaseEntity{
 	@Column(name="lastname",length = 50)
 	private String lastName;
 	
-	@Column(name="yearofbirth")
-	private int yearOfBirth;
+	@Column(name="dob")
+	private LocalDate dob;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	@Column(length = 8)
+	@Column(length = 255)
 	private String password;
 	@Column(length = 50,unique = true,nullable = false)
 	private String email;
@@ -31,6 +33,9 @@ public class User extends BaseEntity{
 	
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
+	
+	@Lob
+	private byte[] image;
 
 //	@OneToOne
 //	@JoinColumn(name="owner_id")

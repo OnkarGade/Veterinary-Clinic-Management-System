@@ -12,10 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PetOwnerResDto{
+public class PetOwnerResDto2{
 	
 	private User owner;
 	
-	private List<Pet> pets;
+	//private List<Pet> pets;
 
 }

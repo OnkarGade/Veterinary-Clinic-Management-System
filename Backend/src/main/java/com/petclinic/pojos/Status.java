@@ -1,5 +1,5 @@
 package com.petclinic.pojos;
 
 public enum Status {
- PENDING,APPROVED,COMPLETED, ACCEPTED
+ PENDING,APPROVED,COMPLETED,DENIED
 }

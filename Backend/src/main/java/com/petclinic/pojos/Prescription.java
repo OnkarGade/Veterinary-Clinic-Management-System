@@ -28,7 +28,7 @@ public class Prescription extends BaseEntity {
 	@Column(length=60)
 	private String diagnosis;
 	
-	@Lob
+	@Column(name="pres_advice")
 	private String prescriptionAdvice;
 	
 }

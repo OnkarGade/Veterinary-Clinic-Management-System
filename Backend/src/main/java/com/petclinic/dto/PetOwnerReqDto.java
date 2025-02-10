@@ -1,5 +1,6 @@
 package com.petclinic.dto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class PetOwnerReqDto {
 	
 	private String firstName;
 	private String lastName;
-	private int age;
+	private LocalDate dob;
 	private Role role;
 	private Gender gender;
 	private String password;

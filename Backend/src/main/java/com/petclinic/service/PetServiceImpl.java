@@ -5,9 +5,12 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.petclinic.customeexception.ResourceNotFoundException;
 import com.petclinic.customeexception.UserNotFoundException;
 import com.petclinic.dto.ApiResponse;
 import com.petclinic.dto.DoctorReqDto;
@@ -32,10 +35,18 @@ public class PetServiceImpl implements PetService {
 	
 	@Autowired
 	ModelMapper mapper;
+	
+	
 
 	@Override
 	public ApiResponse addPet(PetReqDto petReqDto) {
-		PetOwner po=petOwnerRepository.findById(petReqDto.getOwnerId()).orElseThrow(()->new UserNotFoundException("Invalid User Id"));
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		   
+	    Long userId = (Long) auth.getCredentials();
+		
+	    PetOwner po=petOwnerRepository.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid User Id"));
+	   
+	    System.out.println(petReqDto);
 		Pet p=mapper.map(petReqDto, Pet.class);
 		po.addPet(p);
 		
@@ -59,14 +70,32 @@ public class PetServiceImpl implements PetService {
 	}
 	
 	
+//
+//	@Override
+//	public List<PetRespDto> getPetByPetOwnerId(Long uId) {
+//		PetOwner po=  petOwnerRepository.findByOwnerId(uId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
+//		return po.getPets().stream().map(pet-> mapper.map(pet,PetRespDto.class)).collect(Collectors.toList());
+//		 
+//	}
 
-	@Override
-	public List<PetRespDto> getPetByPetOwnerId(Long poId) {
-		PetOwner po=  petOwnerRepository.findById(poId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
-		return po.getPets().stream().map(pet-> mapper.map(pet,PetRespDto.class)).collect(Collectors.toList());
-		 
-	}
-
+//	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//    
+//    Long userId = (Long) auth.getCredentials();
+//    System.out.println("User id "+userId);
+    
+//    @Override
+//	public List<PetRespDto> getPetByPetOwnerId() {
+////    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//// 	   
+////	    Long userId = (Long) auth.getCredentials();
+//	    
+//		PetOwner po=  petOwnerRepository.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
+//		
+//		return po.getPets().stream().map(pet-> mapper.map(pet,PetRespDto.class)).collect(Collectors.toList());
+//		 
+//	}
+	
+	
 	@Override
 	public ApiResponse updatePet(PetReqDto petReqDto, Long pId) {
 		Pet pet=petRepository.findById(pId).orElseThrow(()->new UserNotFoundException("Invlaid Id"));
@@ -75,4 +104,11 @@ public class PetServiceImpl implements PetService {
 		return new ApiResponse("pet is Updated Successfully");
 	}
 	
+	
+	@Override
+	public ApiResponse deletePet(Long pId) {
+		Pet p=petRepository.findById(pId).orElseThrow(() -> new ResourceNotFoundException("Invalid Id"));
+		p.setActive(false);
+		return new ApiResponse("Pet is Deleted Successfully");
+	}
 }

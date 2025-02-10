@@ -17,7 +17,7 @@ public class AppointReqDto {
 	
 	private Long petId;
 	
-	private Long petOwnerId;
+//	private Long petOwnerId;
 	
 	
 	private Long recepId;
@@ -29,11 +29,11 @@ public class AppointReqDto {
 	private LocalDate appointDate;
 	
 	
-	private String appointTime;
+	private LocalTime appointTime;
 	
 	
 	private Status status;
 	
 
-	private String cause;
+	private String illness;
 }

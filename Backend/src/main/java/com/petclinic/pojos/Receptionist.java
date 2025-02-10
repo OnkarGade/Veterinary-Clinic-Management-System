@@ -20,8 +20,8 @@ public class Receptionist extends BaseEntity{
 	@JsonManagedReference
 	private List<Appointment> appointments;
 	
-	@Lob
-	private byte[] image; 
+//	@Lob
+//	private byte[] image; 
 	
 	@Column(length =20)
 	private String qualification;

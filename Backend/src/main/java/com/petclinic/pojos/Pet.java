@@ -9,12 +9,14 @@ import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "pets")
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(exclude = "owner")
 public class Pet extends BaseEntity{
 	
 	@ManyToOne
@@ -31,8 +33,8 @@ public class Pet extends BaseEntity{
 	@Column(length=50)
 	private String name;
 	
-	@Column(name="yearofbirth")
-	private int yearOfBirth;
+	@Column(name="age")
+	private int age;
 	
 	
 	@Enumerated(EnumType.STRING)

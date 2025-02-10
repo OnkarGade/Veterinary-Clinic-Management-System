@@ -57,13 +57,7 @@ public class JwtUtils {
 				// setting a custom claim , to add granted authorities
 				.claim("authorities", getAuthoritiesInString(userPrincipal.getAuthorities()))
 				// setting a custom claim , to add user id (remove it if not required in the project)
-				.claim("user_id",userPrincipal.getUser().getId())
-				  .claim("self_id", 
-			                userPrincipal.getDoctor() != null ? userPrincipal.getDoctor().getId() :
-			                userPrincipal.getRecep()!= null ? userPrincipal.getRecep().getId() :
-			                userPrincipal.getPetOwner() != null ? userPrincipal.getPetOwner().getId() :
-			                null
-			            )
+				.claim("user_id",userPrincipal.getUserEntity().getId())
 		
 				.signWith(key, SignatureAlgorithm.HS512) // Signs the constructed JWT using the specified
 															// algorithm with the specified key, producing a
@@ -77,8 +71,6 @@ public class JwtUtils {
 	public String getUserNameFromJwtToken(Claims claims) {
 		return claims.getSubject();
 	}
-	
-	
 
 	// this method will be invoked by our custom JWT filter
 	public Claims validateJwtToken(String jwtToken) {
@@ -120,10 +112,6 @@ public class JwtUtils {
 				return Long.valueOf((int)claims.get("user_id"));			
 			}
 			
-			public Long getSelfIdFromJwtToken(Claims claims) {
-				return Long.valueOf((Long)claims.get("self_id"));
-			}
-			
 			public Authentication populateAuthenticationTokenFromJWT(String jwt) {
 				// validate JWT n retrieve JWT body (claims)
 				Claims payloadClaims = validateJwtToken(jwt);
@@ -133,13 +121,9 @@ public class JwtUtils {
 				List<GrantedAuthority> authorities = getAuthoritiesFromClaims(payloadClaims);
 				// get userId as the custom claim		
 				Long userId=getUserIdFromJwtToken(payloadClaims);
-				
-				Long selfId=getSelfIdFromJwtToken(payloadClaims);
-				
 				// add user name/email , user id n  granted authorities in Authentication object
 				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email,userId,
 						authorities);
-				token.setDetails(selfId);
 				System.out.println("is authenticated "+token.isAuthenticated());//true
 				return token;
 		

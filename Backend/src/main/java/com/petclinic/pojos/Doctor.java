@@ -21,8 +21,8 @@ public class Doctor extends BaseEntity {
 	@JoinColumn(name="uid",unique = true, nullable = false)
 	private User doctor;
 	
-	@Lob
-	private byte[] image;
+//	@Lob
+//	private byte[] image;
 	
 	@Column(length = 20)
 	private String degree;

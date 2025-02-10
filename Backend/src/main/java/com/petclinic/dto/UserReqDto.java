@@ -1,5 +1,7 @@
 package com.petclinic.dto;
 
+import java.time.LocalDate;
+
 import org.springframework.validation.annotation.Validated;
 
 import com.petclinic.pojos.Gender;
@@ -23,11 +25,13 @@ public class UserReqDto {
 	
 	private String firstName;
 	private String lastName;
-	private int yearOfBirth;
+	//private int yearOfBirth;
+	private LocalDate dob;
 	private Role role;
 	private Gender gender;
 	private String password;
 	private String email;
 	private String phoneNo;	
 	private String address;
+	private byte[] image;
 }

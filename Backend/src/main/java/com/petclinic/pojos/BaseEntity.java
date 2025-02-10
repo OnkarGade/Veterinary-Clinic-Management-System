@@ -31,5 +31,5 @@ public class BaseEntity {
 	@Column(name="updated_on")
 	private LocalDateTime updatedOn;
 	@Column(name="is_available")
-	private boolean isActive;
+	private boolean isActive=true;
 }

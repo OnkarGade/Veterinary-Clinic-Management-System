@@ -26,23 +26,37 @@ public class SecurityConfiguration {
 		@Bean
 		public SecurityFilterChain authorizeRequests(HttpSecurity http) throws Exception
 		{
+			
 			//1. Disable CSRF filter
-			http.csrf(customizer -> customizer.disable())
+			http.cors(Customizer.withDefaults()).csrf(customizer -> customizer.disable())
 			//2. configure URL based access
 	        .authorizeHttpRequests
 	        (request -> 
-	        request.requestMatchers("/products/view",
-	        		"/users/signup","/user/signin","/user/registerStaff",
-					"/v*/api-doc*/**","/swagger-ui/**","/doctor").permitAll() 
+	        request
+	        .requestMatchers("/users/register",
+					"/v*/api-doc*/**","/swagger-ui/**","/users/signup","/users/signin","/admin/registerstaff").permitAll() 
 	        //required explicitly for JS clients (eg React app - to permit pre flight requests)
 	        .requestMatchers(HttpMethod.OPTIONS).permitAll()
 	        	
-	       .requestMatchers("/products/purchase/**")
-	       .hasRole("CUSTOMER")
-	       .requestMatchers("/products/add","/products/delete")
-	       .hasRole("ADMIN")     
-	       .requestMatchers("/products/add","/products/delete")
-	       .hasRole("ADMIN")        		
+	       .requestMatchers("/doctor/**")
+	       .hasRole("DOCTOR")
+	       .requestMatchers("/petowner/**","/pet/**")
+	       .hasRole("PETOWNER")
+	       .requestMatchers("/receptionist/**")
+	       .hasRole("RECEPTIONIST")
+	       .requestMatchers("/admin/**")
+	       .hasRole("ADMIN")      
+//	        .requestMatchers(HttpMethod.POST, "/users/registerStaff").permitAll()
+//            .requestMatchers(HttpMethod.POST, "/users/signin").permitAll()
+//            .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+//            // Also allow GET for endpoints like /doctor, swagger, etc.
+//            .requestMatchers("/products/view", "/doctor", "/v*/api-doc*/**", "/swagger-ui/**").permitAll()
+//            // Allow OPTIONS requests explicitly (useful for pre-flight in CORS)
+//            .requestMatchers(HttpMethod.OPTIONS).permitAll()
+//            // Secure endpoints by role
+//            .requestMatchers("/products/purchase/**").hasRole("CUSTOMER")
+//            .requestMatchers("/products/add", "/products/delete").hasRole("ADMIN")
+            // Any other request must be authenticated
 	        .anyRequest().authenticated())  
 	  //      .httpBasic(Customizer.withDefaults()) - replacing it by custom JWT filter
 	        .sessionManagement(session 
