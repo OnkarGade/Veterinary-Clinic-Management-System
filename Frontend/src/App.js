@@ -12,12 +12,23 @@ import { AdminNavbar } from './Components/AdminNavbar';
 import { AddStaff } from './Screens/Admin/AddStaff';
 import { CompletedAppointments } from './Screens/Doctor/CompletedAppointments';
 import { PendingAppointments } from './Screens/Doctor/PendingAppointments';
-import { BookAppointment } from './Screens/PetOwner/BookAppointment';
 import { Prescription } from './Screens/Doctor/Prescription';
 import { ToastContainer } from 'react-toastify';
 import { Register } from './Screens/NoUsing/Register';
 import { AddPet } from './Screens/NoUsing/AddPet';
 import { PetHistory } from './Screens/NoUsing/PetHistory';
+import { PetOwnerHistory } from './Screens/PetOwner/PetOwnerHistory';
+import { YourAppointments } from './Screens/PetOwner/YourAppointments';
+import { BookAppointment } from './Screens/NoUsing/BookAppointment';
+import { PetOwnerProfile } from './Screens/PetOwner/PetOwnerProfile';
+import { PendingBills } from './Screens/Receptionist/PendingBills';
+// import { BillsHistory } from './Screens/Receptionist/BillsHistory';
+import { AppointmentHistory } from './Screens/Receptionist/AppointmentHistory';
+import { ReceptionistProfile } from './Screens/Receptionist/ReceptionistProfile';
+import { DoctorProfile } from './Screens/Doctor/DoctorProfile';
+import { ListOfDoctors } from './Screens/NoUsing/ListOfDoctors';
+import { ListOfReceptionists } from './Screens/Admin/ListOfReceptionists';
+import { Admin } from './Screens/Admin';
 
 
 function App() {
@@ -36,15 +47,25 @@ function App() {
         <Route path="/receptionist" element={<Receptionist />} />
         <Route path='/register' element={<Register />}></Route>
         <Route path='/addAppointment' element={<AddAppointment />}></Route>
-        <Route path='/admin' element={<AdminNavbar />}></Route>
+        <Route path='/admin' element={<Admin />}></Route>
         <Route path='/addstaff' element={<AddStaff />}></Route>
         <Route path='/completedappointment' element={<CompletedAppointments />} ></Route>
         <Route path='/pendingappointment' element={<PendingAppointments />}></Route>
         <Route path='/pethistory' element={<PetHistory />}></Route>
         <Route path='/addpet' element={<AddPet />} ></Route>
-        <Route path='/bookappointment' element={<BookAppointment />}></Route>
         <Route path='/prescription' element={<Prescription />}></Route>
         <Route path='/yourpet' element={<PetOwner />}></Route>
+        <Route path='/petownerhistory' element={<PetOwnerHistory />}></Route>
+        <Route path='/yourappointments' element={<YourAppointments />}></Route>
+        <Route path='/bookappointment' element={<BookAppointment />}></Route>
+        <Route path='/petowner-profile' element={<PetOwnerProfile />}></Route>
+        <Route path='/pending-bills' element={<PendingBills />}></Route>
+        <Route path='/appointment-history' element={<AppointmentHistory />}></Route>
+        <Route path='/receptprofile' element={<ReceptionistProfile />}></Route>
+        <Route path='/doctor-profile' element={<DoctorProfile />}></Route>
+        <Route path='/doctorslist' element={<ListOfDoctors />}></Route>
+        <Route path='/receptionistslist' element={<ListOfReceptionists />}></Route>
+
       </Routes>
 
       <ToastContainer />

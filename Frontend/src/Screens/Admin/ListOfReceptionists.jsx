@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-// import { AdminNavbar } from './../../Components/AdminNavbar';
+import { AdminNavbar } from '../../Components/AdminNavbar';
 import { useState } from "react";
-import { DeleteDoctor, GetListOfDoctors, ReinstateDoctor } from "../Services/DoctorServices";
-import { AdminNavbar } from "../Components/AdminNavbar";
+import { DeleteReceptionist, GetListOfReceptionists, ReinstateReceptionist } from "../../Services/ReceptionistService";
 
-export function Admin() {
+export function ListOfReceptionists() {
 
-    const [doctors, setDoctors] = useState([]);
+    const [receptionists, setReceptionists] = useState([]);
     const [loading, setLoading] = useState(true);
     const [image, setImage] = useState('')
 
@@ -24,16 +23,16 @@ export function Admin() {
     //     specialist: ''
     // })
 
-    const getListOfDoctors = async () => {
+    const getListOfReceptionists = async () => {
         // setLoading(true); // Start loading
         // console.log(doctor.firstName)
         try {
-            var response = await GetListOfDoctors()
+            var response = await GetListOfReceptionists()
 
             console.log(response)
 
             if (response?.data) {
-                setDoctors(response.data)
+                setReceptionists(response.data)
 
                 // var dbImage = response.data.doctor.image
                 // // Handle base64 format, if necessary
@@ -46,11 +45,11 @@ export function Admin() {
                 // }
 
             } else {
-                toast.info("No Doctors available.");
+                toast.info("No Receptionists available.");
             }
         } catch (err) {
-            console.error("Error fetching list of Doctors :", err);
-            // toast.error("Failed to load list of doctors.");
+            console.error("Error fetching list of Receptionists :", err);
+            // toast.error("Failed to load list of receptionists.");
         } finally {
             setLoading(false); // End loading
         }
@@ -58,14 +57,14 @@ export function Admin() {
     }
 
     // Handle doctor delete approval
-    const deleteDoctor = async (userId) => {
+    const deleteReceptionist = async (userId) => {
 
         console.log(userId)
 
-        await DeleteDoctor(userId)
+        await DeleteReceptionist(userId)
             .then(res => {
                 if (res?.status) {
-                    toast.success(`Doctor deleted Approved`); // Temporary success message
+                    toast.success(`Receptionist deleted`); // Temporary success message
                 } else {
                     console.log(res)
                 }
@@ -74,18 +73,18 @@ export function Admin() {
             })
 
         // Implement the approve logic (using your API service)
-        getListOfDoctors(); // Refresh list
+        GetListOfReceptionists(); // Refresh list
     };
 
     // Handle doctor delete approval
-    const reinstateDoctor = async (userId) => {
+    const reinstateReceptionist = async (userId) => {
 
         console.log(userId)
 
-        await ReinstateDoctor(userId)
+        await ReinstateReceptionist(userId)
             .then(res => {
                 if (res?.status) {
-                    toast.success(`Doctor reinstated.`); // Temporary success message
+                    toast.success(`Receptionist reinstated.`); // Temporary success message
                 } else {
                     console.log(res)
                 }
@@ -94,14 +93,14 @@ export function Admin() {
             })
 
         // Implement the approve logic (using your API service)
-        getListOfDoctors(); // Refresh list
+        GetListOfReceptionists(); // Refresh list
     };
 
 
     // Fetch data from backend using Axios
     useEffect(() => {
 
-        getListOfDoctors();
+        getListOfReceptionists();
 
     }, []);
 
@@ -111,10 +110,7 @@ export function Admin() {
             <AdminNavbar />
 
             <div className="container" style={{marginTop:"150px"}}>
-                {/* <div className="text-center mb-4">
-                    <span className="fw-bolder fs-3">Doctors List</span>
-                </div> */}
-
+                
                 <div className="table-responsive mb-4 text-center">
                     <table className="table table-hover table-bordered shadow-sm">
                         <thead className="table-primary">
@@ -124,42 +120,40 @@ export function Admin() {
                                 <th>Email</th>
                                 {/* <th>Gender</th> */}
                                 <th>Phone No.</th>
-                                {/* <th>Degree</th> */}
-                                {/* <th>Specialist</th> */}
+                                {/* <th>Qualification</th> */}
                                 {/* <th>Image</th> */}
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {doctors.length !== 0 ?
-                                doctors.map((doc, index) => (
+                            {receptionists.length !== 0 ?
+                                receptionists.map((recep, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td>{doc.doctor.firstName === null ? "........" : doc.doctor.firstName} {doc.doctor.lastName === null ? "........" : doc.doctor.lastName}</td>
-                                        <td>{doc.doctor.email}</td>
-                                        {/* <td>{doc.doctor.gender}</td> */}
-                                        <td>{doc.doctor.phoneNo === null ? "........" : doc.doctor.phoneNo}</td>
-                                        {/* <td>{doc.degree}</td> */}
-                                        {/* <td>{doc.specialist}</td> */}
-                                        <td>{doc.doctor.active === false ? `Not Active` : `Active`}</td>
+                                        <td>{recep.receptionist.firstName === null ? "........" : recep.receptionist.firstName} {recep.receptionist.lastName === null ? "........" : recep.receptionist.lastName}</td>
+                                        <td>{recep.receptionist.email}</td>
+                                        {/* <td>{recep.receptionist.gender}</td> */}
+                                        <td>{recep.receptionist.phoneNo === null ? "........" : recep.receptionist.phoneNo}</td>
+                                        {/* <td>{recep.qualification}</td> */}
+                                        <td>{recep.receptionist.active === false ? `Not Active` : `Active`}</td>
                                         {/* <td>{image}</td> */}
-                                        <td style={{ width: "180px" }}>
+                                        <td>
                                             <button
                                                 className="btn btn-danger btn-sm me-2"
-                                                onClick={() => deleteDoctor(doc.doctor.id)}
+                                                onClick={() => deleteReceptionist(recep.receptionist.id)}
                                                 data-bs-toggle="tooltip"
                                                 data-bs-placement="top"
-                                                title="Delete Doctor"
+                                                title="Delete Receptionist"
                                             >
                                                 <i className="fas fa-trash"></i>
                                             </button>
                                             <button
                                                 className="btn btn-success btn-sm me-2"
-                                                onClick={() => reinstateDoctor(doc.doctor.id)}
+                                                onClick={() => reinstateReceptionist(recep.receptionist.id)}
                                                 data-bs-toggle="tooltip"
                                                 data-bs-placement="top"
-                                                title="Reinstate Doctor"
+                                                title="Reinstate Receptionist"
                                             >
                                                 <i className="fas fa-undo"></i>
                                             </button>
@@ -167,7 +161,7 @@ export function Admin() {
                                     </tr>
                                 )) :
                                 <tr>
-                                    <td colSpan={5} style={{ textAlign: "center" }}>No doctors...</td>
+                                    <td colSpan={5} style={{ textAlign: "center" }}>No Receptionists...</td>
                                 </tr>
                             }
                         </tbody>

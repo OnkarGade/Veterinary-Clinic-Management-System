@@ -1,44 +1,147 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export function AdminNavbar() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    return <div className="container-fluid">
+    const clearSession = () => {
+        sessionStorage.clear();
+        console.log("Session Cleared");
+    };
 
-        <nav className="navbar navbar-expand-lg fixed-top navbar-scroll bg-body-tertiary border-bottom">
-            <div className="container mt-6 fw-bolder fs-6">
-                <img src="https://mdbootstrap.com/img/Photos/new-templates/animal-shelter/logo.png" height="70" alt=""
-                    loading="lazy" />
-                <button className="navbar-toggler ps-0" type="button" data-mdb-collapse-init data-mdb-target="#navbarExample01"
-                    aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon d-flex justify-content-start align-items-center"></span>
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    return (
+        <nav
+            className="navbar fixed-top"
+            style={{
+                backgroundColor: "#4A90E2",
+                height: "100px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            }}
+        >
+            <div className="container-fluid d-flex justify-content-between align-items-center">
+                {/* Navbar Brand */}
+                <span className="navbar-brand text-white fw-bold fs-4">
+                    Admin Panel
+                </span>
+
+                {/* Hamburger Menu Button for Small Screens */}
+                <button
+                    className="btn text-white d-lg-none"
+                    onClick={toggleMenu}
+                    style={{
+                        fontSize: "24px",
+                        border: "none",
+                        background: "none",
+                    }}
+                >
+                    <i className="fas fa-bars"></i>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarExample01">
-                    <ul className="nav nav-underline ms-auto mb-2 mb-lg-0">
 
-                        <li className="p-3 nav-item">
-                            <Link className="nav-link default" to="" style={{ textDecoration: "none", color: "black" }}>Doctors</Link>
-                        </li>
+                {/* Navbar Links (Desktop) */}
+                <ul className="navbar-nav d-none d-lg-flex flex-row gap-3">
+                    <li className="nav-item">
+                        <Link to="/admin" className="nav-link text-white">
+                            <i className="fas fa-user-md me-2"></i>Doctors
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/receptionistslist" className="nav-link text-white">
+                            <i className="fas fa-user-tie me-2"></i>Receptionists
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/addstaff" className="nav-link text-white">
+                            <i className="fas fa-user-plus me-2"></i>Add Staff
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link
+                            to="/"
+                            className="nav-link text-white"
+                            onClick={clearSession}
+                        >
+                            <i className="fas fa-sign-out-alt me-2"></i>Sign Out
+                        </Link>
+                    </li>
+                </ul>
+            </div>
 
-                        <li className="p-3 nav-item">
-                            <Link className="nav-link" to="" style={{ textDecoration: "none", color: "black" }}>Receptionists    </Link>
-                        </li>
-
-
-                        <li className="p-3 nav-item">
-                            <Link className="nav-link " to="/addstaff" style={{ textDecoration: "none", color: "black" }}>Add Staff</Link>
-                        </li>
-
-                        <li className="p-3 nav-item">
-                            <Link className="nav-link" to="/" style={{ textDecoration: "none", color: "black" }} >Sign Out</Link>
-                        </li>
-
-                    </ul>
-
-                </div>
+            {/* Slide-In Navbar (Mobile) */}
+            <div
+                className={`slide-menu ${isMenuOpen ? "open" : ""}`}
+                style={{
+                    position: "fixed",
+                    top: "0",
+                    right: "0",
+                    height: "100vh",
+                    width: "250px",
+                    backgroundColor: "#4A90E2",
+                    boxShadow: "-4px 0 6px rgba(0, 0, 0, 0.1)",
+                    transform: isMenuOpen ? "translateX(0)" : "translateX(100%)",
+                    transition: "transform 0.3s ease",
+                    zIndex: "1050",
+                }}
+            >
+                <button
+                    className="btn text-white"
+                    onClick={toggleMenu}
+                    style={{
+                        fontSize: "24px",
+                        position: "absolute",
+                        top: "20px",
+                        left: "20px",
+                        background: "none",
+                        border: "none",
+                    }}
+                >
+                    <i className="fas fa-times"></i>
+                </button>
+                <ul className="navbar-nav mt-5 px-3">
+                    <li className="nav-item">
+                        <Link
+                            to="/doctors"
+                            className="nav-link text-white"
+                            onClick={toggleMenu}
+                        >
+                            <i className="fas fa-user-md me-2"></i>Doctors
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link
+                            to="/receptionists"
+                            className="nav-link text-white"
+                            onClick={toggleMenu}
+                        >
+                            <i className="fas fa-user-tie me-2"></i>Receptionists
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link
+                            to="/addstaff"
+                            className="nav-link text-white"
+                            onClick={toggleMenu}
+                        >
+                            <i className="fas fa-user-plus me-2"></i>Add Staff
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link
+                            to="/"
+                            className="nav-link text-white"
+                            onClick={() => {
+                                clearSession();
+                                toggleMenu();
+                            }}
+                        >
+                            <i className="fas fa-sign-out-alt me-2"></i>Sign Out
+                        </Link>
+                    </li>
+                </ul>
             </div>
         </nav>
-
-
-    </div>
-
+    );
 }

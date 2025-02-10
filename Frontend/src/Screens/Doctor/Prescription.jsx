@@ -15,7 +15,7 @@ export function Prescription() {
                         <div className="content">
                             {/* <form action="/submit" method="post"> */}
                             
-                            <div className="table-responsive">
+                            <div className="table-responsive text-center">
                                 <table className="table table-borderless">
 
                                     <tr>
