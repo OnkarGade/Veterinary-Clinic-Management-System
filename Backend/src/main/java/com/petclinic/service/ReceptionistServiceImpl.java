@@ -1,6 +1,7 @@
 package com.petclinic.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,9 +19,13 @@ import com.petclinic.customeexception.UserNotFoundException;
 import com.petclinic.dto.ApiResponse;
 import com.petclinic.dto.AppointReqDto;
 import com.petclinic.dto.AppointmentRespDto;
+import com.petclinic.dto.BillingRespDto;
+import com.petclinic.dto.PetOwnerResDto2;
+import com.petclinic.dto.PetRespDto2;
 import com.petclinic.dto.ReceptionistsResDto;
 import com.petclinic.dto.UserReqDto;
 import com.petclinic.pojos.Appointment;
+import com.petclinic.pojos.Billing;
 import com.petclinic.pojos.Doctor;
 import com.petclinic.pojos.Pet;
 import com.petclinic.pojos.PetOwner;
@@ -28,6 +33,7 @@ import com.petclinic.pojos.Receptionist;
 import com.petclinic.pojos.Status;
 import com.petclinic.pojos.User;
 import com.petclinic.repository.AppointmentRepository;
+import com.petclinic.repository.BillingRepository;
 import com.petclinic.repository.DoctorRepository;
 import com.petclinic.repository.PetOwnerRepository;
 import com.petclinic.repository.PetRepository;
@@ -58,6 +64,23 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 	
 	@Autowired
 	UserRepository userRepo;
+	
+	@Autowired
+	BillingRepository billRepo;
+	
+	@Autowired
+	EmailService emailService;
+	
+	String emailBody = "<html><body>"
+			+ "<h2>Invoice Details</h2>"
+			+ "<p>Dear Customer,</p>"
+			+ "<p>Thank you for your payment. "
+			+ "Here is your invoice:</p>"
+			+ "<table border='1' style='border-collapse:collapse;width:100%'>"
+			+ "<tr><td><strong>Total</strong></td><td><strong>Rs. 700</strong></td></tr>"
+			+ "</table>"
+			+ "<p>We hope your pet is well soon!</p>"
+			+ "<p>Best Regards,<br>Veterinary Clinic</p>" + "</body></html>";
 	
 //	@Autowired
 	//AppointmentUserRepository appointUserRepo;
@@ -164,6 +187,61 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 	    return new ApiResponse("Receptionist is Updated Successfully");
 
 	  }
+
+	@Override
+	public List<BillingRespDto> getBill(){
+		return billRepo.findByStatus(Status.PENDING).stream()
+		.map(bill -> {
+			PetOwner po=bill.getPrescription().getAppointment().getOwner();
+			Pet p=bill.getPrescription().getAppointment().getPet();
+			PetOwnerResDto2 petOwnerResDto2=mapper.map(po,PetOwnerResDto2.class);
+			PetRespDto2 petRespDto2= mapper.map(p,PetRespDto2.class);
+			bill.setTotalAmount(700);
+			BillingRespDto billingRespDto=new BillingRespDto(petRespDto2,petOwnerResDto2);
+			mapper.map(bill, billingRespDto);
+			return billingRespDto;
+		}).collect(Collectors.toList());
+		//.orElseThrow(()->new ResourceNotFoundException("Bill Does Not Exist"));
+		
+		//PetOwner po=billing.getPrescription().getAppointment().getOwner();
+		//return ;
+	}
+
+
+	@Override
+	public ApiResponse payBill(Long bId) {		
+		Billing billing = billRepo.findById(bId).orElseThrow(() -> new ResourceNotFoundException("Bill Not found"));
+		billing.setStatus(Status.COMPLETED);
+		billing.setBillDate(LocalDateTime.now());
+		String emailId= billing.getPrescription().getAppointment().getOwner().getOwner().getEmail();
+		System.out.println(emailId);
+		emailService.sendEmail(emailId, "Invoice", emailBody);
+		return new ApiResponse("Bill paid");
+	}
+
+	@Override
+	public List<AppointmentRespDto> getPendingAppointments() {
+		return appointRepo.findByStatus(Status.PENDING).stream().map(appoint -> mapper.map(appoint,AppointmentRespDto.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public ApiResponse denieAppointment(Long aptId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		   
+	    Long userId = (Long) auth.getCredentials();
+	    Appointment appointment = appointRepo.findByIdAndStatus(aptId,Status.PENDING)
+	        .orElseThrow(() -> new ResourceNotFoundException("Apptmt Id invalid!"));
+	    
+	    Receptionist receptionist = respRepo.findByReceptionistId(userId)
+	        .orElseThrow(() -> new ResourceNotFoundException("Recep Id not found!"));
+	    appointment.setReceptionist(receptionist);
+	    appointment.setStatus(Status.DENIED);
+	    return new ApiResponse("Appointment denied!");
+	}
+	
+	
+	
+	
 	
 
 }

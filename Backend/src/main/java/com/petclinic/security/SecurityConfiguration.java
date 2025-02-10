@@ -26,8 +26,11 @@ public class SecurityConfiguration {
 		@Bean
 		public SecurityFilterChain authorizeRequests(HttpSecurity http) throws Exception
 		{
+			
 			//1. Disable CSRF filter
-			http.csrf(customizer -> customizer.disable())
+			http.cors(Customizer.withDefaults())
+			//http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+			.csrf(customizer -> customizer.disable())
 			//2. configure URL based access
 	        .authorizeHttpRequests
 	        (request -> 
@@ -41,6 +44,8 @@ public class SecurityConfiguration {
 	       .hasRole("DOCTOR")
 	       .requestMatchers("/petowner/**","/pet/**")
 	       .hasRole("PETOWNER")
+	       .requestMatchers("/receptionist/**")
+	       .hasRole("RECEPTIONIST")
 	       .requestMatchers("/admin/**")
 	       .hasRole("ADMIN")      
 //	        .requestMatchers(HttpMethod.POST, "/users/registerStaff").permitAll()

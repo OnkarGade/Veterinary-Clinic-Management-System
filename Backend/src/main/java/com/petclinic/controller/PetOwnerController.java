@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,6 +25,7 @@ import com.petclinic.dto.AppointmentRespDto2;
 import com.petclinic.dto.PetOwnerReqDto;
 import com.petclinic.dto.PetOwnerResDto;
 import com.petclinic.dto.UserReqDto;
+import com.petclinic.dto.PresMediResDto;
 import com.petclinic.service.PetOwnerService;
 
 @RestController
@@ -44,7 +46,7 @@ public class PetOwnerController {
 //		return ResponseEntity.ok(petOwnerService.updatePetOwner(petOwnerReqDto,poId));
 //	}
 	
-	@PostMapping("/addAppointment")
+	@PostMapping("/addappointment")
 	  public ResponseEntity<?> addAppoint(@RequestBody AppointReqDto appointReqDto) {
 	    return ResponseEntity.status(HttpStatus.CREATED).body(petOwnerService.addAppointment(appointReqDto));
 	  }
@@ -58,6 +60,7 @@ public class PetOwnerController {
 
 	    // Convert JSON string to UserReqDto object
 	    ObjectMapper objectMapper = new ObjectMapper();
+	    objectMapper.findAndRegisterModules();
 	    UserReqDto userReqDto = objectMapper.readValue(userReqDtoJson, UserReqDto.class);
 
 	    return ResponseEntity.ok(petOwnerService.updatePetOwnerProfile(userReqDto, poId, imageFile));
@@ -71,13 +74,13 @@ public class PetOwnerController {
 	}
 	
 	//Adding get po
-	@GetMapping("/pets") //getting Data To lengthy Like Eachtime  Owner inside each Pet
+	@GetMapping("/pets") //getting Data To lengthy Like Each time  Owner inside each Pet
 	public ResponseEntity<?> getPetByPetOwnerId(){
 		
 		return ResponseEntity.ok(petOwnerService.getPetByPetOwnerId());
 	}
 	
-	@GetMapping("/availabledoctor")
+	@GetMapping("/availabledoctors")
 	public ResponseEntity<?> availableDoctor(){
 		return ResponseEntity.ok(petOwnerService.availableDoctor());
 	}
@@ -91,6 +94,8 @@ public class PetOwnerController {
 		 	return ResponseEntity.ok(AppointmentRespDto2s);
 	 }
 	 
+	 
+	 
 	 @GetMapping("/appointments/completed")
 	 public ResponseEntity<?> getCompletedAppointments(){
 		 List<AppointmentRespDto2> AppointmentRespDto2s=petOwnerService.getCompletedAppointments();
@@ -99,5 +104,15 @@ public class PetOwnerController {
 		 }
 		 	return ResponseEntity.ok(AppointmentRespDto2s);
 	 }
+	 
+	 @GetMapping("/prescription")
+	 public ResponseEntity<?> getPrescription(){
+		 List<PresMediResDto> presMediDtos= petOwnerService.getPrescription();
+		 if(presMediDtos.isEmpty()) {
+			 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		 }
+		 	return ResponseEntity.ok(presMediDtos);
+	 }
+	
 	
 }

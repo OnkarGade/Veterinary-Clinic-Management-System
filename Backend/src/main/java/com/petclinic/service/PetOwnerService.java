@@ -13,6 +13,7 @@ import com.petclinic.dto.PetOwnerReqDto;
 import com.petclinic.dto.PetOwnerResDto;
 import com.petclinic.dto.PetRespDto;
 import com.petclinic.dto.UserReqDto;
+import com.petclinic.dto.PresMediResDto;
 
 public interface PetOwnerService {
 
@@ -29,5 +30,11 @@ public interface PetOwnerService {
 	public List<AppointmentRespDto2> getPendAppAppointments();
 
 	public List<AppointmentRespDto2> getCompletedAppointments();
+
+	public List<PresMediResDto> getPrescription();
+
+
+	
+	
 
 }

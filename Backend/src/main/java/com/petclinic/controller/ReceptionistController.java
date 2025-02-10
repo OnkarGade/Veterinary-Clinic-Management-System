@@ -31,7 +31,7 @@ import com.petclinic.dto.UserReqDto;
 import com.petclinic.service.ReceptionistService;
 
 @RestController
-@RequestMapping("/Receptionist")
+@RequestMapping("/receptionist")
 @CrossOrigin(origins = "*")
 public class ReceptionistController {
 
@@ -60,7 +60,7 @@ public class ReceptionistController {
 	
 	
 	
-	@GetMapping("/getAppointments")
+	@GetMapping("/allappointments")
 	public ResponseEntity<?> getAppointments(){
 		List<AppointmentRespDto> appointmentRespDtos=recepService.getAppointments();
 		if(appointmentRespDtos.isEmpty())
@@ -68,9 +68,23 @@ public class ReceptionistController {
 		return ResponseEntity.ok(appointmentRespDtos);
 	}
 	
-	@PatchMapping("/approveAppointment/{aptId}")
+	@GetMapping("/pendingappointments")
+	public ResponseEntity<?> getPendingAppointments(){
+		List<AppointmentRespDto> appointmentRespDtos=recepService.getPendingAppointments();
+		if(appointmentRespDtos.isEmpty())
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		return ResponseEntity.ok(appointmentRespDtos);
+	}
+	
+	
+	@PatchMapping("/approveappointment/{aptId}")
 	  public ResponseEntity<?> approveAppointment(@PathVariable Long aptId) {
 	    return ResponseEntity.ok(recepService.approveAppointment(aptId));
+	  }
+
+	@PatchMapping("/denieappointment/{aptId}")
+	  public ResponseEntity<?> denieAppointment(@PathVariable Long aptId) {
+	    return ResponseEntity.ok(recepService.denieAppointment(aptId));
 	  }
 
 
@@ -81,10 +95,21 @@ public class ReceptionistController {
 	    System.out.println("In recep Controller - JSON String: " + userReqDtoJson);
 	    // Convert JSON string to UserReqDto object
 	    ObjectMapper objectMapper = new ObjectMapper();
+	    objectMapper.findAndRegisterModules();
 	    UserReqDto userReqDto = objectMapper.readValue(userReqDtoJson, UserReqDto.class);
 
 	    return ResponseEntity.ok(recepService.updateReceptionistProfile(userReqDto, dId, imageFile));
 	  }
+	
+	@GetMapping("/getbill")
+	public ResponseEntity<?> getBill(){
+		return ResponseEntity.ok(recepService.getBill());
+	}
+	
+	@PatchMapping("/paybill/{bId}")
+	public ResponseEntity<?> payBill(@PathVariable Long bId){
+		return ResponseEntity.ok(recepService.payBill(bId));
+	}
 	
 	
 //	@GetMapping

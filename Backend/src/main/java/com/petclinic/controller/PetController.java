@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,14 +34,14 @@ public class PetController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(petService.addPet(petReqDto));
 	}
 	
-	@GetMapping
-	public ResponseEntity<?> getAllPet(){
-		List<PetRespDto> petRespDtos= petService.getAllPets();
-		if(petRespDtos.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		}
-		return ResponseEntity.ok(petService.getAllPets());
-	}
+//	@GetMapping
+//	public ResponseEntity<?> getAllPet(){
+//		List<PetRespDto> petRespDtos= petService.getAllPets();
+//		if(petRespDtos.isEmpty()) {
+//			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+//		}
+//		return ResponseEntity.ok(petService.getAllPets());
+//	}
 	
 	@GetMapping("/{pId}")
 	public ResponseEntity<?> getPetById(@PathVariable Long pId){
@@ -67,6 +68,13 @@ public class PetController {
 		return ResponseEntity.ok(petService.updatePet(petReqDto,pId));
 	}
 	
+	 @PatchMapping("/delete/{pId}")
+	 public ResponseEntity<?> deletePet(@PathVariable Long pId){
+		 return ResponseEntity.ok(petService.deletePet(pId));
+	 }
+	
+	 
+	 
 	
 		
 	

@@ -1,5 +1,7 @@
 package com.petclinic.service;
 
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +20,7 @@ import com.petclinic.dto.UserResDto;
 import com.petclinic.pojos.Doctor;
 import com.petclinic.pojos.PetOwner;
 import com.petclinic.pojos.Receptionist;
+import com.petclinic.pojos.Role;
 import com.petclinic.pojos.User;
 import com.petclinic.repository.DoctorRepository;
 import com.petclinic.repository.PetOwnerRepository;
@@ -51,6 +54,9 @@ public class UserServiceImpl implements UserService {
 	
 	public ApiResponse Register(UserReqDto urd) { 
 		
+		
+		if(urd.getRole() == Role.ADMIN || urd.getRole()==Role.DOCTOR || urd.getRole()==Role.RECEPTIONIST)
+			return new ApiResponse("Can't Register For This Role. Contact Administrator");
 		User s=mapper.map(urd, User.class);
 		
 		s.setPassword(passwordEncoder.encode(urd.getPassword()));
@@ -92,11 +98,16 @@ public class UserServiceImpl implements UserService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		   
 	    Long userId = (Long) auth.getCredentials();
+	    
 		User u=userRepo.findById(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
 		switch(u.getRole()) {
 		 	case PETOWNER:
+		 		//PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
 		 		PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
+		 		//po.setPets(po.getPets().stream().filter(pet->pet.isActive()).collect(Collectors.toList()));
+		 		//po.getPets().removeIf(pet -> !pet.isActive());
 		 		PetOwnerResDto ps=mapper.map(po, PetOwnerResDto.class);
+		 		ps.getPets().removeIf(pet -> !pet.isActive());
 		 		return new ApiResponse(ps);
 		 	case DOCTOR:
 		 		Doctor doc=docRepo.findByDoctorId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
@@ -108,6 +119,12 @@ public class UserServiceImpl implements UserService {
 		 		return new ApiResponse(rs);
 		}
 		return null;
+	}
+	
+	@Override
+	public Role getRole(String email) {
+		User user=userRepo.findByEmail(email).orElseThrow(()->new UserNotFoundException("Invalid email"));
+		return user.getRole();
 	}
 	
 //	@Override

@@ -1,6 +1,8 @@
 package com.petclinic.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,14 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.petclinic.customeexception.ResourceNotFoundException;
+import com.petclinic.customeexception.TimeNotAvailable;
 import com.petclinic.customeexception.UserNotFoundException;
 import com.petclinic.dto.ApiResponse;
 import com.petclinic.dto.AppointReqDto;
 import com.petclinic.dto.AppointmentRespDto2;
 import com.petclinic.dto.DoctorResDto2;
-import com.petclinic.dto.PetOwnerReqDto;
 import com.petclinic.dto.PetOwnerResDto;
 import com.petclinic.dto.PetRespDto;
+import com.petclinic.dto.PresMediResDto;
 import com.petclinic.dto.UserReqDto;
 import com.petclinic.pojos.Appointment;
 import com.petclinic.pojos.Doctor;
@@ -31,6 +34,7 @@ import com.petclinic.pojos.Status;
 import com.petclinic.pojos.User;
 import com.petclinic.repository.AppointmentRepository;
 import com.petclinic.repository.DoctorRepository;
+import com.petclinic.repository.MedicineRepository;
 import com.petclinic.repository.PetOwnerRepository;
 import com.petclinic.repository.PetRepository;
 import com.petclinic.repository.UserRepository;
@@ -59,6 +63,11 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 	
 	@Autowired
 	AppointmentRepository appointmentRepository;
+	
+	
+	@Autowired
+	MedicineRepository medicineRepo;
+
 	
 	
 	
@@ -101,8 +110,10 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 		   
 		    Long userId = (Long) auth.getCredentials();
 			PetOwner po=  petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
+		    
 			
-			return po.getPets().stream().map(pet-> mapper.map(pet,PetRespDto.class)).collect(Collectors.toList());
+			
+			return po.getPets().stream().filter(pet->pet.isActive()).map(pet-> mapper.map(pet,PetRespDto.class)).collect(Collectors.toList());
 			 
 		}
 	
@@ -111,14 +122,35 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 	    System.out.println("AppointUserReqDto : doctor id - " + appointReqDto.getDoctorId());
 	    Pet pet = petRepo.findById(appointReqDto.getPetId())
 	        .orElseThrow(() -> new ResourceNotFoundException("Pet Id invalid"));
+	    if(pet.isActive() != true)
+	    	throw new ResourceNotFoundException("Pet Id invalid");
 	    // JWT code for finding and retrieving userId from Security Context
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		   
 	    Long userId = (Long) auth.getCredentials();
 	    PetOwner petOwner = petOwnerRepo.findByOwnerId(userId)
-	        .orElseThrow(() -> new ResourceNotFoundException("Pet Owner Id invalid"));
+	       .orElseThrow(() -> new ResourceNotFoundException("Pet Owner Id invalid"));
+	    //PetOwner po=petOwnerRepo.findByOwnerIdWithActivePets(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
 	    Doctor doctor = docRepo.findById(appointReqDto.getDoctorId())
 	        .orElseThrow(() -> new ResourceNotFoundException("Doctor Id invalid"));
+	    
+	    LocalDate appointDate = appointReqDto.getAppointDate();
+	    LocalTime appointTime = appointReqDto.getAppointTime();
+	    
+	    // Get the start and end of the hour
+	    LocalTime startOfHour = appointTime.withMinute(0).withSecond(0);
+	    LocalTime endOfHour = startOfHour.plusMinutes(59).plusSeconds(59);
+	    
+	    int appointmentCount = appointmentRepository.countByDoctorAndAppointDateAndAppointTimeBetween(
+	            doctor, appointDate, startOfHour, endOfHour);
+	    
+
+	    if (appointmentCount >= 4) 
+	    {
+	       throw new TimeNotAvailable("Appointments for this hour are full. Please choose a different time slot.");
+	    }
+	    
+	    
 	    Appointment appoint = mapper.map(appointReqDto, Appointment.class);
 	    appoint.setDoctor(doctor);
 	    appoint.setPet(pet);
@@ -204,8 +236,8 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 		    
 		    //User user=userRepo.findById(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
 		    
-		    PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
-		    
+		   PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
+		   
 		 
 		    
 		  return  appointmentRepository.findByOwnerId(po.getId())
@@ -231,6 +263,8 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 		 
 		 PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid id"));
 		 
+		 
+
 		 return appointmentRepository.findByOwnerIdAndStatus(po.getId(),Status.COMPLETED)
 		 .stream().map(appointment -> {
 			 AppointmentRespDto2  appointmentRespDto2=mapper.map(appointment, AppointmentRespDto2.class);
@@ -240,6 +274,19 @@ public class PetOwnerServiceImpl implements PetOwnerService{
 		 
 		//return null;
 	}
+
+	@Override
+	public List<PresMediResDto> getPrescription() {
+		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		   
+		 Long userId = (Long) auth.getCredentials();
+		 List<PresMediResDto> presMediDtos= medicineRepo.findByPrescriptionAppointmentOwnerId(userId).stream().map(medicine-> mapper.map(medicine, PresMediResDto.class)).collect(Collectors.toList());
+		return presMediDtos;
+	}
+
+	
+	
+	
 	
 	
 	
