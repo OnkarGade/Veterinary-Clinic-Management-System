@@ -16,6 +16,8 @@ public class BillingRespDto {
 	PetOwnerResDto2 petOwnerResDto2;
 
 	private Status status;
+	
+	private Long id; // as this was not included in this dto, bill was not been mapped so we weren't able to send email.
 
 	private double totalAmount;
 

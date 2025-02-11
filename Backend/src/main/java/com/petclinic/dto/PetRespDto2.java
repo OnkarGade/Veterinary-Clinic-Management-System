@@ -1,7 +1,6 @@
 package com.petclinic.dto;
 
 import com.petclinic.pojos.Gender;
-import com.petclinic.pojos.PetOwner;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,5 @@
 package com.petclinic.dto;
 
-import java.util.List;
-
-import com.petclinic.pojos.Pet;
 import com.petclinic.pojos.User;
 
 import lombok.Getter;
@@ -19,3 +16,4 @@ public class PetOwnerResDto2{
 	//private List<Pet> pets;
 
 }
+

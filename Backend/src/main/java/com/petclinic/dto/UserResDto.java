@@ -20,6 +20,7 @@ public class UserResDto extends BaseDTO {
 	private String lastName;
 	private LocalDate dob;
 	private Role role;
+	private int age;
 	private String email;
 	private String phoneNo;
 	private String address;

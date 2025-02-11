@@ -2,6 +2,7 @@ package com.petclinic.dto;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.petclinic.pojos.Gender;
 import com.petclinic.pojos.Role;
@@ -20,6 +21,7 @@ public class UserReqDto {
 
 	private String firstName;
 	private String lastName;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate dob;
 	private Role role;
 	private Gender gender;
