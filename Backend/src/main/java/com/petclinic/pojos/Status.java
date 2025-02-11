@@ -1,8 +1,10 @@
 package com.petclinic.pojos;
 
 public enum Status {
-	PENDING, APPROVED, COMPLETED /*, ACCEPTED */
+	PENDING, APPROVED, COMPLETED, DENIED /*, ACCEPTED */
 }
+
+// We added DENIED later so we have to drop database so that entry can be made.
 
 /*
  * PENDING - Appointment is requested by pet owner and not yet approved by the receptionist
