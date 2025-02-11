@@ -12,6 +12,7 @@ import com.petclinic.dto.DoctorResDto;
 import com.petclinic.dto.MedicineReqDto;
 import com.petclinic.dto.PrescriptionReqDto;
 import com.petclinic.dto.UserReqDto;
+import com.petclinic.dto.PresMediResDto;
 import com.petclinic.pojos.Doctor;
 
 public interface DoctorService {
@@ -25,6 +26,8 @@ public interface DoctorService {
 	 public List<AppointmentRespDto> getFutureAppts();
 	 
 	 public ApiResponse addPrescription(PrescriptionReqDto prescriptionReqDto);
+
+	public List<PresMediResDto> getPrescription(Long pId);
 	
 	
 

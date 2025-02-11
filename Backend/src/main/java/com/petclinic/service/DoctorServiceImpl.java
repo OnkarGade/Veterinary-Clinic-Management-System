@@ -17,6 +17,7 @@ import com.petclinic.customeexception.UserNotFoundException;
 import com.petclinic.dto.ApiResponse;
 import com.petclinic.dto.AppointmentRespDto;
 import com.petclinic.dto.MedicineReqDto;
+import com.petclinic.dto.PresMediResDto;
 import com.petclinic.dto.PrescriptionReqDto;
 import com.petclinic.dto.UserReqDto;
 import com.petclinic.pojos.Appointment;
@@ -164,6 +165,7 @@ public class DoctorServiceImpl implements DoctorService {
 //	    if (docReqDto.getSpecialist() != null) {
 //	      doc.setSpecialist(docReqDto.getSpecialist());
 //	    }
+	   doc.getDoctor().setDob(userReqDto.getDob());
 	    if (imageFile != null && !imageFile.isEmpty()) {
 	      user.setImage(imageFile.getBytes());
 	    }
@@ -219,6 +221,14 @@ public class DoctorServiceImpl implements DoctorService {
 	    medicineRepository.save(medicine);
 	    return new ApiResponse("Medicine added!");
 	  }
+
+	@Override
+	public List<PresMediResDto> getPrescription(Long pId) {
+		return medicineRepository.findByPrescriptionAppointmentPetId(pId).stream().map(medicine->mapper.map(medicine,PresMediResDto.class)).collect(Collectors.toList());
+		
+	}
+	  
+	  
 	  
 	  
 }

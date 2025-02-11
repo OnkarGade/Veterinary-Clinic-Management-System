@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.petclinic.pojos.Medicine;
 
 public interface MedicineRepository extends JpaRepository<Medicine, Long> {
-	public List<Medicine>findByPrescriptionAppointmentOwnerId(Long id);
+	public List<Medicine> findByPrescriptionAppointmentOwnerId(Long poid);
+	
+	public List<Medicine> findByPrescriptionAppointmentPetId(Long pid);
 }

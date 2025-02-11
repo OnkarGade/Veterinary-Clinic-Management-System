@@ -105,8 +105,9 @@ public class UserServiceImpl implements UserService {
 		 		//PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
 		 		PetOwner po=petOwnerRepo.findByOwnerId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));
 		 		//po.setPets(po.getPets().stream().filter(pet->pet.isActive()).collect(Collectors.toList()));
-		 		po.getPets().removeIf(pet -> !pet.isActive());
+		 		//po.getPets().removeIf(pet -> !pet.isActive());
 		 		PetOwnerResDto ps=mapper.map(po, PetOwnerResDto.class);
+		 		ps.getPets().removeIf(pet -> !pet.isActive());
 		 		return new ApiResponse(ps);
 		 	case DOCTOR:
 		 		Doctor doc=docRepo.findByDoctorId(userId).orElseThrow(()->new UserNotFoundException("Invalid Id"));

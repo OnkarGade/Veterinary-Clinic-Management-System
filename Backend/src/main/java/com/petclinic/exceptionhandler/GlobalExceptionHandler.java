@@ -1,6 +1,7 @@
 package com.petclinic.exceptionhandler;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.petclinic.customeexception.ApiException;
 import com.petclinic.customeexception.ResourceNotFoundException;
+import com.petclinic.customeexception.TimeNotAvailable;
 import com.petclinic.customeexception.UserNotFoundException;
 import com.petclinic.dto.ApiResponse;
 
@@ -41,6 +43,13 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
 	public ApiResponse handleIoException(
 			IOException e) {
+		return new ApiResponse(e.getMessage());
+	}
+	
+	@ExceptionHandler(TimeNotAvailable.class)
+	@ResponseStatus(value=HttpStatus.CONFLICT)
+	public ApiResponse handleTimeNotAvailable(
+			TimeNotAvailable e) {
 		return new ApiResponse(e.getMessage());
 	}
 }

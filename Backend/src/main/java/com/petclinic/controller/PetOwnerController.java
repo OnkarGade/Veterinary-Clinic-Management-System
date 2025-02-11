@@ -25,7 +25,7 @@ import com.petclinic.dto.AppointmentRespDto2;
 import com.petclinic.dto.PetOwnerReqDto;
 import com.petclinic.dto.PetOwnerResDto;
 import com.petclinic.dto.UserReqDto;
-import com.petclinic.dto.presMediDto;
+import com.petclinic.dto.PresMediResDto;
 import com.petclinic.service.PetOwnerService;
 
 @RestController
@@ -46,7 +46,7 @@ public class PetOwnerController {
 //		return ResponseEntity.ok(petOwnerService.updatePetOwner(petOwnerReqDto,poId));
 //	}
 	
-	@PostMapping("/addAppointment")
+	@PostMapping("/addappointment")
 	  public ResponseEntity<?> addAppoint(@RequestBody AppointReqDto appointReqDto) {
 	    return ResponseEntity.status(HttpStatus.CREATED).body(petOwnerService.addAppointment(appointReqDto));
 	  }
@@ -60,6 +60,7 @@ public class PetOwnerController {
 
 	    // Convert JSON string to UserReqDto object
 	    ObjectMapper objectMapper = new ObjectMapper();
+	    objectMapper.findAndRegisterModules();
 	    UserReqDto userReqDto = objectMapper.readValue(userReqDtoJson, UserReqDto.class);
 
 	    return ResponseEntity.ok(petOwnerService.updatePetOwnerProfile(userReqDto, poId, imageFile));
@@ -79,7 +80,7 @@ public class PetOwnerController {
 		return ResponseEntity.ok(petOwnerService.getPetByPetOwnerId());
 	}
 	
-	@GetMapping("/availabledoctor")
+	@GetMapping("/availabledoctors")
 	public ResponseEntity<?> availableDoctor(){
 		return ResponseEntity.ok(petOwnerService.availableDoctor());
 	}
@@ -106,7 +107,7 @@ public class PetOwnerController {
 	 
 	 @GetMapping("/prescription")
 	 public ResponseEntity<?> getPrescription(){
-		 List<presMediDto> presMediDtos= petOwnerService.getPrescription();
+		 List<PresMediResDto> presMediDtos= petOwnerService.getPrescription();
 		 if(presMediDtos.isEmpty()) {
 			 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		 }

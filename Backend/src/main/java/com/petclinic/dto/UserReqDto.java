@@ -2,15 +2,10 @@ package com.petclinic.dto;
 
 import java.time.LocalDate;
 
-import org.springframework.validation.annotation.Validated;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.petclinic.pojos.Gender;
 import com.petclinic.pojos.Role;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +21,7 @@ public class UserReqDto {
 	private String firstName;
 	private String lastName;
 	//private int yearOfBirth;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate dob;
 	private Role role;
 	private Gender gender;

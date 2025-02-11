@@ -95,6 +95,7 @@ public class ReceptionistController {
 	    System.out.println("In recep Controller - JSON String: " + userReqDtoJson);
 	    // Convert JSON string to UserReqDto object
 	    ObjectMapper objectMapper = new ObjectMapper();
+	    objectMapper.findAndRegisterModules();
 	    UserReqDto userReqDto = objectMapper.readValue(userReqDtoJson, UserReqDto.class);
 
 	    return ResponseEntity.ok(recepService.updateReceptionistProfile(userReqDto, dId, imageFile));

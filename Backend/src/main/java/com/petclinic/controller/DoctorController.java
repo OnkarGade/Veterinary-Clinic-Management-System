@@ -59,6 +59,7 @@ public class DoctorController {
 
 	    // Convert JSON string to UserReqDto object
 	    ObjectMapper objectMapper = new ObjectMapper();
+	    objectMapper.findAndRegisterModules();
 	    UserReqDto userReqDto = objectMapper.readValue(userReqDtoJson, UserReqDto.class);
 
 	    return ResponseEntity.ok(docService.updateDoctor(userReqDto, dId, imageFile));
@@ -92,6 +93,11 @@ public class DoctorController {
 	  public ResponseEntity<?> addMedicine(@RequestBody MedicineReqDto medicineReqDto) {
 	    System.out.println("In Doctor Controller");
 	    return ResponseEntity.status(HttpStatus.CREATED).body(docService.addMedicine(medicineReqDto));
+	  }
+	  
+	  @GetMapping("/prescription/{pId}")
+	  public ResponseEntity<?> getPrescription(@PathVariable Long pId ){
+		  return ResponseEntity.ok(docService.getPrescription(pId));
 	  }
 	  
 	 

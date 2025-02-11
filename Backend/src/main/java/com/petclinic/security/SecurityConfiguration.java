@@ -28,7 +28,9 @@ public class SecurityConfiguration {
 		{
 			
 			//1. Disable CSRF filter
-			http.cors(Customizer.withDefaults()).csrf(customizer -> customizer.disable())
+			http.cors(Customizer.withDefaults())
+			//http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+			.csrf(customizer -> customizer.disable())
 			//2. configure URL based access
 	        .authorizeHttpRequests
 	        (request -> 
