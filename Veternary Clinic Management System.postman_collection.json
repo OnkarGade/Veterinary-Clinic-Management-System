@@ -1,0 +1,865 @@
+{
+	"info": {
+		"_postman_id": "5ec6cc4a-5707-493d-b206-93920ca5e6e3",
+		"name": "Veternary Clinic Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40109706"
+	},
+	"item": [
+		{
+			"name": "PetOwner",
+			"item": [
+				{
+					"name": "addPet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM4Njc2MjM3LCJleHAiOjE3Mzg3NjI2MzcsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9._QeKN8AGdM9KhDmbYrZU5sKd4V_sBreScxKmkQGp0BuqSovS8BCpN-dcflQAUYP5XC3MbS_3b3n4__Q23_1tEw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"species\": \"cat\",\r\n  \"breed\": \"orange\",\r\n  \"name\": \"pussy\",\r\n  \"age\": 6,\r\n  \"gender\": \"MALE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/pet/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pet",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "petowner",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM4Njc2MjM3LCJleHAiOjE3Mzg3NjI2MzcsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9._QeKN8AGdM9KhDmbYrZU5sKd4V_sBreScxKmkQGp0BuqSovS8BCpN-dcflQAUYP5XC3MbS_3b3n4__Q23_1tEw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/petowner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"petowner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "petOfPetOwner",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM4OTI3MDgzLCJleHAiOjE3MzkwMTM0ODMsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9.I1YFEXguxV2cTa6EE3HaLvPcMV8SE4plxpKeYjk6Mc-zYHLUSL5w5GNr5z5mhbl-GrRsZf_rr6Xn6jYq0Zf0fA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/petowner/pets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"petowner",
+								"pets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM4Njc2MjM3LCJleHAiOjE3Mzg3NjI2MzcsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9._QeKN8AGdM9KhDmbYrZU5sKd4V_sBreScxKmkQGp0BuqSovS8BCpN-dcflQAUYP5XC3MbS_3b3n4__Q23_1tEw",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/C:/Users/bhave/Downloads/user.png"
+								},
+								{
+									"key": "userReqDto",
+									"value": "{}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/petowner/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"petowner",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addAppointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM4Njc2MjM3LCJleHAiOjE3Mzg3NjI2MzcsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9._QeKN8AGdM9KhDmbYrZU5sKd4V_sBreScxKmkQGp0BuqSovS8BCpN-dcflQAUYP5XC3MbS_3b3n4__Q23_1tEw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"petId\": 6,\r\n  \"recepId\": 9007199254740991,\r\n  \"doctorId\": 1,\r\n  \"appointDate\": \"2025-02-04\",\r\n  \"appointTime\": \"10:15:00\",\r\n  \"status\": \"PENDING\",\r\n  \"illness\": \"Fur\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/petowner/addAppointment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"petowner",
+								"addAppointment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "available doctors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM5MDI3Mzc3LCJleHAiOjE3Mzk4OTEzNzcsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9.vXp-ZpyZaWwqs9ukU_3skYbrlet9zEys9KabcKKhO3VBD5XKbvINyj2iUERLCOiWGHGsXu2bvJKGUYesGACGNw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/petowner/appointments/pending-approved",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"petowner",
+								"appointments",
+								"pending-approved"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete pet",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM4OTI3MDgzLCJleHAiOjE3MzkwMTM0ODMsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9.I1YFEXguxV2cTa6EE3HaLvPcMV8SE4plxpKeYjk6Mc-zYHLUSL5w5GNr5z5mhbl-GrRsZf_rr6Xn6jYq0Zf0fA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/pet/delete/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pet",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile Copy",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getPrescription",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM5MDI3Mzc3LCJleHAiOjE3Mzk4OTEzNzcsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9.vXp-ZpyZaWwqs9ukU_3skYbrlet9zEys9KabcKKhO3VBD5XKbvINyj2iUERLCOiWGHGsXu2bvJKGUYesGACGNw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/petowner/prescription",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"petowner",
+								"prescription"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Receptionist",
+			"item": [
+				{
+					"name": "approve Appointment",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2ODkzMTcsImV4cCI6MTczODc3NTcxNywiYXV0aG9yaXRpZXMiOiJST0xFX1JFQ0VQVElPTklTVCIsInVzZXJfaWQiOjN9.KwbutF_M9mbmq9wvx5Gl9-bbchaMIQ8dq5gZpwOh1cReYPmn7ufzhdfDRat9Mj-X69BIhlAXmqN9KzMx6cSl9A",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/receptionist/approveappointment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"receptionist",
+								"approveappointment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2ODkzMTcsImV4cCI6MTczODc3NTcxNywiYXV0aG9yaXRpZXMiOiJST0xFX1JFQ0VQVElPTklTVCIsInVzZXJfaWQiOjN9.KwbutF_M9mbmq9wvx5Gl9-bbchaMIQ8dq5gZpwOh1cReYPmn7ufzhdfDRat9Mj-X69BIhlAXmqN9KzMx6cSl9A",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/C:/Users/bhave/Downloads/user.png"
+								},
+								{
+									"key": "userReqDto",
+									"value": "{\"firstName\":\"r11\"}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/receptionist/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"receptionist",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAppointments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2ODkzMTcsImV4cCI6MTczODc3NTcxNywiYXV0aG9yaXRpZXMiOiJST0xFX1JFQ0VQVElPTklTVCIsInVzZXJfaWQiOjN9.KwbutF_M9mbmq9wvx5Gl9-bbchaMIQ8dq5gZpwOh1cReYPmn7ufzhdfDRat9Mj-X69BIhlAXmqN9KzMx6cSl9A",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/receptionist/allappointments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"receptionist",
+								"allappointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get bill",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg5ODc5NTcsImV4cCI6MTczOTg1MTk1NywiYXV0aG9yaXRpZXMiOiJST0xFX1JFQ0VQVElPTklTVCIsInVzZXJfaWQiOjV9.wELswL0Rhi6zjKHipFTHoY7BJO95z5T5g8P7CMLl8JoyXW8zve-AU7a7xqyej1JnBSL7BTkIsMDCgYfg0RXF6g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/receptionist/getbill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"receptionist",
+								"getbill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pay bill",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg5ODc5NTcsImV4cCI6MTczOTg1MTk1NywiYXV0aG9yaXRpZXMiOiJST0xFX1JFQ0VQVElPTklTVCIsInVzZXJfaWQiOjV9.wELswL0Rhi6zjKHipFTHoY7BJO95z5T5g8P7CMLl8JoyXW8zve-AU7a7xqyej1JnBSL7BTkIsMDCgYfg0RXF6g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/receptionist/paybill/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"receptionist",
+								"paybill",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pending Appointment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg3NzM3MjQsImV4cCI6MTczODg2MDEyNCwiYXV0aG9yaXRpZXMiOiJST0xFX1JFQ0VQVElPTklTVCIsInVzZXJfaWQiOjN9.y4MNep_Hy6rbJaD1K6_4JNRmKw51T1NOYs0TSI6dyQTFz6cGu9tQ2uHvo7vMYMucre4ZJp0UDWMt2jYX4c3Rjw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/receptionist/pendingappointments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"receptionist",
+								"pendingappointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg5MzE1OTIsImV4cCI6MTczOTAxNzk5MiwiYXV0aG9yaXRpZXMiOiJST0xFX1JFQ0VQVElPTklTVCIsInVzZXJfaWQiOjN9.LZWRAhCMQp9kXMNWzFwwraNmvSxmfrsAG3mNuFEqKBdFGFVMEGXeDLvBEcIOhP5ue_w71JV1fgErDny4u5HC1Q",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/receptionist/denieappointment/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"receptionist",
+								"denieappointment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Doctor",
+			"item": [
+				{
+					"name": "update profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2OTA1MDUsImV4cCI6MTczODc3NjkwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0RPQ1RPUiIsInVzZXJfaWQiOjJ9.NYlX-2ZM5gM3o5rZebPE8M8T_mSAaGdya6K9yRBP-ri6OtYGM2OwBkKIma7s--oM20BLRnnTxtGcDJ_Nje-FRw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/C:/Users/bhave/Downloads/user.png"
+								},
+								{
+									"key": "userReqDto",
+									"value": "{\"firstName\":\"d11\"}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/doctor/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"doctor",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "today appoitment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2OTA1MDUsImV4cCI6MTczODc3NjkwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0RPQ1RPUiIsInVzZXJfaWQiOjJ9.NYlX-2ZM5gM3o5rZebPE8M8T_mSAaGdya6K9yRBP-ri6OtYGM2OwBkKIma7s--oM20BLRnnTxtGcDJ_Nje-FRw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/doctor/todaysappts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"doctor",
+								"todaysappts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "future appoitment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2OTA1MDUsImV4cCI6MTczODc3NjkwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0RPQ1RPUiIsInVzZXJfaWQiOjJ9.NYlX-2ZM5gM3o5rZebPE8M8T_mSAaGdya6K9yRBP-ri6OtYGM2OwBkKIma7s--oM20BLRnnTxtGcDJ_Nje-FRw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/doctor/todaysappts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"doctor",
+								"todaysappts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Prescription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2OTA1MDUsImV4cCI6MTczODc3NjkwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0RPQ1RPUiIsInVzZXJfaWQiOjJ9.NYlX-2ZM5gM3o5rZebPE8M8T_mSAaGdya6K9yRBP-ri6OtYGM2OwBkKIma7s--oM20BLRnnTxtGcDJ_Nje-FRw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 9007199254740991,\r\n  \"createdOn\": \"2025-02-04\",\r\n  \"updatedOn\": \"2025-02-04T17:47:25.058Z\",\r\n  \"aptId\": 1,\r\n  \"diagnosis\": \"good\",\r\n  \"prescriptionAdvice\": \"good\",\r\n  \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/doctor/addPrescription",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"doctor",
+								"addPrescription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add medicine",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2OTA1MDUsImV4cCI6MTczODc3NjkwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0RPQ1RPUiIsInVzZXJfaWQiOjJ9.NYlX-2ZM5gM3o5rZebPE8M8T_mSAaGdya6K9yRBP-ri6OtYGM2OwBkKIma7s--oM20BLRnnTxtGcDJ_Nje-FRw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"prescriptionId\": 1,\r\n  \"nameOfMedicine\": \"Paracetamol\",\r\n  \"qty\": 1073741824\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/doctor/addMedicine",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"doctor",
+								"addMedicine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg5ODQ1MzEsImV4cCI6MTczOTg0ODUzMSwiYXV0aG9yaXRpZXMiOiJST0xFX0RPQ1RPUiIsInVzZXJfaWQiOjN9.OO_Q7YVuQjQfnmxhegLa0rDMy-junExl81UgVMsXYIusZofXgMwNqje0v8ZGKUUnngmVLWAQKt6-cGtBZwcQLQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get prescription Pet",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMkBnbWFpbC5jb20iLCJpYXQiOjE3MzkwMjgwNzYsImV4cCI6MTczOTg5MjA3NiwiYXV0aG9yaXRpZXMiOiJST0xFX0RPQ1RPUiIsInVzZXJfaWQiOjN9.vN3FTmr_p-we0aw4Su_mS-hMcktfPWXVZzDjeIvPWST5P6YIRgh0yVhBKaFUOE8FMnKbeaTekBimJzCE-W2eSw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/doctor/prescription/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"doctor",
+								"prescription",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMkBnbWFpbC5jb20iLCJpYXQiOjE3MzkwMjgwNzYsImV4cCI6MTczOTg5MjA3NiwiYXV0aG9yaXRpZXMiOiJST0xFX0RPQ1RPUiIsInVzZXJfaWQiOjN9.vN3FTmr_p-we0aw4Su_mS-hMcktfPWXVZzDjeIvPWST5P6YIRgh0yVhBKaFUOE8FMnKbeaTekBimJzCE-W2eSw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pet",
+			"item": [
+				{
+					"name": "pet by Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwbzFAZ21haWwuY29tIiwiaWF0IjoxNzM4Njc2MjM3LCJleHAiOjE3Mzg3NjI2MzcsImF1dGhvcml0aWVzIjoiUk9MRV9QRVRPV05FUiIsInVzZXJfaWQiOjF9._QeKN8AGdM9KhDmbYrZU5sKd4V_sBreScxKmkQGp0BuqSovS8BCpN-dcflQAUYP5XC3MbS_3b3n4__Q23_1tEw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/pet/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pet",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "doctor",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg3NDk3MDUsImV4cCI6MTczODgzNjEwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwidXNlcl9pZCI6NX0.0cSwpN50kbsT_O_f64W1SttHuyTS8Wez_-CAkR9MOxmFjxtUIh2-uxnwIh1q9xLApL49cGvmZKrLDoy_2gtUtw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/admin/doctors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "receptionist",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg3NDk3MDUsImV4cCI6MTczODgzNjEwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwidXNlcl9pZCI6NX0.0cSwpN50kbsT_O_f64W1SttHuyTS8Wez_-CAkR9MOxmFjxtUIh2-uxnwIh1q9xLApL49cGvmZKrLDoy_2gtUtw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/admin/receptionists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"receptionists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete staff",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg3NDk3MDUsImV4cCI6MTczODgzNjEwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwidXNlcl9pZCI6NX0.0cSwpN50kbsT_O_f64W1SttHuyTS8Wez_-CAkR9MOxmFjxtUIh2-uxnwIh1q9xLApL49cGvmZKrLDoy_2gtUtw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/admin/deletestaff/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"deletestaff",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg3NDk3MDUsImV4cCI6MTczODgzNjEwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwidXNlcl9pZCI6NX0.0cSwpN50kbsT_O_f64W1SttHuyTS8Wez_-CAkR9MOxmFjxtUIh2-uxnwIh1q9xLApL49cGvmZKrLDoy_2gtUtw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/admin/reinstatestaff/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"reinstatestaff",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
