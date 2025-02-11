@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.petclinic.dto.AppointmentRespDto;
 import com.petclinic.dto.UserReqDto;
 import com.petclinic.service.ReceptionistService;
-import com.petclinic.service.UserService;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -31,8 +30,8 @@ public class ReceptionistController {
 	@Autowired
 	ReceptionistService recepService;
 
-	@Autowired
-	UserService userService;
+//	@Autowired
+//	UserService userService;
 
 //	@PostMapping("/add/appointment")
 //	public ResponseEntity<?> addAppointment(AppointReqDto appointReqDto){
@@ -43,10 +42,20 @@ public class ReceptionistController {
 //	public ResponseEntity<?> acceptAppoint(@PathVariable Long aptId,@PathVariable Long recptId ){
 //		return ResponseEntity.ok(recepService.acceptAppoint(aptId,recptId));
 //	}
+	
+	//for approving Appointment Where Receptionist Id is required it should be taken
+		//from "Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		   //Long userId = (Long) auth.getCredentials(); " via this in service method and in Appoint's object 
+		//receptionist object would be setted which is founded via UserId;
 
 	@PatchMapping("/approveappointment/{aptId}")
 	public ResponseEntity<?> approveAppointment(@PathVariable Long aptId) {
 		return ResponseEntity.ok(recepService.approveAppointment(aptId));
+	}
+	
+	@PatchMapping("/denieappointment/{aptId}")
+	public ResponseEntity<?> denyAppointment(@PathVariable Long aptId){
+		return ResponseEntity.ok(recepService.denieAppointment(aptId));
 	}
 
 	@GetMapping("/allappointments")
@@ -79,6 +88,7 @@ public class ReceptionistController {
 
 		// Convert JSON string to UserReqDto object
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.findAndRegisterModules();
 		UserReqDto userReqDto = objectMapper.readValue(userReqDtoJson, UserReqDto.class);
 
 		return ResponseEntity.ok(recepService.updateReceptionistProfile(userReqDto, dId, imageFile));
@@ -91,6 +101,7 @@ public class ReceptionistController {
 
 	@PatchMapping("/paybill/{bId}")
 	public ResponseEntity<?> payBill(@PathVariable Long bId) {
+		System.out.println("in recep controller - pay bill");
 		return ResponseEntity.ok(recepService.payBill(bId));
 	}
 

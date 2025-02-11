@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.petclinic.dto.AppointReqDto;
 import com.petclinic.dto.AppointmentRespDto2;
 import com.petclinic.dto.PetOwnerResDto;
+import com.petclinic.dto.PresMediResDto;
 import com.petclinic.dto.UserReqDto;
 import com.petclinic.service.PetOwnerService;
 
@@ -32,8 +33,18 @@ public class PetOwnerController {
 
 	@Autowired
 	PetOwnerService petOwnerService;
+	
+//	@PostMapping("/addAppointment")
+//	public ResponseEntity<?> addAppoint(AppointUserReqDto appointUserReqDto){
+//		return ResponseEntity.status(HttpStatus.CREATED).body(petOwnerService.addAppointment(appointUserReqDto));
+//	}
+	
+//	@PutMapping("/poId")
+//	public ResponseEntity<?> updatePetOwner(@RequestBody PetOwnerReqDto petOwnerReqDto,@PathVariable Long poId){
+//		return ResponseEntity.ok(petOwnerService.updatePetOwner(petOwnerReqDto,poId));
+//	}
 
-	@PostMapping("/addAppointment")
+	@PostMapping("/addappointment")
 	public ResponseEntity<?> addAppoint(@RequestBody AppointReqDto appointReqDto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(petOwnerService.addAppointment(appointReqDto));
 	}
@@ -47,6 +58,7 @@ public class PetOwnerController {
 
 		// Convert JSON string to UserReqDto object
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.findAndRegisterModules();
 		UserReqDto userReqDto = objectMapper.readValue(userReqDtoJson, UserReqDto.class);
 
 		return ResponseEntity.ok(petOwnerService.updatePetOwnerProfile(userReqDto, poId, imageFile));
@@ -61,7 +73,7 @@ public class PetOwnerController {
 
 	@GetMapping("/pets") // getting lengthy data e.g. each owner inside each pet, etc. So, use
 							// getPetOwner method for getting all pets
-	public ResponseEntity<?> getPetByPetOwnerId() {
+	public ResponseEntity<?> getPetByPetOwnerId() { // here we only want active pets
 		return ResponseEntity.ok(petOwnerService.getPetByPetOwnerId());
 	}
 
@@ -77,7 +89,7 @@ public class PetOwnerController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		return ResponseEntity.ok(appointmentRespDto2s);
 	}
-	
+
 	@GetMapping("/appointments/completed")
 	public ResponseEntity<?> getCompletedAppointments() {
 		List<AppointmentRespDto2> appointmentRespDto2s = petOwnerService.getCompletedAppointments();
@@ -85,4 +97,14 @@ public class PetOwnerController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		return ResponseEntity.ok(appointmentRespDto2s);
 	}
+	
+	 @GetMapping("/prescription")
+	 public ResponseEntity<?> getPrescription(){
+		 List<PresMediResDto> presMediDtos= petOwnerService.getPrescription();
+		 if(presMediDtos.isEmpty()) {
+			 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		 }
+		 	return ResponseEntity.ok(presMediDtos);
+	 }
+
 }

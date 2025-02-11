@@ -59,6 +59,11 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResp("Successful Auth !",
 				jwtUtils.generateJwtToken(authToken), userService.getRole(dto.getEmail())));
 	}
+	
+//	@PostMapping("/registerStaff")
+//	public ResponseEntity<?> addStaff(@RequestBody StaffReqDto sReqDto){
+//			return ResponseEntity.status(HttpStatus.CREATED).body(userService.RegStaff(sReqDto));
+//	}
 
 //	@PostMapping("/login")
 //	public ResponseEntity<?> loginUser(@RequestBody UserReqDto userReqDto) {
@@ -104,4 +109,26 @@ public class UserController {
 //		
 //	}
 
+//	@PostMapping("/signin")
+//	
+//	public ResponseEntity<?> userSignIn(@RequestBody AuthRequest dto) {
+//		
+//		System.out.println("heell");
+//		System.out.println(dto.getEmail());
+//		UsernamePasswordAuthenticationToken 
+//		authenticationToken = new UsernamePasswordAuthenticationToken(dto.getEmail(),dto.getPassword());
+//		
+//		
+//		
+//		Authentication authToken = 
+//				authenticationManager.authenticate(authenticationToken);
+//		
+//		
+//		System.out.println(authToken.isAuthenticated());
+//
+//		return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResp("Successful Auth !",
+//				jwtUtils.generateJwtToken(authToken)));		
+//		
+//	}
+	
 }
