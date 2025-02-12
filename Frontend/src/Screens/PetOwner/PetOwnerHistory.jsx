@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PetOwnerNavbar } from "../../Components/PetOwnerNavbar";
 import { GetCompletedAppointments } from "../../Services/GetServices";
+import Footer from "../../Components/Footer";
 // import { Spinner } from "react-bootstrap";  // For loading spinner
 
 export function PetOwnerHistory() {
@@ -28,10 +29,10 @@ export function PetOwnerHistory() {
         <div className='container-fluid' style={{ marginTop: "120px" }}>
             <PetOwnerNavbar />
 
-            <div className="container mt-4">
-                <div className="text-center mb-4">
+            <div className="container mt-4 text-center">
+                {/* <div className="text-center mb-4">
                     <span className="fw-bolder fs-3">Your Appointment History</span>
-                </div>
+                </div> */}
 
                 <div className="table-responsive">
                     {loading ? (
@@ -72,6 +73,7 @@ export function PetOwnerHistory() {
                     )}
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

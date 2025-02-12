@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { ReceptionistNavbar } from "../Components/ReceptionistNavbar";
-import { GetAllPendingRequests, GetPendingBills } from "../Services/GetServices";
+import { GetAllPendingRequests } from "../Services/GetServices";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { setBills } from "../Features/Receptionist/BillingData";
+// import { useDispatch } from "react-redux";
+// import { setBills } from "../Features/Receptionist/BillingData";
 import { ApproveAppointment } from "../Services/ReceptionistService";
+import { DenyAppointment } from "../Services/DeleteService";
+// import Footer from "../Components/Footer";
 
 export function Receptionist() {
     const [pendingRequests, setPendingRequests] = useState([]);
     const [loading, setLoading] = useState(true); // Loading state
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // Fetch all pending appointments
     const getAllPendingAppointments = async () => {
@@ -39,7 +41,7 @@ export function Receptionist() {
         await ApproveAppointment(appointmentId)
             .then(res => {
                 if (res?.status) {
-                    toast.success(`Appointment ${appointmentId} Approved`); // Temporary success message
+                    toast.success(`Appointment Approved`); // Temporary success message
                 } else {
                     console.log(res)
                 }
@@ -47,36 +49,25 @@ export function Receptionist() {
                 console.log(err)
             })
 
-        // Implement the approve logic (using your API service)
         getAllPendingAppointments(); // Refresh list
     };
 
     // Handle appointment denial
     const handleDeny = async (appointmentId) => {
-        // Implement the deny logic (using your API service)
-        toast.success(`Appointment ${appointmentId} Denied`); // Temporary success message
+
+        var response = await DenyAppointment(appointmentId)
+
+        if (response?.status && response.status === 200) {
+            toast.success(`Appointment Denied`); // Temporary success message
+        }
+        
         getAllPendingAppointments(); // Refresh list
     };
-
-    const fetchPendingBills = async () => {
-
-        await GetPendingBills()
-            .then(res => {
-                console.log(res)
-                if (res !== undefined) {
-                    dispatch(setBills(res.data))
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
-    }
 
     // Fetch appointments when the component mounts
     useEffect(() => {
         getAllPendingAppointments();
-        fetchPendingBills();
+        // fetchPendingBills();
     }, []);
 
     return (
@@ -90,7 +81,7 @@ export function Receptionist() {
                         </div>
                     </div>
                 ) : (
-                    <div className="table-responsive">
+                    <div className="table-responsive text-center">
                         <table className="table table-hover table-bordered shadow-sm">
                             {/* The "shadow-lg" class will add a large shadow to the table */}
                             <thead className="table-primary">
@@ -125,7 +116,7 @@ export function Receptionist() {
                                                 </button>
                                                 <button
                                                     className="btn btn-danger btn-sm"
-                                                    // onClick={() => handleDeny(request.id)}
+                                                    onClick={() => handleDeny(request.id)}
                                                     data-bs-toggle="tooltip"
                                                     data-bs-placement="top"
                                                     title="Deny Appointment"
@@ -147,6 +138,7 @@ export function Receptionist() {
                     </div>
                 )}
             </div>
+            {/* <Footer /> */}
         </div>
     );
 }

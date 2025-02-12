@@ -18,7 +18,7 @@ export function ReceptionistNavbar() {
             className="navbar fixed-top"
             style={{
                 backgroundColor: "#4A90E2",
-                height: "70px",
+                height: "100px",
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
         >
@@ -53,11 +53,11 @@ export function ReceptionistNavbar() {
                             <i className="fas fa-file-invoice me-2"></i>Pending Bills
                         </Link>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <Link to="/bills-history" className="nav-link text-white">
                             <i className="fas fa-history me-2"></i>Bills History
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                         <Link
                             to="/appointment-history"
@@ -133,7 +133,7 @@ export function ReceptionistNavbar() {
                             <i className="fas fa-file-invoice me-2"></i>Pending Bills
                         </Link>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <Link
                             to="/bills-history"
                             className="nav-link text-white"
@@ -141,7 +141,7 @@ export function ReceptionistNavbar() {
                         >
                             <i className="fas fa-history me-2"></i>Bills History
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                         <Link
                             to="/appointment-history"

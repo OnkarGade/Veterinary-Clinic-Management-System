@@ -31,7 +31,6 @@ export function Login() {
             toast.warning("Email and Password are required.");
             return false;
         }
-        // Additional email validation can be added here
         return true;
     };
 
@@ -72,7 +71,6 @@ export function Login() {
             toast.warning('Phone number must be 10 digits');
             return false;
         }
-        // Additional email validation and password strength check can be added here
         return true;
     };
 
@@ -219,9 +217,15 @@ export function Login() {
                                         <td>
                                             <div className="col-md mt-2">
                                                 <div className="form-floating">
-                                                    <input onChange={handleChange} type="date" className="form-control"
-                                                        id="floatingInputGrid4" value={userRegister.dob} name="dob" placeholder=""
-                                                        required=" " />
+                                                    <input onChange={handleChange}
+                                                        type="date"
+                                                        className="form-control"
+                                                        id="floatingInputGrid4"
+                                                        value={userRegister.dob}
+                                                        name="dob"
+                                                        placeholder=""
+                                                        required
+                                                        max={new Date().toISOString().split('T')[0]} />
                                                     <label htmlFor="floatingInputGrid4">Date Of Birth</label>
                                                 </div>
                                             </div>
@@ -229,9 +233,22 @@ export function Login() {
                                         <td>
                                             <div className="input-group mt-2">
                                                 <div className="form-floating">
-                                                    <input onChange={handleChange} type="tel" className="form-control"
-                                                        id="floatingInputGroup5" value={userRegister.phoneNo} name="phoneNo" placeholder=""
-                                                        pattern="[0-9]{10}" required=" " />
+                                                    <input type="text"
+                                                        className="form-control"
+                                                        id="floatingInputGroup5"
+                                                        value={userRegister.phoneNo}
+                                                        name="phoneNo"
+                                                        placeholder=""
+                                                        maxLength="10" // Limits the length to 10 digits
+                                                        onChange={(e) => {
+                                                            const value = e.target.value;
+                                                            // Allow only numbers and validate Indian phone number format
+                                                            if (/^[6-9][0-9]{0,9}$/.test(value) || value === "") {
+                                                                handleChange(e); // Update the state only if valid
+                                                            }
+                                                        }}
+                                                        required=""
+                                                    />
                                                     <label htmlFor="floatingInputGroup5">Phone No</label>
                                                 </div>
                                             </div>
@@ -241,9 +258,14 @@ export function Login() {
                                         <td>
                                             <div className="col-md mt-2">
                                                 <div className="form-floating">
-                                                    <input onChange={handleChange} type="password" className="form-control"
-                                                        id="floatingInputGrid6" value={userRegister.password} name="password" placeholder=""
-                                                        required=" " />
+                                                    <input type="password"
+                                                        className="form-control"
+                                                        id="floatingInputGrid6"
+                                                        value={userRegister.password}
+                                                        name="password"
+                                                        placeholder=""
+                                                        required
+                                                        onChange={handleChange} />
                                                     <label htmlFor="floatingInputGrid6">Password</label>
                                                 </div>
                                             </div>

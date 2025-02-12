@@ -3,6 +3,7 @@ import { PetOwnerNavbar } from "../../Components/PetOwnerNavbar";
 import { GetUserProfile } from "../../Services/GetServices";
 import { UpdatePetOwnerProfile } from "../../Services/UpdateServices";
 import { toast } from "react-toastify";
+import Footer from "../../Components/Footer";
 
 export function PetOwnerProfile() {
     const [imageFile, setImageFile] = useState(null); // Store the file
@@ -156,11 +157,11 @@ export function PetOwnerProfile() {
                             className="btn btn-primary mx-2"
                             data-bs-toggle="modal"
                             data-bs-target="#editProfileModal"
-                            // onClick={InitializeStates}
+                        // onClick={InitializeStates}
                         >
                             Edit Profile
                         </button>
-                        <button className="btn btn-danger mx-2">Delete Account</button>
+                        {/* <button className="btn btn-danger mx-2">Delete Account</button> */}
                     </div>
                 </div>
 
@@ -314,6 +315,7 @@ export function PetOwnerProfile() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

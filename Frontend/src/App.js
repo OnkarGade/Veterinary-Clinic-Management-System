@@ -22,10 +22,13 @@ import { YourAppointments } from './Screens/PetOwner/YourAppointments';
 import { BookAppointment } from './Screens/NoUsing/BookAppointment';
 import { PetOwnerProfile } from './Screens/PetOwner/PetOwnerProfile';
 import { PendingBills } from './Screens/Receptionist/PendingBills';
-import { BillsHistory } from './Screens/Receptionist/BillsHistory';
+// import { BillsHistory } from './Screens/Receptionist/BillsHistory';
 import { AppointmentHistory } from './Screens/Receptionist/AppointmentHistory';
 import { ReceptionistProfile } from './Screens/Receptionist/ReceptionistProfile';
 import { DoctorProfile } from './Screens/Doctor/DoctorProfile';
+import { ListOfDoctors } from './Screens/NoUsing/ListOfDoctors';
+import { ListOfReceptionists } from './Screens/Admin/ListOfReceptionists';
+import { Admin } from './Screens/Admin';
 
 
 function App() {
@@ -44,7 +47,7 @@ function App() {
         <Route path="/receptionist" element={<Receptionist />} />
         <Route path='/register' element={<Register />}></Route>
         <Route path='/addAppointment' element={<AddAppointment />}></Route>
-        <Route path='/admin' element={<AdminNavbar />}></Route>
+        <Route path='/admin' element={<Admin />}></Route>
         <Route path='/addstaff' element={<AddStaff />}></Route>
         <Route path='/completedappointment' element={<CompletedAppointments />} ></Route>
         <Route path='/pendingappointment' element={<PendingAppointments />}></Route>
@@ -57,10 +60,11 @@ function App() {
         <Route path='/bookappointment' element={<BookAppointment />}></Route>
         <Route path='/petowner-profile' element={<PetOwnerProfile />}></Route>
         <Route path='/pending-bills' element={<PendingBills />}></Route>
-        <Route path='/bills-history' element={<BillsHistory />}></Route>
         <Route path='/appointment-history' element={<AppointmentHistory />}></Route>
         <Route path='/receptprofile' element={<ReceptionistProfile />}></Route>
         <Route path='/doctor-profile' element={<DoctorProfile />}></Route>
+        <Route path='/doctorslist' element={<ListOfDoctors />}></Route>
+        <Route path='/receptionistslist' element={<ListOfReceptionists />}></Route>
 
       </Routes>
 

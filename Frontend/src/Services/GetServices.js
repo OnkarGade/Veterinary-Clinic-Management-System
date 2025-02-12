@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GenerateUrl } from "./Common";
+import { GenerateUrl, ApplicationHeader } from "./Common";
 
 console.log('In GetService');
 
@@ -9,10 +9,7 @@ export async function GetMyPets() {
 
     console.log(url)
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
     var response;
 
@@ -33,10 +30,7 @@ export async function GetPendingApprovedAppointments() {
 
     var response;
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
     const path = '/petowner/appointments/pending-approved'
 
@@ -59,10 +53,7 @@ export async function GetCompletedAppointments() {
 
     var response;
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
     const url = GenerateUrl('/petowner/appointments/completed')
 
@@ -81,10 +72,7 @@ export async function GetCompletedAppointments() {
 
 export async function GetUserProfile() {
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
     var response
 
@@ -106,12 +94,10 @@ export async function GetAllPendingRequests() {
 
     const url = GenerateUrl('/receptionist/pendingappointments')
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
-
+    const headers = ApplicationHeader();
     var response;
+
+    console.log("Printed Headers " + headers)
 
     await axios.get(url, { headers })
         .then(res => {
@@ -130,10 +116,7 @@ export async function GetPendingBills() {
 
     var response;
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
     const url = GenerateUrl('/receptionist/getbill')
 
@@ -158,10 +141,7 @@ export async function GetAllAppointments() {
 
     const url = GenerateUrl('/receptionist/allappointments')
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
     var response;
 
@@ -180,10 +160,7 @@ export async function GetTodaysAppointments() {
 
     const url = GenerateUrl('/doctor/todaysappts')
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
     var response;
 
@@ -203,10 +180,7 @@ export async function GetFutureAppointments() {
 
     const url = GenerateUrl('/doctor/futureappts')
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
     var response;
 
@@ -218,6 +192,28 @@ export async function GetFutureAppointments() {
             console.log("Error : " + err)
         })
 
-        return response;
+    return response;
+
+}
+
+export async function GetPetPrescription(id) {
+
+    const headers = ApplicationHeader();
+
+    const url = GenerateUrl(`/doctor/prescription/${id}`)
+
+    var response;
+
+    console.log(url)
+
+    await axios.get(url, { headers })
+        .then(res => {
+            response = res;
+            console.log(res)
+        }).catch(err => {
+            console.log("Error : " + err)
+        })
+
+    return response;
 
 }

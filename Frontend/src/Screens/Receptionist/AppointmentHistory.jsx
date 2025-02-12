@@ -44,7 +44,7 @@ export function AppointmentHistory() {
                         </div>
                     </div>
                 ) : (
-                    <div className="table-responsive">
+                    <div className="table-responsive text-center">
                         <table className="table table-hover table-bordered shadow-sm">
                             {/* The "shadow-lg" class will add a large shadow to the table */}
                             <thead className="table-primary">

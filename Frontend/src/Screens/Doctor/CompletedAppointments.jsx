@@ -62,7 +62,6 @@ export function CompletedAppointments() {
                         </div>
                     ) : (
                         <div className="table-responsive text-center">
-                        <div className="table-responsive">
                             <table className="table table-hover table-bordered shadow-sm">
                                 {/* The "shadow-lg" class will add a large shadow to the table */}
                                 <thead className="table-primary">

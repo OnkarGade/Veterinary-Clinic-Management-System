@@ -1,15 +1,12 @@
 import axios from "axios"
-import { GenerateUrl } from "./Common"
+import { GenerateUrl, MultipartHeader } from "./Common"
 
 var response;
 
 
 export async function UpdatePetOwnerProfile(data, id) {
 
-    const headers = {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    };
+    const headers = MultipartHeader();
 
     const url = GenerateUrl(`/petowner/${id}`)
 
@@ -26,12 +23,9 @@ export async function UpdatePetOwnerProfile(data, id) {
 
 export async function UpdateReceptionistProfile(data, id) {
 
-    const headers = {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    };
+    const headers = MultipartHeader();
 
-    console.log("in update "+id)
+    console.log("in update " + id)
 
     const url = GenerateUrl(`/receptionist/${id}`)
 
@@ -43,5 +37,25 @@ export async function UpdateReceptionistProfile(data, id) {
     })
 
     return response;
+
+}
+
+export async function UpdateDoctorProfile(data, id) {
+
+    var response;
+
+    const headers = MultipartHeader();
+
+    const url = GenerateUrl(`/doctor/${id}`)
+
+    await axios.put(url, data, { headers }).then(res => {
+        response = res
+    }).catch(err => {
+        console.error("Error : " + err);
+        response = err
+    })
+
+    return response;
+
 
 }

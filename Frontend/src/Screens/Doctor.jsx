@@ -1,14 +1,29 @@
 // Import necessary components and libraries
 import { DocNavbar } from "../Components/DocNavbar";
 import { useEffect, useState } from "react";
-import { GetFutureAppointments, GetTodaysAppointments } from "../Services/GetServices";
+import { GetFutureAppointments, GetPetPrescription, GetTodaysAppointments } from "../Services/GetServices";
 import { toast } from "react-toastify";
+import { AddPrescription } from "../Services/DoctorServices";
 
 export function Doctor() {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [petHistory, setPetHistory] = useState([]);
     const [upcoming, setUpcoming] = useState([]);
+    const [current, setCurrent] = useState(new Date())
+    const [prescriptionDetails, setPrescriptionDetails] = useState({
+        aptId: 0,
+        diagnosis: '',
+        prescriptionAdvice: ''
+    })
+
+    const handleChange = (event) => {
+
+        const { name, value } = event.target;
+
+        setPrescriptionDetails((prev) => ({ ...prev, [name]: value }))
+
+    }
 
     const getTodaysAppoints = async () => {
         setLoading(true);
@@ -16,6 +31,8 @@ export function Doctor() {
             const response = await GetTodaysAppointments();
             if (response?.data) {
                 setAppointments(response.data);
+                // console.log(response.data)
+                // setPetHistory(response.data)
             } else {
                 toast.info("No Appointments Today.");
             }
@@ -24,11 +41,15 @@ export function Doctor() {
         } finally {
             setLoading(false);
         }
+        // var todaysDate = current.split()
+
+        // console.log(current)
     };
 
     const getUpcomingAppointments = async () => {
         try {
             const response = await GetFutureAppointments();
+            console.log(response)
             if (response?.data) {
                 setUpcoming(response.data);
             } else {
@@ -39,16 +60,54 @@ export function Doctor() {
         }
     };
 
-    const openPetHistoryModal = (history) => {
-        setPetHistory(history);
+    const openPetHistoryModal = async (petId) => {
+
+        var response = await GetPetPrescription(petId)
+
+        console.log(response.data)
+
+        setPetHistory(response.data)
+
         const modal = new window.bootstrap.Modal(document.getElementById("staticBackdrop"));
         modal.show();
+
+
+
     };
 
-    const openAttendModal = (appointment) => {
+    const openAttendModal = (appointmentId) => {
+
+        // handleChange({ name: 'aptId', value: appointmentId })
+
+        setPrescriptionDetails({
+            aptId: appointmentId,
+            diagnosis: '',
+            prescriptionAdvice: ''
+        })
+
         const modal = new window.bootstrap.Modal(document.getElementById("exampleModal"));
         modal.show();
+        console.log('Attend close');
     };
+
+    const submitPrescription = async () => {
+
+        await AddPrescription(prescriptionDetails)
+            .then(res => {
+                if (res?.status) {
+                    if (res.status) {
+                        toast.success('Prescription Added')
+                    } else {
+                        toast.info('Something Went Wrong')
+                    }
+                }
+            }).catch(err => {
+                console.log('Error : ' + err)
+            })
+
+        getTodaysAppoints();
+
+    }
 
     useEffect(() => {
         getTodaysAppoints();
@@ -57,8 +116,8 @@ export function Doctor() {
     return (
         <div className="container-fluid">
             <DocNavbar />
-            <div className="container" style={{ marginTop: "110px" }}>
-                <div className="text-center mt-2 fw-bold fs-3">Today's Appointments</div>
+            <div className="container" style={{ marginTop: "120px" }}>
+                {/* <div className="text-center mt-2 fw-bold fs-3">Today's Appointments</div> */}
 
                 <div className="mt-3">
                     {loading ? (
@@ -68,7 +127,7 @@ export function Doctor() {
                             </div>
                         </div>
                     ) : (
-                        <div className="table-responsive">
+                        <div className="table-responsive text-center">
                             <table className="table table-hover table-bordered shadow-sm">
                                 <thead className="table-primary">
                                     <tr>
@@ -92,13 +151,13 @@ export function Doctor() {
                                                 <td>
                                                     <button
                                                         className="btn btn-info btn-sm me-2"
-                                                        onClick={() => openPetHistoryModal(appointment.petHistory)}
+                                                        onClick={() => openPetHistoryModal(appointment.pet.id)}
                                                     >
                                                         View History
                                                     </button>
                                                     <button
                                                         className="btn btn-success btn-sm"
-                                                        onClick={() => openAttendModal(appointment)}
+                                                        onClick={() => openAttendModal(appointment.id)}
                                                     >
                                                         Attend
                                                     </button>
@@ -126,7 +185,7 @@ export function Doctor() {
                         data-bs-toggle="modal"
                         data-bs-target="#staticBackdropUpcomingAppointments"
                     >
-                        Upcoming Appointments
+                        Your Appointments
                     </button>
                 </div>
 
@@ -139,29 +198,33 @@ export function Doctor() {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <table className="table table-hover table-bordered">
+                                <table className="table table-hover table-bordered text-center">
                                     <thead>
                                         <tr>
-                                            <th>Consultation Date</th>
-                                            <th>Owner Name</th>
-                                            <th>Pet Name</th>
-                                            <th>Species</th>
-                                            <th>Breed</th>
+                                            <th>No.</th>
+                                            {/* <th>Consultation Date</th> */}
+                                            {/* <th>Owner Name</th> */}
+                                            {/* <th>Pet Name</th> */}
+                                            {/* <th>Species</th> */}
+                                            {/* <th>Breed</th> */}
                                             <th>Diagnosis</th>
                                             <th>Prescription</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {petHistory.length > 0 ? (
-                                            petHistory.map((pet, index) => (
+                                            petHistory.map((pets, index) => (
                                                 <tr key={index}>
-                                                    <td>{pet.consultationDate}</td>
-                                                    <td>{pet.ownerName}</td>
-                                                    <td>{pet.petName}</td>
-                                                    <td>{pet.petSpecies}</td>
-                                                    <td>{pet.petBreed}</td>
-                                                    <td>{pet.diagnosis}</td>
-                                                    <td>{pet.prescription}</td>
+                                                    <td>{index + 1}</td>
+                                                    {/* <td>{pets.appointDate}</td> */}
+                                                    {/* <td>{pets.owner.owner.firstName} {pets.owner.owner.lastName}</td> */}
+                                                    {/* <td>{pets.pet}</td> */}
+                                                    {/* <td>{pets.petSpecies}</td> */}
+                                                    {/* <td>{pets.petBreed}</td> */}
+                                                    <td>{pets.
+                                                        prescription.diagnosis}</td>
+                                                    <td>{pets.prescription.
+                                                        prescriptionAdvice}</td>
                                                 </tr>
                                             ))
                                         ) : (
@@ -191,17 +254,17 @@ export function Doctor() {
                                 <form>
                                     <div className="mb-3">
                                         <label htmlFor="recipient-name" className="form-label">Diagnosis:</label>
-                                        <input type="text" className="form-control" id="recipient-name" />
+                                        <input type="text" onChange={handleChange} name='diagnosis' value={prescriptionDetails.diagnosis} className="form-control" id="recipient-name" />
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="message-text" className="form-label">Prescription:</label>
-                                        <textarea className="form-control" id="message-text"></textarea>
+                                        <textarea className="form-control" onChange={handleChange} name='prescriptionAdvice' value={prescriptionDetails.prescriptionAdvice} id="message-text"></textarea>
                                     </div>
                                 </form>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+                                <button onClick={submitPrescription} type="button" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -216,12 +279,13 @@ export function Doctor() {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <table className="table table-hover table-bordered">
+                                <table className="table table-hover table-bordered text-center">
                                     <thead>
                                         <tr>
                                             <th>Appointment Date</th>
+                                            <th>Appointment Time</th>
                                             <th>Owner Name</th>
-                                            <th>Pet Name</th>
+                                            {/* <th>Pet Name</th> */}
                                             <th>Species</th>
                                             <th>Breed</th>
                                         </tr>
@@ -230,11 +294,12 @@ export function Doctor() {
                                         {upcoming.length > 0 ? (
                                             upcoming.map((up, index) => (
                                                 <tr key={index}>
-                                                    <td>{up.appointmentDate}</td>
-                                                    <td>{up.ownerName}</td>
-                                                    <td>{up.petName}</td>
-                                                    <td>{up.petSpecies}</td>
-                                                    <td>{up.petBreed}</td>
+                                                    <td>{up.appointDate}</td>
+                                                    <td>{up.appointTime}</td>
+                                                    <td>{up.owner.owner.firstName} {up.owner.owner.lastName}</td>
+                                                    {/* <td>{up.petName}</td> */}
+                                                    <td>{up.pet.species}</td>
+                                                    <td>{up.pet.breed}</td>
                                                 </tr>
                                             ))
                                         ) : (

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { PetOwnerNavbar } from "../../Components/PetOwnerNavbar";
 import { GetUserProfile } from "../../Services/GetServices";
 import { UpdateReceptionistProfile } from "../../Services/UpdateServices";
 import { toast } from "react-toastify";
-import { Receptionist } from "../Receptionist";
 import { ReceptionistNavbar } from "../../Components/ReceptionistNavbar";
 
 export function ReceptionistProfile() {
@@ -11,6 +9,7 @@ export function ReceptionistProfile() {
     const [previewImage, setPreviewImage] = useState(null); // Store preview URL
     const [userDetails, setUserDetails] = useState({});
     const [id, setId] = useState(0);
+    // const [qualification, setQualification] = useState('')
 
     // Handle updating the profile picture
     const handleProfilePicChange = (e) => {
@@ -24,10 +23,12 @@ export function ReceptionistProfile() {
     // Handle updating other form fields
     const handleChange = (e) => {
         const { name, value } = e.target;
+
         setUserDetails((prevData) => ({
             ...prevData,
             [name]: value,
         }));
+
     };
 
     // const InitializeStates = () => {
@@ -44,6 +45,8 @@ export function ReceptionistProfile() {
             email: userDetails.email,
             phoneNo: userDetails.phoneNo,
             address: userDetails.address,
+            gender: userDetails.gender,
+            // qualification
         };
 
         const formData = new FormData();
@@ -74,6 +77,8 @@ export function ReceptionistProfile() {
             // console.log(res.data.object.id)
 
             setId(res.data.object.id)
+
+            // setQualification(res.data.object.qualification)
 
             setUserDetails(res.data.object.receptionist);
 
@@ -148,6 +153,16 @@ export function ReceptionistProfile() {
                                 <p className="text-muted">{userDetails.dob}</p>
                             </div>
                         </div>
+                        {/* <div className="row mb-3"> */}
+                            {/* <div className="col-md-6">
+                                <strong>Qualification</strong>
+                                <p className="text-muted">{qualification}</p>
+                            </div> */}
+                            {/* <div className="col-md-6">
+                                <strong>Gender</strong>
+                                <p className="text-muted">{userDetails.gender}</p>
+                            </div>
+                        </div> */}
                         <div className="row mb-3">
                             <div className="col-md-6">
                                 <strong>Phone No</strong>
@@ -166,11 +181,11 @@ export function ReceptionistProfile() {
                             className="btn btn-primary mx-2"
                             data-bs-toggle="modal"
                             data-bs-target="#editProfileModal"
-                            // onClick={InitializeStates}
+                        // onClick={InitializeStates}
                         >
                             Edit Profile
                         </button>
-                        <button className="btn btn-danger mx-2">Delete Account</button>
+                        {/* <button className="btn btn-danger mx-2">Delete Account</button> */}
                     </div>
                 </div>
 
@@ -271,6 +286,43 @@ export function ReceptionistProfile() {
                                                     />
                                                     <label>Date of Birth</label>
                                                 </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {/* <div className="form-floating"> */}
+                                                    {/* <input
+                                                        onChange={handleChange}
+                                                        type="tel"
+                                                        className="form-control"
+                                                        value={userDetails.gender}
+                                                        name="gender"
+                                                    /> */}
+                                                    {/* <div className="col-md">
+                                                        <div className="form-floating">
+                                                            <select onChange={handleChange} className="form-select"
+                                                                id="floatingSelectGrid9" value={userDetails.gender} name="gender">
+                                                                <option selected>Select Gender</option>
+                                                                <option value="MALE">Male</option>
+                                                                <option value="FEMALE">Female</option>
+                                                                <option value="OTHER">Other</option>
+                                                            </select>
+                                                            <label htmlFor="floatingSelectGrid9">Gender</label>
+                                                        </div>
+                                                    </div>
+                                                </div> */}
+                                            </td>
+                                            <td>
+                                                {/* <div className="form-floating">
+                                                    <input
+                                                        onChange={handleChange}
+                                                        type="text"
+                                                        className="form-control"
+                                                        value={userDetails.qualification}
+                                                        name="qualification"
+                                                    />
+                                                    <label>Qualification</label>
+                                                </div> */}
                                             </td>
                                         </tr>
                                         <tr>

@@ -18,7 +18,7 @@ export function DocNavbar() {
             className="navbar fixed-top"
             style={{
                 backgroundColor: "#4A90E2",
-                height: "70px",
+                height: "100px",
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
         >

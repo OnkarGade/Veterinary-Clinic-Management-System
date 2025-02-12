@@ -1,19 +1,13 @@
 import axios from "axios";
-import { GenerateUrl } from "./Common";
+import { ApplicationHeader, GenerateUrl } from "./Common";
 
 export async function GetDoctorsList() {
 
-    const path = '/petowner/availabledoctor'
-
     var response;
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
+    const headers = ApplicationHeader();
 
-
-    const url = GenerateUrl(path)
+    const url = GenerateUrl('/petowner/availabledoctors')
 
     console.log(url)
 
@@ -26,4 +20,91 @@ export async function GetDoctorsList() {
 
     return response
 
+}
+
+export async function AddPrescription(data) {
+
+    const headers = ApplicationHeader();
+
+    const url = GenerateUrl('/doctor/addPrescription')
+
+    var response;
+
+    console.log(url)
+
+    await axios.post(url, data, { headers }).then(res => {
+        console.log(res.data)
+        response = res
+    }).catch(err => {
+        console.log(err)
+    })
+
+    return response;
+
+}
+
+export async function GetListOfDoctors() {
+
+    const url = GenerateUrl('/admin/doctors')
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('token')
+            }`
+    }
+
+    var response;
+
+    await axios.get(url, { headers })
+        .then(res => {
+            response = res;
+        }).catch(err => {
+            console.log("Error : " + err)
+        })
+
+    return response;
+}
+
+
+export async function DeleteDoctor(id) {
+
+    const url = GenerateUrl(`/admin/deletestaff/${id}`)
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('token')
+            }`
+    }
+
+    var response;
+
+    await axios.patch(url, {}, { headers })
+        .then(res => {
+            response = res;
+        }).catch(err => {
+            console.log("Error : " + err)
+        })
+
+    return response;
+}
+
+export async function ReinstateDoctor(id) {
+
+    const url = GenerateUrl(`/admin/reinstatestaff/${ id }`)
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+    }
+
+    var response;
+
+    await axios.patch(url, {}, { headers })
+        .then(res => {
+            response = res;
+        }).catch(err => {
+            console.log("Error : " + err)
+        })
+
+    return response;
 }

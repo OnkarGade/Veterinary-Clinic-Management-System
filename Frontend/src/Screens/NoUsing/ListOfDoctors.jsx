@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-// import { AdminNavbar } from './../../Components/AdminNavbar';
+import { AdminNavbar } from '../../Components/AdminNavbar';
 import { useState } from "react";
-import { DeleteDoctor, GetListOfDoctors, ReinstateDoctor } from "../Services/DoctorServices";
-import { AdminNavbar } from "../Components/AdminNavbar";
+import { DeleteDoctor, GetListOfDoctors, ReinstateDoctor } from "../../Services/DoctorServices";
 
-export function Admin() {
+export function ListOfDoctors(){
 
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -31,13 +30,13 @@ export function Admin() {
             var response = await GetListOfDoctors()
 
             console.log(response)
-
+            
             if (response?.data) {
                 setDoctors(response.data)
 
                 // var dbImage = response.data.doctor.image
                 // // Handle base64 format, if necessary
-
+                
                 // if (dbImage.startsWith("data:image")) {
                 //     setImage(dbImage);
                 // } else {
@@ -57,45 +56,45 @@ export function Admin() {
 
     }
 
-    // Handle doctor delete approval
-    const deleteDoctor = async (userId) => {
+        // Handle doctor delete approval
+        const deleteDoctor = async (userId) => {
+    
+            console.log(userId)
+    
+            await DeleteDoctor(userId)
+                .then(res => {
+                    if (res?.status) {
+                        toast.success(`Doctor deleted Approved`); // Temporary success message
+                    } else {
+                        console.log(res)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+    
+            // Implement the approve logic (using your API service)
+            GetListOfDoctors(); // Refresh list
+        };
 
-        console.log(userId)
-
-        await DeleteDoctor(userId)
-            .then(res => {
-                if (res?.status) {
-                    toast.success(`Doctor deleted Approved`); // Temporary success message
-                } else {
-                    console.log(res)
-                }
-            }).catch(err => {
-                console.log(err)
-            })
-
-        // Implement the approve logic (using your API service)
-        getListOfDoctors(); // Refresh list
-    };
-
-    // Handle doctor delete approval
-    const reinstateDoctor = async (userId) => {
-
-        console.log(userId)
-
-        await ReinstateDoctor(userId)
-            .then(res => {
-                if (res?.status) {
-                    toast.success(`Doctor reinstated.`); // Temporary success message
-                } else {
-                    console.log(res)
-                }
-            }).catch(err => {
-                console.log(err)
-            })
-
-        // Implement the approve logic (using your API service)
-        getListOfDoctors(); // Refresh list
-    };
+              // Handle doctor delete approval
+              const reinstateDoctor = async (userId) => {
+    
+                console.log(userId)
+        
+                await ReinstateDoctor(userId)
+                    .then(res => {
+                        if (res?.status) {
+                            toast.success(`Doctor reinstated.`); // Temporary success message
+                        } else {
+                            console.log(res)
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
+        
+                // Implement the approve logic (using your API service)
+                GetListOfDoctors(); // Refresh list
+            };
 
 
     // Fetch data from backend using Axios
@@ -106,16 +105,16 @@ export function Admin() {
     }, []);
 
 
-    return (
+    return(
         <div className="container-fluid">
             <AdminNavbar />
 
-            <div className="container" style={{marginTop:"150px"}}>
-                {/* <div className="text-center mb-4">
+            <div className="container mt-4">
+                <div className="text-center mb-4">
                     <span className="fw-bolder fs-3">Doctors List</span>
-                </div> */}
+                </div>
 
-                <div className="table-responsive mb-4 text-center">
+                <div className="table-responsive mb-4">
                     <table className="table table-hover table-bordered shadow-sm">
                         <thead className="table-primary">
                             <tr>
@@ -136,33 +135,33 @@ export function Admin() {
                                 doctors.map((doc, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td>{doc.doctor.firstName === null ? "........" : doc.doctor.firstName} {doc.doctor.lastName === null ? "........" : doc.doctor.lastName}</td>
+                                        <td>{doc.doctor.firstName} {doc.doctor.lastName}</td>
                                         <td>{doc.doctor.email}</td>
                                         {/* <td>{doc.doctor.gender}</td> */}
-                                        <td>{doc.doctor.phoneNo === null ? "........" : doc.doctor.phoneNo}</td>
+                                        <td>{doc.doctor.phoneNo}</td>
                                         {/* <td>{doc.degree}</td> */}
                                         {/* <td>{doc.specialist}</td> */}
-                                        <td>{doc.doctor.active === false ? `Not Active` : `Active`}</td>
+                                        <td>{doc.doctor.active === false ? `Not Active`:`Active`}</td>
                                         {/* <td>{image}</td> */}
-                                        <td style={{ width: "180px" }}>
-                                            <button
-                                                className="btn btn-danger btn-sm me-2"
-                                                onClick={() => deleteDoctor(doc.doctor.id)}
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                title="Delete Doctor"
-                                            >
-                                                <i className="fas fa-trash"></i>
-                                            </button>
-                                            <button
-                                                className="btn btn-success btn-sm me-2"
-                                                onClick={() => reinstateDoctor(doc.doctor.id)}
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                title="Reinstate Doctor"
-                                            >
-                                                <i className="fas fa-undo"></i>
-                                            </button>
+                                        <td>
+                                        <button
+                                                    className="btn btn-failure btn-sm me-2"
+                                                    onClick={() => deleteDoctor(doc.doctor.id)}
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Delete Doctor"
+                                                >
+                                                    <i className="fas fa-trash"></i>
+                                                </button>
+                                                <button
+                                                    className="btn btn-success btn-sm me-2"
+                                                    onClick={() => reinstateDoctor(doc.doctor.id)}
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Reinstate Doctor"
+                                                >
+                                                    <i className="fas fa-check"></i>
+                                                </button>
                                         </td>
                                     </tr>
                                 )) :
@@ -176,11 +175,11 @@ export function Admin() {
 
                 <div className="d-flex justify-content-end">
                     {/* <button onClick={() => { getMyPets(); getAllDoctors(); }} type="button" className="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal"> */}
-                    {/* <i className="fa fa-calendar-plus"></i> Book Appointment */}
+                        {/* <i className="fa fa-calendar-plus"></i> Book Appointment */}
                     {/* </button> */}
                 </div>
 
-
+           
 
             </div>
 

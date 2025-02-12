@@ -18,7 +18,7 @@ export function AdminNavbar() {
             className="navbar fixed-top"
             style={{
                 backgroundColor: "#4A90E2",
-                height: "70px",
+                height: "100px",
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
         >
@@ -44,12 +44,12 @@ export function AdminNavbar() {
                 {/* Navbar Links (Desktop) */}
                 <ul className="navbar-nav d-none d-lg-flex flex-row gap-3">
                     <li className="nav-item">
-                        <Link to="/doctors" className="nav-link text-white">
+                        <Link to="/admin" className="nav-link text-white">
                             <i className="fas fa-user-md me-2"></i>Doctors
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/receptionists" className="nav-link text-white">
+                        <Link to="/receptionistslist" className="nav-link text-white">
                             <i className="fas fa-user-tie me-2"></i>Receptionists
                         </Link>
                     </li>

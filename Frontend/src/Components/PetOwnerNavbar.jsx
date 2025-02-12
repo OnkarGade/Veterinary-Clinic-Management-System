@@ -17,8 +17,8 @@ export function PetOwnerNavbar() {
         <nav
             className="navbar fixed-top"
             style={{
-                backgroundColor: "#4A90E2", // Green color for a modern look
-                height: "70px",
+                backgroundColor: "#4A90E2", 
+                height: "100px",
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
         >
@@ -84,7 +84,7 @@ export function PetOwnerNavbar() {
                     right: "0",
                     height: "100vh",
                     width: "250px",
-                    backgroundColor: "#4A90E2", // Same green color for mobile
+                    backgroundColor: "#4A90E2", 
                     boxShadow: "-4px 0 6px rgba(0, 0, 0, 0.1)",
                     transform: isMenuOpen ? "translateX(0)" : "translateX(100%)",
                     transition: "transform 0.3s ease",
